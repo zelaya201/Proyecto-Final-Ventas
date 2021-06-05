@@ -25,6 +25,10 @@ public class Sucursal {
         
     }
 
+    public Sucursal(int idSucursal) {
+        this.idSucursal = idSucursal;
+    }
+
     public Sucursal(int idSucursal, String nombre, String direccion, String telefono) {
         this.idSucursal = idSucursal;
         this.nombre = nombre;

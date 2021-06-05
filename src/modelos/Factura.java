@@ -16,6 +16,10 @@ public class Factura {
         
     }
 
+    public Factura(int noFactura) {
+        this.noFactura = noFactura;
+    }
+
     public Factura(int noFactura, double iva, Date fecha, double total) {
         this.noFactura = noFactura;
         this.iva = iva;

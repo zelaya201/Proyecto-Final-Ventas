@@ -15,11 +15,16 @@ public class Usuario {
     private String clave;
     private String rol;
     private Empleado empleado;
+    private Propietario propietario;
     
     public Usuario() {
         
     }
 
+    public Usuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+   
     public Usuario(int idUsuario, String nickname, String clave, String rol) {
         this.idUsuario = idUsuario;
         this.nickname = nickname;
@@ -71,5 +76,13 @@ public class Usuario {
 
     public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
+    }
+
+    public Propietario getPropietario() {
+        return propietario;
+    }
+
+    public void setPropietario(Propietario propietario) {
+        this.propietario = propietario;
     }
 }
