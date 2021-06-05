@@ -7,6 +7,10 @@ public class Cliente extends Persona{
         
     }
 
+    public Cliente(int idPersona) {
+        super(idPersona);
+    }
+
     public Cliente(String email, int idPersona, String dui, String nombre, String apellido, String direccion, String telefono) {
         super(idPersona, dui, nombre, apellido, direccion, telefono);
         this.email = email;

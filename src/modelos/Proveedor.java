@@ -24,6 +24,10 @@ public class Proveedor {
         
     }
 
+    public Proveedor(int codProveedor) {
+        this.codProveedor = codProveedor;
+    }
+
     public Proveedor(int codProveedor, String nombre, String telefono, String direccion, int estado) {
         this.codProveedor = codProveedor;
         this.nombre = nombre;

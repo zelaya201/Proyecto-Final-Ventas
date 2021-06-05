@@ -3,14 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/Propietario.java</file>
-            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/DetalleFactura.java</file>
-            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/Cliente.java</file>
-            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/ProductoEstado.java</file>
-            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/Categoria.java</file>
-            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/Factura.java</file>
-            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/Producto.java</file>
-            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/Empleado.java</file>
+            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/dao/ClienteDao.java</file>
+            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/Proveedor.java</file>
+            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/dao/ProveedorDao.java</file>
+            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/dao/EmpleadoDao.java</file>
+            <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/sistemaVentas/src/modelos/dao/FacturaDao.java</file>
         </group>
     </open-files>
 </project-private>

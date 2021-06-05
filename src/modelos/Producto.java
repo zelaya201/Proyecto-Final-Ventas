@@ -1,10 +1,13 @@
 package modelos;
 
+import java.io.FileInputStream;
+import java.sql.Blob;
 import java.util.ArrayList;
 
 public class Producto {
     private int codProducto;
-    private String foto;
+    private Blob bdFoto;
+    private FileInputStream fileFoto;
     private String descripcion;
     private Sucursal sucursal;
     private Proveedor proveedor;
@@ -16,14 +19,18 @@ public class Producto {
         
     }
 
-    public Producto(int codProducto, String foto, String descripcion) {
+    public Producto(int codProducto) {
         this.codProducto = codProducto;
-        this.foto = foto;
+    }
+
+    public Producto(int codProducto, FileInputStream fileFoto, String descripcion) {
+        this.codProducto = codProducto;
+        this.fileFoto = fileFoto;
         this.descripcion = descripcion;
     }
 
-    public Producto(String foto, String descripcion) {
-        this.foto = foto;
+    public Producto(FileInputStream fileFoto, String descripcion) {
+        this.fileFoto = fileFoto;
         this.descripcion = descripcion;
     }
 
@@ -35,14 +42,22 @@ public class Producto {
         this.codProducto = codProducto;
     }
 
-    public String getFoto() {
-        return foto;
+    public Blob getBdFoto() {
+        return bdFoto;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setBdFoto(Blob bdFoto) {
+        this.bdFoto = bdFoto;
     }
 
+    public FileInputStream getFileFoto() {
+        return fileFoto;
+    }
+
+    public void setFileFoto(FileInputStream fileFoto) {
+        this.fileFoto = fileFoto;
+    }
+    
     public String getDescripcion() {
         return descripcion;
     }
