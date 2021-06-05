@@ -16,6 +16,7 @@ public class Sucursal {
     private String nombre;
     private String direccion;
     private String telefono;
+    private int estado;
     private ArrayList<Empleado> empleados;
     private Propietario propietario;
     private ArrayList<Proveedor> proveedores;
@@ -25,17 +26,23 @@ public class Sucursal {
         
     }
 
-    public Sucursal(int idSucursal, String nombre, String direccion, String telefono) {
+    public Sucursal(int idSucursal) {
+        this.idSucursal = idSucursal;
+    }
+
+    public Sucursal(int idSucursal, String nombre, String direccion, String telefono, int estado) {
         this.idSucursal = idSucursal;
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
+        this.estado = estado;
     }
 
-    public Sucursal(String nombre, String direccion, String telefono) {
+    public Sucursal(String nombre, String direccion, String telefono, int estado) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
+        this.estado = estado;
     }
 
     public int getIdSucursal() {
@@ -64,6 +71,14 @@ public class Sucursal {
 
     public String getTelefono() {
         return telefono;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 
     public void setTelefono(String telefono) {
@@ -101,6 +116,4 @@ public class Sucursal {
     public void setProductos(ArrayList<Producto> productos) {
         this.productos = productos;
     }
-    
-    
 }

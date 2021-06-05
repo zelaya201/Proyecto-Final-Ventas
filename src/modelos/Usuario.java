@@ -14,23 +14,31 @@ public class Usuario {
     private String nickname;
     private String clave;
     private String rol;
+    private int estado;
     private Empleado empleado;
+    private Propietario propietario;
     
     public Usuario() {
         
     }
 
-    public Usuario(int idUsuario, String nickname, String clave, String rol) {
+    public Usuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+   
+    public Usuario(int idUsuario, String nickname, String clave, String rol, int estado) {
         this.idUsuario = idUsuario;
         this.nickname = nickname;
         this.clave = clave;
         this.rol = rol;
+        this.estado = estado;
     }
 
-    public Usuario(String nickname, String clave, String rol) {
+    public Usuario(String nickname, String clave, String rol, int estado) {
         this.nickname = nickname;
         this.clave = clave;
         this.rol = rol;
+        this.estado = estado;
     }
 
     public int getIdUsuario() {
@@ -65,11 +73,27 @@ public class Usuario {
         this.rol = rol;
     }
 
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
     public Empleado getEmpleado() {
         return empleado;
     }
 
     public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
+    }
+
+    public Propietario getPropietario() {
+        return propietario;
+    }
+
+    public void setPropietario(Propietario propietario) {
+        this.propietario = propietario;
     }
 }

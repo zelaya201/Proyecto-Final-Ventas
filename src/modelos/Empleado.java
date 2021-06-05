@@ -18,6 +18,10 @@ public class Empleado extends Persona{
         
     }
 
+    public Empleado(int idPersona) {
+        super(idPersona);
+    }
+
     public Empleado(String cargo, String genero, int edad, String email, double salario, double afp, double isss, double renta, int estado, int idPersona, String dui, String nombre, String apellido, String direccion, String telefono) {
         super(idPersona, dui, nombre, apellido, direccion, telefono);
         this.cargo = cargo;
