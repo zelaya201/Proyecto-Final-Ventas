@@ -462,6 +462,9 @@
               </Border>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
               <GridBagConstraints gridX="2" gridY="0" gridWidth="1" gridHeight="1" fill="0" ipadX="300" ipadY="22" insetsTop="20" insetsLeft="0" insetsBottom="0" insetsRight="30" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -508,6 +511,9 @@
               </Border>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
               <GridBagConstraints gridX="2" gridY="2" gridWidth="1" gridHeight="1" fill="0" ipadX="300" ipadY="22" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="30" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -534,6 +540,9 @@
               </Border>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
               <GridBagConstraints gridX="2" gridY="4" gridWidth="1" gridHeight="1" fill="0" ipadX="300" ipadY="22" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="30" anchor="10" weightX="0.0" weightY="0.0"/>
@@ -916,7 +925,7 @@
           </StatementProvider>
           <Parameters>
             <CodeExpression id="36_jtUser">
-              <CodeVariable name="jtUser" type="8194" declaredType="javax.swing.JTextField"/>
+              <CodeVariable name="jtUser" type="8193" declaredType="javax.swing.JTextField"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
                   <ComponentRef name="jtUser"/>
@@ -1110,7 +1119,7 @@
           </StatementProvider>
           <Parameters>
             <CodeExpression id="50_jtPass">
-              <CodeVariable name="jtPass" type="8194" declaredType="javax.swing.JPasswordField"/>
+              <CodeVariable name="jtPass" type="8193" declaredType="javax.swing.JPasswordField"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
                   <ComponentRef name="jtPass"/>
@@ -1207,7 +1216,7 @@
           </StatementProvider>
           <Parameters>
             <CodeExpression id="57_jtPassRepet">
-              <CodeVariable name="jtPassRepet" type="8194" declaredType="javax.swing.JPasswordField"/>
+              <CodeVariable name="jtPassRepet" type="8193" declaredType="javax.swing.JPasswordField"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
                   <ComponentRef name="jtPassRepet"/>

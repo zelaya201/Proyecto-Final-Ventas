@@ -1,6 +1,7 @@
 package vistas.modulos;
 
 import controlador.Controlador;
+import java.awt.event.ItemListener;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import utilidades.TextPrompt;
@@ -21,7 +22,8 @@ public class ModalUsuario extends javax.swing.JDialog {
     }
     
     public void setControlador(Controlador control){
-        
+        btnGuardar.addMouseListener(control);
+        //this.cbRol.addItemListener(control);
     }
     
     public void iniciar(){
@@ -312,8 +314,8 @@ public class ModalUsuario extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jtPass;
-    private javax.swing.JPasswordField jtPassRepet;
-    private javax.swing.JTextField jtUser;
+    public javax.swing.JPasswordField jtPass;
+    public javax.swing.JPasswordField jtPassRepet;
+    public javax.swing.JTextField jtUser;
     // End of variables declaration//GEN-END:variables
 }

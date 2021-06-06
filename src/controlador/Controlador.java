@@ -2,6 +2,7 @@
 package controlador;
 
 
+import ejemplocompleto.utilidades.Encriptacion;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -14,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import modelos.Empleado;
 import modelos.Usuario;
 import modelos.dao.UsuarioDao;
 import utilidades.CambiaPanel;
@@ -42,14 +44,15 @@ public class Controlador implements MouseListener, KeyListener{
 
     public Controlador(Menu menu) {
         this.menu = menu;
-        mostrarVista("Menu");
+        mostrarModulos("Menu");
     }
 
     public Controlador(Login login) {
         this.login = login;
     }
     
-    private void mostrarVista(String vista){
+    private void mostrarModulos(String vista){
+        /* - - - - MOSTRAR MODULOS - - - */
         if(vista.equals("Menu")){
             menu.setControlador(this);
             menu.iniciar();
@@ -61,9 +64,19 @@ public class Controlador implements MouseListener, KeyListener{
             principalOn = "Usuarios";
             new CambiaPanel(menu.body, vistaUsuario);
             mostrarDatos(vistaUsuario.tablaUsuarios);
-        }else if(vista.equals("AgregarUsuario")){
+        }
+    }
+    
+    private void mostrarModals(String modal){
+        /* - - - - MOSTRAR MODALS - - - - */
+        
+        /* CONTROL DE USUARIOS */
+        if(modal.equals("nuevoUsuario") && principalOn.equals("Usuarios")){
             modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
+            modalUsuario.setControlador(this);
+            modalOn = "modalUsuario";
             modalUsuario.iniciar();
+            usuarioSelected = null;
         }
     }
     
@@ -142,21 +155,57 @@ public class Controlador implements MouseListener, KeyListener{
         }
           
     }
+    
+    public void eventosBotones(String btn){
+        if(principalOn.equals("Usuarios") && modalOn.equals("modalUsuario")){
+            if(btn.equals("Agregar")){
+                if(!modalUsuario.jtUser.getText().isEmpty()
+                        && !modalUsuario.jtPass.getText().isEmpty()
+                        && !modalUsuario.jtPassRepet.getText().isEmpty()
+                        && modalUsuario.cbEmpleado.getSelectedIndex() > 0 
+                        && modalUsuario.cbRol.getSelectedIndex() > 0){
+                    
+                    if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
+                        String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
+                        String dui = "";
+                        
+                        if(modalUsuario.cbRol.getSelectedItem().toString().equals("Gerente") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
+                            //String v[] = modalUsuario.cbEmpleado.getSelectedItem().toString().split(" / ");
+                            //ArrayList<Empleado> empleados = daoEmpleado.buscar(v[1]);
+                            //empleado = empleados.get(0);
+                            //dui = empleados.get(0).getDui();
+                        }
+                        
+                    }else{
+                        //Contraseñas diferentes
+                    }
+                    
+                }else{
+                    //Campos incompletos
+                }
+            }else{
+                //Modificar
+            }
+        }
+    }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        /*BOTONES DEL MENU*/
+        /* - - - BOTONES DEL MENU Y MODULOS - - - -*/
         if(e.getSource().equals(menu.btnDashboard)){
-            mostrarVista("Menu");
+            mostrarModulos("Menu");
         }else if(e.getSource().equals(menu.btnUsuarios)){
-            mostrarVista("Usuarios");
+            mostrarModulos("Usuarios");
         }else if(e.getSource().equals(vistaUsuario.btnNuevo)){
-            mostrarVista("AgregarUsuario");
+            mostrarModals("nuevoUsuario");
+        }else if(e.getSource().equals(modalUsuario.btnGuardar)){
+            eventosBotones("Agregar");
         }
     }
     
     @Override
     public void keyPressed(KeyEvent e) {
+        /* - - - - BUSQUEDA - - - - */
         
         /* CONTROL DE USUARIOS */
         if(principalOn.equals("Usuarios")){
