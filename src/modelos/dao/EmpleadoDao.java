@@ -29,10 +29,10 @@ public class EmpleadoDao {
         return select(sql);
     }
     
-    /*public ArrayList<Empleado> buscar(String dato) {
-        String sql = "select * from empleado where carnet like '" + dato + "%' or  nombre like '" + dato + "%' or apellido like '" + dato + "%'";
+    public ArrayList<Empleado> buscar(String dato) {
+        String sql = "select * from empleado where dui_empleado like '" + dato + "%' or  nom_empleado like '" + dato + "%' or ape_empleado like '" + dato + "%'";
         return select(sql);
-    }*/
+    }
     
     public ArrayList<Empleado> selectId(int id) {
         String sql = "select * from empleado where id_empleado=" + id;
@@ -64,7 +64,7 @@ public class EmpleadoDao {
             
             while(rs.next()) {
                 obj = new Empleado();
-                obj.setIdPersona(rs.getInt("idEmpleado"));
+                obj.setIdPersona(rs.getInt("id_empleado"));
                 obj.setDui(rs.getString("dui_empleado"));
                 obj.setNombre(rs.getString("nom_empleado"));
                 obj.setApellido(rs.getString("ape_empleado"));
@@ -89,7 +89,7 @@ public class EmpleadoDao {
             }
             
         }catch(Exception e) {
-            
+            System.out.println("Error consulta");
         }finally{
             try {
                 ps.close();

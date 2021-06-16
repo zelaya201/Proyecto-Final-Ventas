@@ -5,17 +5,16 @@
  */
 package modelos;
 
-/**
- *
- * @author Mario Zelaya
- */
+
 public class Usuario {
     private int idUsuario;
     private String nickname;
     private String clave;
     private String rol;
+    private int estado;
     private Empleado empleado;
     private Propietario propietario;
+    
     
     public Usuario() {
         
@@ -32,10 +31,19 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public Usuario(String nickname, String clave, String rol) {
+    public Usuario(String nickname, String clave, String rol, int estado) {
         this.nickname = nickname;
         this.clave = clave;
         this.rol = rol;
+        this.estado = estado;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 
     public int getIdUsuario() {

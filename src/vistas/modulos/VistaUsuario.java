@@ -14,6 +14,7 @@ public class VistaUsuario extends javax.swing.JPanel {
     public void setControlador(Controlador control){
         this.btnNuevo.addMouseListener(control);
         this.tfBusqueda.addKeyListener(control);
+        this.tablaUsuarios.addMouseListener(control);  
     }
     
 
@@ -134,7 +135,7 @@ public class VistaUsuario extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "No.", "Usuario", "Estado", "Rol", "Editar", "Eliminar", "Cambiar contraseña"
+                "No.", "Usuario", "Contraseña", "Rol", "Editar", "Eliminar", "Cambiar contraseña"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -169,11 +170,17 @@ public class VistaUsuario extends javax.swing.JPanel {
         jScrollPane2.setViewportView(tablaUsuarios);
         if (tablaUsuarios.getColumnModel().getColumnCount() > 0) {
             tablaUsuarios.getColumnModel().getColumn(0).setResizable(false);
+            tablaUsuarios.getColumnModel().getColumn(0).setPreferredWidth(0);
             tablaUsuarios.getColumnModel().getColumn(1).setResizable(false);
+            tablaUsuarios.getColumnModel().getColumn(1).setPreferredWidth(300);
             tablaUsuarios.getColumnModel().getColumn(2).setResizable(false);
+            tablaUsuarios.getColumnModel().getColumn(2).setPreferredWidth(300);
             tablaUsuarios.getColumnModel().getColumn(3).setResizable(false);
+            tablaUsuarios.getColumnModel().getColumn(3).setPreferredWidth(0);
             tablaUsuarios.getColumnModel().getColumn(4).setResizable(false);
+            tablaUsuarios.getColumnModel().getColumn(4).setPreferredWidth(0);
             tablaUsuarios.getColumnModel().getColumn(5).setResizable(false);
+            tablaUsuarios.getColumnModel().getColumn(5).setPreferredWidth(0);
             tablaUsuarios.getColumnModel().getColumn(6).setResizable(false);
         }
 
