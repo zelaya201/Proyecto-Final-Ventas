@@ -2,6 +2,8 @@
 package controlador;
 
 
+import ds.desktop.notify.DesktopNotify;
+import ds.desktop.notify.NotifyTheme;
 import ejemplocompleto.utilidades.Encriptacion;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -14,15 +16,12 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelos.Empleado;
-import modelos.Propietario;
 import modelos.Usuario;
 import modelos.dao.EmpleadoDao;
-import modelos.dao.PropietarioDao;
 import modelos.dao.UsuarioDao;
 import utilidades.CambiaPanel;
 import utilidades.ImgTabla;
@@ -110,7 +109,17 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             //llenarComboBox();
             modalUsuario.iniciar();
         }else if(modal.equals("eliminarUsuario") && principalOn.equals("Usuarios")){
-            
+            if(usuarioSelected != null){
+                usuarioSelected.setEstado(0);
+                if(usuarioDao.update(usuarioSelected)){
+                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                    DesktopNotify.showDesktopMessage("Usuario eliminado", "El usuario ha sido eliminado exitosamente.", DesktopNotify.INFORMATION, 8000);
+                    mostrarDatos(vistaUsuario.tablaUsuarios);
+                }
+                
+                 usuarioSelected = null;
+                
+            }
         }else if(modal.equals("changePassUsuario") && principalOn.equals("Usuarios")){
             modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
             modalUsuario.setControlador(this);
@@ -150,7 +159,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             int i = 1;
             
             for(Usuario x : usuarios){
-                
+
                 ImageIcon img_edit = new ImageIcon(getClass().getResource("/img/editar.png"));
                 JLabel lbImg_edit = new JLabel(new ImageIcon(img_edit.getImage()));
 
@@ -160,8 +169,15 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 ImageIcon img_change = new ImageIcon(getClass().getResource("/img/key_22px.png"));
                 JLabel lbImg_change = new JLabel(new ImageIcon(img_change.getImage()));
                 
-                modelo.addRow(new Object[]{i, x.getNickname(), x.getClave(), x.getRol(), lbImg_edit, lbImg_delete, lbImg_change});
-                i++;
+                if(x.getEstado() > 0){
+                    modelo.addRow(new Object[]{i, x.getNickname(), x.getClave(), x.getRol(), lbImg_edit, lbImg_delete, lbImg_change});
+                    i++;
+                }
+               
+            }
+            
+            if(modelo.getRowCount() < 1){
+                modelo.addRow(new Object[]{"", "", "Ningún resultado encontrado"});
             }
             
             tabla.setModel(modelo);
@@ -198,16 +214,27 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 ImageIcon img_change = new ImageIcon(getClass().getResource("/img/key_22px.png"));
                 JLabel lbImg_change = new JLabel(new ImageIcon(img_change.getImage()));
                 
-                modelo.addRow(new Object[]{i, x.getNickname(), x.getClave(), x.getRol(), lbImg_edit, lbImg_delete, lbImg_change});
-                i++;
+                if(x.getEstado() > 0){
+                    modelo.addRow(new Object[]{i, x.getNickname(), x.getClave(), x.getRol(), lbImg_edit, lbImg_delete, lbImg_change});
+                    i++;
+                }
+
             }
             
-            tabla.setModel(modelo);
+            if(modelo.getRowCount() < 1){
+                mostrarDatos(vistaUsuario.tablaUsuarios);
+            }else{
+                tabla.setModel(modelo);
+            }
+            
+            
         }
           
     }
     
     public void eventosBotones(String btn){
+        
+        /* CONTROL DE USUARIOS */
         if(principalOn.equals("Usuarios") && modalOn.equals("modalUsuario")){
             if(btn.equals("Agregar")){
                 if(!modalUsuario.jtUser.getText().isEmpty()
@@ -229,39 +256,65 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                                 dui = empleados.get(0).getDui();
                             }
 
-                            ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario", modalUsuario.jtUser.getText());
-                            ArrayList<Usuario> existeClave = usuarioDao.selectAllTo("clave", clave);
-                            ArrayList<Usuario> existeReferencia = usuarioDao.selectAllTo("referencia", dui);
+                            ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
+                            //ArrayList<Usuario> existeReferencia = usuarioDao.selectAllTo("referencia", dui);
 
-                            if(existeUser.isEmpty() && existeClave.isEmpty() && existeReferencia.isEmpty()){
+                            if(existeUser.isEmpty()){
   
                                  Usuario usuario = new Usuario(modalUsuario.jtUser.getText(), clave, modalUsuario.cbRol.getSelectedItem().toString(), 1);
                                  
-                                 if(usuarioDao.insert(usuario)){
+                                if(usuarioDao.insert(usuario)){
                                      //Mensaje Guardado
-                                 }
-                                 
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                                    DesktopNotify.showDesktopMessage("Usuario guardado", "El usuario ha sido alamcenado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                }
+                                
                                 modalOn = "";
                                 modalUsuario.dispose();
+                                
+                            }else{
+                                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
                             }
                         }else{
                             //Contraseñas diferentes
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                            DesktopNotify.showDesktopMessage("Contraseñas diferentes", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
                         }
                         
                     }else{
                         //Modificar
-                        usuarioSelected.setNickname(modalUsuario.jtUser.getText());
+                        ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
                         
-                        if(usuarioDao.update(usuarioSelected)){
-                            //Mensaje de modificado
+                        if(existeUser.isEmpty()){
+                            
+                            usuarioSelected.setNickname(modalUsuario.jtUser.getText());
+                            
+                            if(usuarioDao.update(usuarioSelected)){ //Guardado
+                                //Mensaje de modificado
+                                DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                                DesktopNotify.showDesktopMessage("Usuario actualizado", "El usuario ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                usuarioSelected = null;
+                                modalUsuario.dispose();
+                            }else{ //Ocurrio un error
+                                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                DesktopNotify.showDesktopMessage("Error", "Usuario no actualizado", DesktopNotify.FAIL, 8000);
+                            }
                         }else{
-                            JOptionPane.showMessageDialog(null, "No modificado" + usuarioSelected.getIdUsuario(), "Error", 0);
-                        }                      
+                            
+                            if(existeUser.get(0).getNickname().equals(usuarioSelected.getNickname())){ //Dejo mismo nombre de usuario
+                                usuarioSelected = null;
+                                modalUsuario.dispose();
+                            }else{ //Usuario ya existe
+                                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
+                            }
+                        }
+    
                     }
-                    
-                    
-                    
+                                        
                 }else if(usuarioSelected != null && !modalUsuario.jtPass.getText().isEmpty() && !modalUsuario.jtPassRepet.getText().isEmpty()){
+                    
                     if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
                         
                         String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
@@ -270,22 +323,28 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                         usuarioSelected.setClave(clave);
                         
                         if(usuarioDao.update(usuarioSelected)){
-                            //Mensaje de modificado
+                            //Mensaje de contraseña modificado
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                            DesktopNotify.showDesktopMessage("Contraseña modificada", "Su contraseña ha sido modificada exitosamente.", DesktopNotify.SUCCESS, 8000);
+                            usuarioSelected = null;
+                            modalUsuario.dispose();
                         }else{
-                            JOptionPane.showMessageDialog(null, "Contraseña no cambiada xd" + usuarioSelected.getIdUsuario(), "Error", 0);
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                            DesktopNotify.showDesktopMessage("Error", "Contraseña no modificada.", DesktopNotify.FAIL, 8000);
                         } 
 
                     }else{
                         //Contraseñas diferentes
+                        DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                        DesktopNotify.showDesktopMessage("Contraseñas diferentes", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
                     }
                 }else{
                     //Campos incompletos
-                    System.out.println("Campos incompletos");
+                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                    DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
                 }
                 
                 mostrarDatos(vistaUsuario.tablaUsuarios);
-                usuarioSelected = null;
-                modalUsuario.dispose();
                 
             }
             
@@ -386,27 +445,30 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
         if(principalOn.equals("Usuarios") && e.getSource() == vistaUsuario.tablaUsuarios){
 
             int columna = vistaUsuario.tablaUsuarios.getSelectedColumn();
- 
-            if(columna == 4){
-                int fila = vistaUsuario.tablaUsuarios.getSelectedRow();
-                String nick = vistaUsuario.tablaUsuarios.getValueAt(fila, 1).toString();
-                ArrayList<Usuario> lista = usuarioDao.selectAllTo("usuario_nick", nick);
-                usuarioSelected = lista.get(0);
-                mostrarModals("editarUsuario");
-            }else if(columna == 5){
-                int fila = vistaUsuario.tablaUsuarios.getSelectedRow();
-                String nick = vistaUsuario.tablaUsuarios.getValueAt(fila, 1).toString();
-                ArrayList<Usuario> lista = usuarioDao.selectAllTo("usuario_nick", nick);
-                usuarioSelected = lista.get(0);
-                mostrarModals("eliminarUsuario");
-            }else if(columna == 6){
-                int fila = vistaUsuario.tablaUsuarios.getSelectedRow();
-                String nick = vistaUsuario.tablaUsuarios.getValueAt(fila, 1).toString();
-                ArrayList<Usuario> lista = usuarioDao.selectAllTo("usuario_nick", nick);
-                usuarioSelected = lista.get(0);
-                mostrarModals("changePassUsuario");
+            try{
+                if(columna == 4){
+                    int fila = vistaUsuario.tablaUsuarios.getSelectedRow();
+                    String nick = vistaUsuario.tablaUsuarios.getValueAt(fila, 1).toString();
+                    ArrayList<Usuario> lista = usuarioDao.selectAllTo("usuario_nick", nick);
+                    usuarioSelected = lista.get(0);
+                    mostrarModals("editarUsuario");
+                }else if(columna == 5){
+                    int fila = vistaUsuario.tablaUsuarios.getSelectedRow();
+                    String nick = vistaUsuario.tablaUsuarios.getValueAt(fila, 1).toString();
+                    ArrayList<Usuario> lista = usuarioDao.selectAllTo("usuario_nick", nick);
+                    usuarioSelected = lista.get(0);
+                    mostrarModals("eliminarUsuario");
+                }else if(columna == 6){
+                    int fila = vistaUsuario.tablaUsuarios.getSelectedRow();
+                    String nick = vistaUsuario.tablaUsuarios.getValueAt(fila, 1).toString();
+                    ArrayList<Usuario> lista = usuarioDao.selectAllTo("usuario_nick", nick);
+                    usuarioSelected = lista.get(0);
+                    mostrarModals("changePassUsuario");
+                }
+            }catch(Exception ex){
+                
             }
-                   
+       
         }
     }
 

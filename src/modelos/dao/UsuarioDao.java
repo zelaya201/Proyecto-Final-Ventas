@@ -63,6 +63,7 @@ public class UsuarioDao {
                 obj.setNickname(rs.getString("usuario_nick"));
                 obj.setClave(rs.getString("usuario_clave"));
                 obj.setRol(rs.getString("usuario_rol"));
+                obj.setEstado(rs.getInt("usuario_estado"));
                 
                 lista.add(obj);
             }
