@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import modelos.Conexion;
+import modelos.Empleado;
 import modelos.Usuario;
 
 public class UsuarioDao {
@@ -42,9 +44,10 @@ public class UsuarioDao {
         return alterarRegistro(sql, obj);
     }
     
-    public void update(Usuario obj) {
-        String sql = "update usuario set usuario_nick =?, usuario_clave =?, usuario_rol, usuario_estado where id_usuario=" + obj.getIdUsuario();
-        alterarRegistro(sql, obj);
+
+    public boolean update(Usuario obj) {
+        String sql = "update usuario set usuario_nick = ?, usuario_clave = ?, usuario_rol = ?, usuario_estado = ? where id_usuario = " + obj.getIdUsuario();
+        return alterarRegistro(sql, obj);
     }
 
     private ArrayList<Usuario> select(String sql){
@@ -81,7 +84,8 @@ public class UsuarioDao {
     }
     
     private boolean alterarRegistro(String sql, Usuario obj){
-        try {
+        try{
+            
             con = conectar.getConexion();
             ps = con.prepareStatement(sql);
             
@@ -94,7 +98,7 @@ public class UsuarioDao {
             
             return true;
         }catch(Exception e) {
-            
+            JOptionPane.showMessageDialog(null, "Error consulta", "Error", 0);
         }finally{
             try {
                 ps.close();

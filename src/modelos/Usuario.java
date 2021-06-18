@@ -5,10 +5,7 @@
  */
 package modelos;
 
-/**
- *
- * @author Mario Zelaya
- */
+
 public class Usuario {
     private int idUsuario;
     private String nickname;
@@ -17,6 +14,7 @@ public class Usuario {
     private int estado;
     private Empleado empleado;
     private Propietario propietario;
+    
     
     public Usuario() {
         

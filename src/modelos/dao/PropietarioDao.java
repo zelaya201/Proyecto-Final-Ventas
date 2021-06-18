@@ -28,10 +28,10 @@ public class PropietarioDao {
         return select(sql);
     }
     
-    /*public ArrayList<Propietario> buscar(String dato) {
+    public ArrayList<Propietario> buscar(String dato) {
         String sql = "select * from cliente where carnet like '" + dato + "%' or  nombre like '" + dato + "%' or apellido like '" + dato + "%'";
         return select(sql);
-    }*/
+    }
     
     public ArrayList<Propietario> selectId(int id) {
         String sql = "select * from propietario where id_propietario=" + id;
