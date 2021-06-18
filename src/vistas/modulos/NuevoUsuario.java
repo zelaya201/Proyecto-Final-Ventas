@@ -123,7 +123,7 @@ public class NuevoUsuario extends javax.swing.JDialog {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         java.awt.GridBagLayout jPanel3Layout = new java.awt.GridBagLayout();
-        jPanel3Layout.columnWidths = new int[] {0, 0, 0};
+        jPanel3Layout.columnWidths = new int[] {0, 0, 0, 0, 0};
         jPanel3Layout.rowHeights = new int[] {0, 12, 0, 12, 0, 12, 0, 12, 0};
         jPanel3.setLayout(jPanel3Layout);
 
@@ -135,7 +135,8 @@ public class NuevoUsuario extends javax.swing.JDialog {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipadx = 16;
         gridBagConstraints.ipady = 16;
-        gridBagConstraints.insets = new java.awt.Insets(30, 30, 0, 0);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.BELOW_BASELINE_TRAILING;
+        gridBagConstraints.insets = new java.awt.Insets(30, 0, 0, 0);
         jPanel3.add(jLabel4, gridBagConstraints);
 
         jtUser.setBackground(new java.awt.Color(255, 255, 255));

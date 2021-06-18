@@ -5,12 +5,15 @@ package controlador;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JFrame;
+import modelos.Producto;
 import modelos.Usuario;
 import utilidades.CambiaPanel;
 import vistas.main.Login;
 import vistas.main.Menu;
 import vistas.modulos.Dashboard;
+import vistas.modulos.NuevoProducto;
 import vistas.modulos.NuevoUsuario;
+import vistas.modulos.VistaProducto;
 import vistas.modulos.VistaUsuario;
 
 public class Controlador implements MouseListener{
@@ -24,6 +27,12 @@ public class Controlador implements MouseListener{
     Usuario usuarioSelected = null;
     VistaUsuario vistaUsuario;
     NuevoUsuario nuevoUsuario;
+    
+    /* PRODUCTOS */
+    Producto producto = new Producto();
+    Producto productoSelected = null;
+    VistaProducto vistaProducto;
+    NuevoProducto nuevoProducto;
     
 
     public Controlador(Menu menu) {
@@ -49,6 +58,14 @@ public class Controlador implements MouseListener{
         }else if(vista.equals("AgregarUsuario")){
             nuevoUsuario = new NuevoUsuario(new JFrame(), true, vistaUsuario);
             nuevoUsuario.iniciar();
+        }else if(vista.equals("Productos")){
+            vistaProducto = new VistaProducto();
+            vistaProducto.setControlador(this);
+            principalOn = "Productos";
+            new CambiaPanel(menu.body, vistaProducto);
+        }else if(vista.equals("AgregarProducto")){
+            nuevoProducto = new NuevoProducto(new JFrame(), true, vistaProducto);
+            nuevoProducto.iniciar();
         }
     }
 
@@ -64,6 +81,10 @@ public class Controlador implements MouseListener{
             mostrarVista("Menu");
         }else if(e.getSource().equals(menu.btnUsuarios)){
             mostrarVista("Usuarios");
+        }else if(e.getSource().equals(menu.btnProductos)){
+            mostrarVista("Productos");
+        }else if(e.getSource().equals(vistaProducto.btnNuevoProducto)){
+            mostrarVista("AgregarProducto");
         }else if(e.getSource().equals(vistaUsuario.btnNuevo)){
             mostrarVista("AgregarUsuario");
         }

@@ -18,6 +18,7 @@ public class Menu extends javax.swing.JFrame {
     public void setControlador(Controlador control){
         this.btnUsuarios.addMouseListener(control);
         this.btnDashboard.addMouseListener(control);
+        this.btnProductos.addMouseListener(control);
     }
     
     public void iniciar(){
@@ -321,7 +322,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel btnEmpleados;
     private javax.swing.JLabel btnFacturas;
     private javax.swing.JLabel btnPlanilla;
-    private javax.swing.JLabel btnProductos;
+    public javax.swing.JLabel btnProductos;
     private javax.swing.JLabel btnProveedores;
     private javax.swing.JLabel btnSucursales;
     public javax.swing.JLabel btnUsuarios;
