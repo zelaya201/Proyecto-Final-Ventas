@@ -2,6 +2,7 @@ package vistas.main;
 
 import controlador.Controlador;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import utilidades.CambiaPanel;
 import vistas.modulos.Dashboard;
 import vistas.modulos.VistaUsuario;
@@ -9,10 +10,12 @@ import vistas.modulos.VistaUsuario;
 public class Menu extends javax.swing.JFrame {
 
     VistaUsuario vistaUsuario;
-    
+    int clicked = 1;
+   
     public Menu() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        efectoPressed(btnDashboard);
     }
     
     public void setControlador(Controlador control){
@@ -69,18 +72,27 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         jPanel2.add(jLabel9, gridBagConstraints);
 
-        btnDashboard.setBackground(new java.awt.Color(37, 46, 57));
+        btnDashboard.setBackground(new java.awt.Color(42, 53, 66));
         btnDashboard.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnDashboard.setForeground(new java.awt.Color(255, 255, 255));
         btnDashboard.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/home_20px.png"))); // NOI18N
         btnDashboard.setText("Dashboard");
-        btnDashboard.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 5, 0, 0, new java.awt.Color(6, 156, 88)), javax.swing.BorderFactory.createEmptyBorder(0, 15, 0, 0)));
+        btnDashboard.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
         btnDashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDashboard.setOpaque(true);
         btnDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnDashboardMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDashboardMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDashboardMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnDashboardMousePressed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -91,15 +103,20 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.ipady = 22;
         jPanel2.add(btnDashboard, gridBagConstraints);
 
+        btnProductos.setBackground(new java.awt.Color(42, 53, 66));
         btnProductos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnProductos.setForeground(new java.awt.Color(255, 255, 255));
         btnProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/empty_box_20px.png"))); // NOI18N
         btnProductos.setText("Productos");
         btnProductos.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
         btnProductos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnProductos.setOpaque(true);
         btnProductos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnProductosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnProductosMouseExited(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -110,12 +127,22 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.ipady = 22;
         jPanel2.add(btnProductos, gridBagConstraints);
 
+        btnProveedores.setBackground(new java.awt.Color(42, 53, 66));
         btnProveedores.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnProveedores.setForeground(new java.awt.Color(255, 255, 255));
         btnProveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/truck_20px.png"))); // NOI18N
         btnProveedores.setText("Proveedores");
         btnProveedores.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
         btnProveedores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnProveedores.setOpaque(true);
+        btnProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnProveedoresMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnProveedoresMouseEntered(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -125,12 +152,22 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(btnProveedores, gridBagConstraints);
 
+        btnFacturas.setBackground(new java.awt.Color(42, 53, 66));
         btnFacturas.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnFacturas.setForeground(new java.awt.Color(255, 255, 255));
         btnFacturas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/purchase_order_20px.png"))); // NOI18N
         btnFacturas.setText("Facturas");
         btnFacturas.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
         btnFacturas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnFacturas.setOpaque(true);
+        btnFacturas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnFacturasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnFacturasMouseExited(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -140,12 +177,22 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(btnFacturas, gridBagConstraints);
 
+        btnSucursales.setBackground(new java.awt.Color(42, 53, 66));
         btnSucursales.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnSucursales.setForeground(new java.awt.Color(255, 255, 255));
         btnSucursales.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/business_building_20px.png"))); // NOI18N
         btnSucursales.setText("Sucursales");
         btnSucursales.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
         btnSucursales.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSucursales.setOpaque(true);
+        btnSucursales.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSucursalesMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSucursalesMouseExited(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -155,12 +202,22 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(btnSucursales, gridBagConstraints);
 
+        btnEmpleados.setBackground(new java.awt.Color(42, 53, 66));
         btnEmpleados.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnEmpleados.setForeground(new java.awt.Color(255, 255, 255));
         btnEmpleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/suitcase_20px.png"))); // NOI18N
         btnEmpleados.setText("Empleados");
         btnEmpleados.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
         btnEmpleados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEmpleados.setOpaque(true);
+        btnEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnEmpleadosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEmpleadosMouseExited(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -170,12 +227,22 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(btnEmpleados, gridBagConstraints);
 
+        btnPlanilla.setBackground(new java.awt.Color(42, 53, 66));
         btnPlanilla.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnPlanilla.setForeground(new java.awt.Color(255, 255, 255));
         btnPlanilla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/page_20px.png"))); // NOI18N
         btnPlanilla.setText("Planilla de Empleados");
         btnPlanilla.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
         btnPlanilla.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPlanilla.setOpaque(true);
+        btnPlanilla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnPlanillaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnPlanillaMouseExited(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 9;
@@ -185,15 +252,26 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(btnPlanilla, gridBagConstraints);
 
+        btnUsuarios.setBackground(new java.awt.Color(42, 53, 66));
         btnUsuarios.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnUsuarios.setForeground(new java.awt.Color(255, 255, 255));
         btnUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user_group_20px.png"))); // NOI18N
         btnUsuarios.setText("Control de Usuarios");
         btnUsuarios.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0)));
         btnUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnUsuarios.setOpaque(true);
         btnUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnUsuariosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnUsuariosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnUsuariosMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnUsuariosMousePressed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -276,9 +354,124 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDashboardMouseClicked
 
     private void btnProductosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProductosMouseEntered
-       
+       efectoEntered(btnProductos);
     }//GEN-LAST:event_btnProductosMouseEntered
 
+    private void btnProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProductosMouseExited
+        efectoExited(btnProductos, 2);
+    }//GEN-LAST:event_btnProductosMouseExited
+
+    private void btnProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedoresMouseClicked
+        efectoEntered(btnProveedores);
+    }//GEN-LAST:event_btnProveedoresMouseClicked
+
+    private void btnProveedoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedoresMouseEntered
+        efectoExited(btnProveedores, 3);
+    }//GEN-LAST:event_btnProveedoresMouseEntered
+
+    private void btnFacturasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacturasMouseEntered
+        efectoEntered(btnFacturas);
+    }//GEN-LAST:event_btnFacturasMouseEntered
+
+    private void btnFacturasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacturasMouseExited
+        efectoExited(btnFacturas, 4);
+    }//GEN-LAST:event_btnFacturasMouseExited
+
+    private void btnSucursalesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSucursalesMouseEntered
+        efectoEntered(btnSucursales);
+    }//GEN-LAST:event_btnSucursalesMouseEntered
+
+    private void btnSucursalesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSucursalesMouseExited
+        efectoExited(btnSucursales, 5);
+    }//GEN-LAST:event_btnSucursalesMouseExited
+
+    private void btnEmpleadosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEmpleadosMouseEntered
+        efectoEntered(btnEmpleados);
+    }//GEN-LAST:event_btnEmpleadosMouseEntered
+
+    private void btnEmpleadosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEmpleadosMouseExited
+        efectoExited(btnEmpleados, 6);
+    }//GEN-LAST:event_btnEmpleadosMouseExited
+
+    private void btnPlanillaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlanillaMouseEntered
+        efectoEntered(btnPlanilla);
+    }//GEN-LAST:event_btnPlanillaMouseEntered
+
+    private void btnPlanillaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlanillaMouseExited
+        efectoExited(btnPlanilla, 7);
+    }//GEN-LAST:event_btnPlanillaMouseExited
+
+    private void btnUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMouseEntered
+        efectoEntered(btnUsuarios);
+    }//GEN-LAST:event_btnUsuariosMouseEntered
+
+    private void btnUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMouseExited
+        efectoExited(btnUsuarios, 8);
+    }//GEN-LAST:event_btnUsuariosMouseExited
+
+    private void btnDashboardMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseEntered
+        efectoEntered(btnDashboard);
+    }//GEN-LAST:event_btnDashboardMouseEntered
+
+    private void btnDashboardMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseExited
+        efectoExited(btnDashboard, 1);
+    }//GEN-LAST:event_btnDashboardMouseExited
+
+    private void btnDashboardMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMousePressed
+        efectoReset(clicked);
+        clicked = 1;
+        efectoPressed(btnDashboard);
+    }//GEN-LAST:event_btnDashboardMousePressed
+
+    private void btnUsuariosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMousePressed
+        efectoReset(clicked);
+        clicked = 8;
+        efectoPressed(btnUsuarios);
+    }//GEN-LAST:event_btnUsuariosMousePressed
+
+    public void efectoEntered(JLabel label){
+         label.setBackground(new java.awt.Color(37, 46, 57));
+    }
+    
+    public void efectoExited(JLabel label, int n){
+        if(clicked != n){
+            label.setBackground(new java.awt.Color(42, 53, 66));
+        }
+    }
+    
+    public void efectoPressed(JLabel label){
+        label.setBackground(new java.awt.Color(37, 46, 57));
+        label.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 5, 0, 0, new java.awt.Color(6, 156, 88)), javax.swing.BorderFactory.createEmptyBorder(0, 15, 0, 0)));
+    }
+    
+    public void efectoReset(int n){
+        if(n == 1){
+            btnDashboard.setBackground(new java.awt.Color(42, 53, 66));
+            btnDashboard.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        }else if(n == 2 ){
+            btnProductos.setBackground(new java.awt.Color(42, 53, 66));
+            btnProductos.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        }else if(n == 3 ){
+            btnProveedores.setBackground(new java.awt.Color(42, 53, 66));
+            btnProveedores.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        }else if(n == 4 ){
+            btnFacturas.setBackground(new java.awt.Color(42, 53, 66));
+            btnFacturas.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        }else if(n == 5 ){
+            btnSucursales.setBackground(new java.awt.Color(42, 53, 66));
+            btnSucursales.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        }else if(n == 6 ){
+            btnEmpleados.setBackground(new java.awt.Color(42, 53, 66));
+            btnEmpleados.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        }else if(n == 7 ){
+            btnPlanilla.setBackground(new java.awt.Color(42, 53, 66));
+            btnPlanilla.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        }else if(n == 8 ){
+            btnUsuarios.setBackground(new java.awt.Color(42, 53, 66));
+            btnUsuarios.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        }
+    }
+    
     /**
      * @param args the command line arguments
 //     */

@@ -1,7 +1,7 @@
 package vistas.modulos;
 
 import controlador.Controlador;
-import javax.swing.JFrame;
+import java.awt.event.KeyListener;
 import utilidades.TextPrompt;
 
 public class VistaUsuario extends javax.swing.JPanel {
@@ -13,6 +13,7 @@ public class VistaUsuario extends javax.swing.JPanel {
     
     public void setControlador(Controlador control){
         this.btnNuevo.addMouseListener(control);
+        this.tfBusqueda.addKeyListener(control);
     }
     
 
@@ -78,6 +79,14 @@ public class VistaUsuario extends javax.swing.JPanel {
 
         tfBusqueda.setBackground(new java.awt.Color(255, 255, 255));
         tfBusqueda.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 1)));
+        tfBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tfBusquedaKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfBusquedaKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -117,19 +126,19 @@ public class VistaUsuario extends javax.swing.JPanel {
         tablaUsuarios.setForeground(new java.awt.Color(255, 255, 255));
         tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "No.", "Usuario", "Estado", "Rol", "", ""
+                "No.", "Usuario", "Estado", "Rol", "Editar", "Eliminar", "Cambiar contraseña"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -144,6 +153,7 @@ public class VistaUsuario extends javax.swing.JPanel {
         tablaUsuarios.setColorFilasForeground1(new java.awt.Color(51, 51, 51));
         tablaUsuarios.setColorFilasForeground2(new java.awt.Color(51, 51, 51));
         tablaUsuarios.setColorForegroundHead(new java.awt.Color(0, 0, 0));
+        tablaUsuarios.setColorSelBackgound(new java.awt.Color(240, 240, 240));
         tablaUsuarios.setColorSelForeground(new java.awt.Color(51, 51, 51));
         tablaUsuarios.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
         tablaUsuarios.setFuenteFilas(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
@@ -164,12 +174,21 @@ public class VistaUsuario extends javax.swing.JPanel {
             tablaUsuarios.getColumnModel().getColumn(3).setResizable(false);
             tablaUsuarios.getColumnModel().getColumn(4).setResizable(false);
             tablaUsuarios.getColumnModel().getColumn(5).setResizable(false);
+            tablaUsuarios.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jPanel1.add(jScrollPane2, "card2");
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tfBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfBusquedaKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfBusquedaKeyPressed
+
+    private void tfBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfBusquedaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfBusquedaKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -179,7 +198,7 @@ public class VistaUsuario extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private rojerusan.RSTableMetro tablaUsuarios;
-    private javax.swing.JTextField tfBusqueda;
+    public rojerusan.RSTableMetro tablaUsuarios;
+    public javax.swing.JTextField tfBusqueda;
     // End of variables declaration//GEN-END:variables
 }

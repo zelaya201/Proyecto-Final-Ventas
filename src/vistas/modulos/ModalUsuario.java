@@ -1,15 +1,16 @@
 package vistas.modulos;
 
 import controlador.Controlador;
+import java.awt.event.ItemListener;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import utilidades.TextPrompt;
 
-public class NuevoUsuario extends javax.swing.JDialog {
+public class ModalUsuario extends javax.swing.JDialog {
 
     VistaUsuario vistaUsuario;
     
-    public NuevoUsuario(java.awt.Frame parent, boolean modal, VistaUsuario vistaUsuario) {
+    public ModalUsuario(java.awt.Frame parent, boolean modal, VistaUsuario vistaUsuario) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
@@ -21,7 +22,8 @@ public class NuevoUsuario extends javax.swing.JDialog {
     }
     
     public void setControlador(Controlador control){
-        
+        btnGuardar.addMouseListener(control);
+        //this.cbRol.addItemListener(control);
     }
     
     public void iniciar(){
@@ -43,7 +45,7 @@ public class NuevoUsuario extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -52,8 +54,10 @@ public class NuevoUsuario extends javax.swing.JDialog {
         jtPass = new javax.swing.JPasswordField();
         jtPassRepet = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbEmpleado = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
+        cbRol = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.BorderLayout(1, 0));
@@ -85,20 +89,21 @@ public class NuevoUsuario extends javax.swing.JDialog {
         jPanel2Layout.rowHeights = new int[] {0};
         jPanel2.setLayout(jPanel2Layout);
 
-        jLabel3.setBackground(new java.awt.Color(0, 102, 204));
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Guardar");
-        jLabel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 204), 1, true));
-        jLabel3.setOpaque(true);
+        btnGuardar.setBackground(new java.awt.Color(0, 102, 204));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnGuardar.setText("Guardar");
+        btnGuardar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 204), 1, true));
+        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardar.setOpaque(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipadx = 70;
         gridBagConstraints.ipady = 16;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        jPanel2.add(jLabel3, gridBagConstraints);
+        jPanel2.add(btnGuardar, gridBagConstraints);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 102, 102));
@@ -146,15 +151,15 @@ public class NuevoUsuario extends javax.swing.JDialog {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipadx = 300;
         gridBagConstraints.ipady = 22;
-        gridBagConstraints.insets = new java.awt.Insets(30, 0, 0, 30);
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 30);
         jPanel3.add(jtUser, gridBagConstraints);
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/access_22px.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add_user_male_22px.png"))); // NOI18N
         jLabel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.ipadx = 16;
         gridBagConstraints.ipady = 16;
         gridBagConstraints.insets = new java.awt.Insets(0, 30, 20, 0);
@@ -191,21 +196,23 @@ public class NuevoUsuario extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 0);
         jPanel3.add(jLabel6, gridBagConstraints);
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setForeground(new java.awt.Color(102, 102, 102));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione tipo de Rol", "Empleado", "Gerente", "Propietario" }));
-        jComboBox1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jComboBox1.setFocusable(false);
-        jComboBox1.setLightWeightPopupEnabled(false);
-        jComboBox1.setRequestFocusEnabled(false);
-        jComboBox1.setVerifyInputWhenFocusTarget(false);
+        cbEmpleado.setBackground(new java.awt.Color(255, 255, 255));
+        cbEmpleado.setForeground(new java.awt.Color(102, 102, 102));
+        cbEmpleado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asignar empleado" }));
+        cbEmpleado.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        cbEmpleado.setEnabled(false);
+        cbEmpleado.setFocusable(false);
+        cbEmpleado.setLightWeightPopupEnabled(false);
+        cbEmpleado.setOpaque(true);
+        cbEmpleado.setRequestFocusEnabled(false);
+        cbEmpleado.setVerifyInputWhenFocusTarget(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.ipadx = 152;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.ipadx = 174;
         gridBagConstraints.ipady = 16;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 30);
-        jPanel3.add(jComboBox1, gridBagConstraints);
+        jPanel3.add(cbEmpleado, gridBagConstraints);
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add_key_22px.png"))); // NOI18N
@@ -217,6 +224,33 @@ public class NuevoUsuario extends javax.swing.JDialog {
         gridBagConstraints.ipady = 16;
         gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 0);
         jPanel3.add(jLabel7, gridBagConstraints);
+
+        cbRol.setBackground(new java.awt.Color(255, 255, 255));
+        cbRol.setForeground(new java.awt.Color(102, 102, 102));
+        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione tipo de Rol", "Empleado", "Gerente", "Propietario" }));
+        cbRol.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        cbRol.setFocusable(false);
+        cbRol.setLightWeightPopupEnabled(false);
+        cbRol.setRequestFocusEnabled(false);
+        cbRol.setVerifyInputWhenFocusTarget(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.ipadx = 152;
+        gridBagConstraints.ipady = 16;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
+        jPanel3.add(cbRol, gridBagConstraints);
+
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/control_panel_22px.png"))); // NOI18N
+        jLabel8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.ipadx = 16;
+        gridBagConstraints.ipady = 16;
+        gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 0);
+        jPanel3.add(jLabel8, gridBagConstraints);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -239,13 +273,13 @@ public class NuevoUsuario extends javax.swing.JDialog {
 //        try {
 //            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 //        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(NuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ModalUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(NuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ModalUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(NuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ModalUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(NuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ModalUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
 //        //</editor-fold>
@@ -255,7 +289,7 @@ public class NuevoUsuario extends javax.swing.JDialog {
 //        /* Create and display the dialog */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                NuevoUsuario dialog = new NuevoUsuario(new javax.swing.JFrame(), true);
+//                ModalUsuario dialog = new ModalUsuario(new javax.swing.JFrame(), true);
 //                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 //                    @Override
 //                    public void windowClosing(java.awt.event.WindowEvent e) {
@@ -268,19 +302,21 @@ public class NuevoUsuario extends javax.swing.JDialog {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    public javax.swing.JLabel btnGuardar;
+    public javax.swing.JComboBox<String> cbEmpleado;
+    public javax.swing.JComboBox<String> cbRol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jtPass;
-    private javax.swing.JPasswordField jtPassRepet;
-    private javax.swing.JTextField jtUser;
+    public javax.swing.JPasswordField jtPass;
+    public javax.swing.JPasswordField jtPassRepet;
+    public javax.swing.JTextField jtUser;
     // End of variables declaration//GEN-END:variables
 }
