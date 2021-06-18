@@ -24,7 +24,6 @@ import vistas.main.Menu;
 import vistas.modulos.Dashboard;
 import vistas.modulos.ModalUsuario;
 import vistas.modulos.NuevoProducto;
-import vistas.modulos.NuevoUsuario;
 import vistas.modulos.VistaProducto;
 import vistas.modulos.VistaUsuario;
 
@@ -71,15 +70,26 @@ public class Controlador implements MouseListener, KeyListener{
             vistaUsuario.setControlador(this);
             principalOn = "Usuarios";
             new CambiaPanel(menu.body, vistaUsuario);
-        }else if(vista.equals("AgregarUsuario")){
-            nuevoUsuario = new NuevoUsuario(new JFrame(), true, vistaUsuario);
-            nuevoUsuario.iniciar();
+            mostrarDatos(vistaUsuario.tablaUsuarios);
         }else if(vista.equals("Productos")){
             vistaProducto = new VistaProducto();
             vistaProducto.setControlador(this);
             principalOn = "Productos";
             new CambiaPanel(menu.body, vistaProducto);
-        }else if(vista.equals("AgregarProducto")){
+        }
+    }
+    
+    private void mostrarModals(String modal){
+        /* - - - - MOSTRAR MODALS - - - - */
+        
+        /* CONTROL DE USUARIOS */
+        if(modal.equals("nuevoUsuario") && principalOn.equals("Usuarios")){
+            modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
+            modalUsuario.setControlador(this);
+            modalOn = "modalUsuario";
+            modalUsuario.iniciar();
+            usuarioSelected = null;
+        }else if(modal.equals("AgregarProducto")){
             nuevoProducto = new NuevoProducto(new JFrame(), true, vistaProducto);
             nuevoProducto.iniciar();
         }
@@ -200,11 +210,11 @@ public class Controlador implements MouseListener, KeyListener{
         if(e.getSource().equals(menu.btnDashboard)){
             mostrarModulos("Menu");
         }else if(e.getSource().equals(menu.btnUsuarios)){
-            mostrarVista("Usuarios");
-        }else if(e.getSource().equals(menu.btnProductos)){
-            mostrarVista("Productos");
-        }else if(e.getSource().equals(vistaProducto.btnNuevoProducto)){
-            mostrarVista("AgregarProducto");
+            mostrarModulos("Usuarios");
+//        }else if(e.getSource().equals(menu.btnProductos)){
+//            mostrarVista("Productos");
+//        }else if(e.getSource().equals(vistaProducto.btnNuevoProducto)){
+//            mostrarVista("AgregarProducto");
         }else if(e.getSource().equals(vistaUsuario.btnNuevo)){
             mostrarModals("nuevoUsuario");
         }else if(e.getSource().equals(modalUsuario.btnGuardar)){
