@@ -9,12 +9,13 @@ public class VistaUsuario extends javax.swing.JPanel {
     public VistaUsuario() {
         initComponents();
         new TextPrompt("Buscar usuario", tfBusqueda);
+        
     }
     
     public void setControlador(Controlador control){
         this.btnNuevo.addMouseListener(control);
         this.tfBusqueda.addKeyListener(control);
-        this.tablaUsuarios.addMouseListener(control);  
+        this.tablaUsuarios.addMouseListener(control);
     }
     
 

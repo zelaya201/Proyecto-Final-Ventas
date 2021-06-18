@@ -61,7 +61,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     }
     
     private void mostrarModulos(String vista){
-        /* - - - - MOSTRAR MODULOS - - - */
+        /* - - - - MOSTRAR MODULOS - - - - */
         if(vista.equals("Menu")){
             menu.setControlador(this);
             menu.iniciar();
@@ -81,11 +81,11 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
         
         /* CONTROL DE USUARIOS */
         if(modal.equals("nuevoUsuario") && principalOn.equals("Usuarios")){
+            usuarioSelected = null;
             modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
             modalUsuario.setControlador(this);
             modalOn = "modalUsuario";
             modalUsuario.iniciar();
-            usuarioSelected = null;
         }else if(modal.equals("editarUsuario") && principalOn.equals("Usuarios")){
             modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
             modalUsuario.setControlador(this);
@@ -105,7 +105,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             modalUsuario.cbRol.setEnabled(false);
             modalUsuario.jtUser.setText(usuarioSelected.getNickname());
             
-            modalUsuario.setSize(482, 350);
+            modalUsuario.setSize(482, 346); //Width - Height
             //llenarComboBox();
             modalUsuario.iniciar();
         }else if(modal.equals("eliminarUsuario") && principalOn.equals("Usuarios")){
@@ -283,6 +283,9 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                         }
                         
                     }else{
+                        
+          
+                        
                         //Modificar
                         ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
                         
@@ -314,7 +317,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                     }
                                         
                 }else if(usuarioSelected != null && !modalUsuario.jtPass.getText().isEmpty() && !modalUsuario.jtPassRepet.getText().isEmpty()){
-                    
+                    //Cambiar contraseña
                     if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
                         
                         String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave

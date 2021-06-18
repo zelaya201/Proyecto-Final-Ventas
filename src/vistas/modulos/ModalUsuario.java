@@ -1,7 +1,9 @@
 package vistas.modulos;
 
 import controlador.Controlador;
+import java.awt.Dimension;
 import java.awt.event.ComponentListener;
+import utilidades.MyComboBoxUI;
 import utilidades.TextPrompt;
 
 public class ModalUsuario extends javax.swing.JDialog {
@@ -11,6 +13,7 @@ public class ModalUsuario extends javax.swing.JDialog {
     public ModalUsuario(java.awt.Frame parent, boolean modal, VistaUsuario vistaUsuario) {
         super(parent, modal);
         initComponents();
+        comboBoxInit();
         setLocationRelativeTo(null);
         this.vistaUsuario = vistaUsuario;
         new TextPrompt("Usuario", jtUser);
@@ -221,8 +224,7 @@ public class ModalUsuario extends javax.swing.JDialog {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 16;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 30);
         form.add(cbEmpleado, gridBagConstraints);
 
@@ -238,8 +240,7 @@ public class ModalUsuario extends javax.swing.JDialog {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 16;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 12, 30);
         form.add(cbRol, gridBagConstraints);
 
@@ -257,6 +258,7 @@ public class ModalUsuario extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(form, gridBagConstraints);
 
         pack();
@@ -270,6 +272,14 @@ public class ModalUsuario extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtUserActionPerformed
 
+    public void comboBoxInit(){
+        this.cbEmpleado.setUI(new MyComboBoxUI());
+        this.cbRol.setUI(new MyComboBoxUI());
+        
+        this.cbRol.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204,204,204)), javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0)));
+        this.cbEmpleado.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204,204,204)), javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0)));
+    }
+    
     /**
      * @param args the command line arguments
      */
