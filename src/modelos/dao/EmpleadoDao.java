@@ -79,11 +79,7 @@ public class EmpleadoDao {
                 obj.setIsss(rs.getDouble("isss_empleado"));
                 obj.setRenta(rs.getDouble("renta_empleado"));
                 obj.setEstado(rs.getInt("estado_empleado"));
-                obj.setResponsable(new Empleado(rs.getInt("id_empleado1")));
-                if (rs.getInt("id_usuario1") > 0) {
-                    obj.setUsuario(new Usuario(rs.getInt("id_usuario1")));
-                }
-                obj.setSucursal(new Sucursal(rs.getInt("id_sucursal1")));
+        
 
                 lista.add(obj);
             }

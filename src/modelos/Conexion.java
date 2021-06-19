@@ -19,7 +19,7 @@ public class Conexion {
             Class.forName(driver);
             cn = DriverManager.getConnection(url, user, password);
         } catch (Exception ex) {
-            
+            System.out.println("No conexion" + " " + ex);
         }
         return cn;
     }

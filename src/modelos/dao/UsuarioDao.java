@@ -1,3 +1,4 @@
+  
 package modelos.dao;
 
 import java.sql.Connection;
@@ -44,7 +45,6 @@ public class UsuarioDao {
         return alterarRegistro(sql, obj);
     }
     
-
     public boolean update(Usuario obj) {
         String sql = "update usuario set usuario_nick = ?, usuario_clave = ?, usuario_rol = ?, usuario_estado = ? where id_usuario = " + obj.getIdUsuario();
         return alterarRegistro(sql, obj);
@@ -75,7 +75,7 @@ public class UsuarioDao {
             try {
                 ps.close();
             } catch (Exception ex) {
-                
+                System.out.println("ERROR" + ex);
             }
             conectar.closeConexion(con);
         }
