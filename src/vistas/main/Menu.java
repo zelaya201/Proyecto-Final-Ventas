@@ -6,13 +6,20 @@ import javax.swing.JLabel;
 import utilidades.CambiaPanel;
 import vistas.modulos.Dashboard;
 import vistas.modulos.VistaUsuario;
+import vistas.modulos.VistaEmpleado;
 
 public class Menu extends javax.swing.JFrame {
 
     VistaUsuario vistaUsuario;
     int clicked = 1;
+    
+    
+   VistaEmpleado vistaEmpleado;
+ 
+   
    
     public Menu() {
+        this.clicked = 7;
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         efectoPressed(btnDashboard);
@@ -21,6 +28,7 @@ public class Menu extends javax.swing.JFrame {
     public void setControlador(Controlador control){
         this.btnUsuarios.addMouseListener(control);
         this.btnDashboard.addMouseListener(control);
+        this.btnEmpleados.addMouseListener(control);
     }
     
     public void iniciar(){

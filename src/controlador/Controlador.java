@@ -30,6 +30,8 @@ import vistas.main.Menu;
 import vistas.modulos.Dashboard;
 import vistas.modulos.ModalUsuario;
 import vistas.modulos.VistaUsuario;
+import vistas.modulos.VistaEmpleado;
+
 
 public class Controlador extends MouseAdapter implements MouseListener, KeyListener, ItemListener{
     DefaultTableModel modelo;
@@ -49,7 +51,8 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     /* EMPLEADOS */
     Empleado empleado = new Empleado();
     Empleado empleadoSelected = null;
-    EmpleadoDao empleadoDao = new EmpleadoDao();    
+    EmpleadoDao empleadoDao = new EmpleadoDao();  
+    VistaEmpleado vistaEmpleado; 
 
     public Controlador(Menu menu) {
         this.menu = menu;
@@ -73,6 +76,12 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             principalOn = "Usuarios";
             new CambiaPanel(menu.body, vistaUsuario);
             mostrarDatos(vistaUsuario.tablaUsuarios);
+        }else if(vista.equals("Empleados")){
+            vistaEmpleado= new VistaEmpleado();
+            vistaEmpleado.setControlador(this);
+            principalOn = "Empleados";
+            new CambiaPanel(menu.body, vistaEmpleado);
+            mostrarDatos(vistaEmpleado.tablaEmpleados);
         }
     }
     
@@ -82,6 +91,67 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
         /* CONTROL DE USUARIOS */
         if(modal.equals("nuevoUsuario") && principalOn.equals("Usuarios")){
             usuarioSelected = null;
+            modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
+            modalUsuario.setControlador(this);
+            modalOn = "modalUsuario";
+            modalUsuario.iniciar();
+        }else if(modal.equals("editarUsuario") && principalOn.equals("Usuarios")){
+            modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
+            modalUsuario.setControlador(this);
+            modalOn = "modalUsuario";
+            
+            modalUsuario.form.remove(modalUsuario.jtPass);
+            modalUsuario.form.remove(modalUsuario.jtPassRepet);
+            modalUsuario.form.remove(modalUsuario.iconPass);
+            
+            modalUsuario.header.setText("Editar Usuario");
+            modalUsuario.cbRol.setSelectedItem(usuarioSelected.getRol());
+            
+            modalUsuario.cbEmpleado.addItem("Adonay / 01234567-8");
+            modalUsuario.cbEmpleado.setSelectedItem("Adonay / 01234567-8");
+                        
+            modalUsuario.cbEmpleado.setEnabled(false);
+            modalUsuario.cbRol.setEnabled(false);
+            modalUsuario.jtUser.setText(usuarioSelected.getNickname());
+            
+            modalUsuario.setSize(482, 346); //Width - Height
+            //llenarComboBox();
+            modalUsuario.iniciar();
+        }else if(modal.equals("eliminarUsuario") && principalOn.equals("Usuarios")){
+            if(usuarioSelected != null){
+                usuarioSelected.setEstado(0);
+                if(usuarioDao.update(usuarioSelected)){
+                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                    DesktopNotify.showDesktopMessage("Usuario eliminado", "El usuario ha sido eliminado exitosamente.", DesktopNotify.INFORMATION, 8000);
+                    mostrarDatos(vistaUsuario.tablaUsuarios);
+                }
+                
+                 usuarioSelected = null;
+                
+            }
+        }else if(modal.equals("changePassUsuario") && principalOn.equals("Usuarios")){
+            modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
+            modalUsuario.setControlador(this);
+            modalOn = "modalUsuario";
+            
+            modalUsuario.form.remove(modalUsuario.cbEmpleado);
+            modalUsuario.form.remove(modalUsuario.iconEmpleado);
+            modalUsuario.form.remove(modalUsuario.cbRol);
+            modalUsuario.form.remove(modalUsuario.iconRol);
+            
+            modalUsuario.header.setText("Cambiar contraseña");
+            
+            modalUsuario.jtUser.setEnabled(false);
+            modalUsuario.jtUser.setText(usuarioSelected.getNickname());
+            
+            modalUsuario.setSize(482, 285); //Width - Height
+            modalUsuario.iniciar();
+        }
+        
+        
+          /* CONTROL DE EMPLEADOS */
+        if(modal.equals("nuevoEmpleado") && principalOn.equals("Empleados")){
+            empleadoSelected = null;
             modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
             modalUsuario.setControlador(this);
             modalOn = "modalUsuario";
