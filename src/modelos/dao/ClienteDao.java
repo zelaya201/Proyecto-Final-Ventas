@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import modelos.Conexion;
 import modelos.Cliente;
-import modelos.Sucursal;
-import modelos.Usuario;
 
 public class ClienteDao {
     Conexion conectar = new Conexion();

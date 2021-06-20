@@ -9,7 +9,6 @@ public class Producto {
     private Blob bdFoto;
     private FileInputStream fileFoto;
     private String descripcion;
-    private Sucursal sucursal;
     private Proveedor proveedor;
     private Categoria categoria;
     private ArrayList<ProductoEstado> estadosProducto;
@@ -64,14 +63,6 @@ public class Producto {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public Sucursal getSucursal() {
-        return sucursal;
-    }
-
-    public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
     }
 
     public Proveedor getProveedor() {

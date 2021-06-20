@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import modelos.Conexion;
-import modelos.Empleado;
 import modelos.Usuario;
 
 public class UsuarioDao {
@@ -41,12 +40,12 @@ public class UsuarioDao {
     } 
     
     public boolean insert(Usuario obj){
-        String sql = "insert into usuario(usuario_nick,usuario_clave,usuario_rol,usuario_estado)VALUES(?,?,?,?)";
+        String sql = "insert into usuario(usuario_nick, usuario_clave, usuario_rol, usuario_estado, usuario_referencia)VALUES(?,?,?,?,?)";
         return alterarRegistro(sql, obj);
     }
     
     public boolean update(Usuario obj) {
-        String sql = "update usuario set usuario_nick = ?, usuario_clave = ?, usuario_rol = ?, usuario_estado = ? where id_usuario = " + obj.getIdUsuario();
+        String sql = "update usuario set usuario_nick = ?, usuario_clave = ?, usuario_rol = ?, usuario_estado = ?, usuario_referencia = ? where id_usuario = " + obj.getIdUsuario();
         return alterarRegistro(sql, obj);
     }
 
@@ -65,6 +64,7 @@ public class UsuarioDao {
                 obj.setClave(rs.getString("usuario_clave"));
                 obj.setRol(rs.getString("usuario_rol"));
                 obj.setEstado(rs.getInt("usuario_estado"));
+                obj.setReferencia(rs.getString("usuario_referencia"));
                 
                 lista.add(obj);
             }
@@ -93,6 +93,7 @@ public class UsuarioDao {
             ps.setString(2, obj.getClave());
             ps.setString(3, obj.getRol());
             ps.setInt(4, obj.getEstado());
+            ps.setString(5, obj.getReferencia());
             
             ps.execute();
             

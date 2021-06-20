@@ -12,9 +12,8 @@ public class Usuario {
     private String clave;
     private String rol;
     private int estado;
+    private String referencia;
     private Empleado empleado;
-    private Propietario propietario;
-    
     
     public Usuario() {
         
@@ -23,20 +22,31 @@ public class Usuario {
     public Usuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
-   
-    public Usuario(int idUsuario, String nickname, String clave, String rol, int estado) {
+
+    public Usuario(int idUsuario, String nickname, String clave, String rol, int estado, String referencia) {
         this.idUsuario = idUsuario;
         this.nickname = nickname;
         this.clave = clave;
         this.rol = rol;
         this.estado = estado;
+        this.referencia = referencia;
     }
 
-    public Usuario(String nickname, String clave, String rol, int estado) {
+    public Usuario(String nickname, String clave, String rol, int estado, String referencia) {
         this.nickname = nickname;
         this.clave = clave;
         this.rol = rol;
         this.estado = estado;
+        this.referencia = referencia;
+    }
+
+    public Usuario(int idUsuario, String nickname, String clave, String rol, Empleado empleado) {
+        this.idUsuario = idUsuario;
+        this.nickname = nickname;
+        this.clave = clave;
+        this.rol = rol;
+        this.estado = estado;
+        this.empleado = empleado;
     }
 
     public int getIdUsuario() {
@@ -79,19 +89,19 @@ public class Usuario {
         this.estado = estado;
     }
 
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
     public Empleado getEmpleado() {
         return empleado;
     }
 
     public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
-    }
-
-    public Propietario getPropietario() {
-        return propietario;
-    }
-
-    public void setPropietario(Propietario propietario) {
-        this.propietario = propietario;
     }
 }

@@ -17,7 +17,6 @@ public class Proveedor {
     private String telefono;
     private String direccion;
     private int estado;
-    private Sucursal sucursal;
     private ArrayList<Producto> productos;
     
     public Proveedor() {
@@ -81,14 +80,6 @@ public class Proveedor {
 
     public void setEstado(int estado) {
         this.estado = estado;
-    }
-
-    public Sucursal getSucursal() {
-        return sucursal;
-    }
-
-    public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
     }
 
     public ArrayList<Producto> getProductos() {

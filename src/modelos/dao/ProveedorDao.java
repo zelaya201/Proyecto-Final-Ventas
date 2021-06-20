@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import modelos.Conexion;
 import modelos.Proveedor;
-import modelos.Sucursal;
 
 public class ProveedorDao {
     Conexion conectar = new Conexion();
@@ -63,7 +62,6 @@ public class ProveedorDao {
                 obj.setTelefono(rs.getString("tel_proveedor"));
                 obj.setDireccion(rs.getString("dir_proveedor"));
                 obj.setEstado(rs.getInt("estado_proveedor"));
-                obj.setSucursal(new Sucursal(rs.getInt("id_sucursal2")));
 
                 lista.add(obj);
             }
@@ -91,7 +89,6 @@ public class ProveedorDao {
             ps.setString(2, obj.getTelefono());
             ps.setString(3, obj.getDireccion());
             ps.setInt(4, obj.getEstado());
-            ps.setInt(5, obj.getSucursal().getIdSucursal());
  
             ps.execute();
             

@@ -8,7 +8,6 @@ import modelos.Categoria;
 import modelos.Conexion;
 import modelos.Producto;
 import modelos.Proveedor;
-import modelos.Sucursal;
 
 public class ProductoDao {
     Conexion conectar = new Conexion();
@@ -63,7 +62,6 @@ public class ProductoDao {
                 obj.setCodProducto(rs.getInt("cod_producto"));
                 obj.setBdFoto(rs.getBlob("foto_producto"));
                 obj.setDescripcion(rs.getString("descripcion_producto"));
-                obj.setSucursal(new Sucursal(rs.getInt("id_sucursal3")));
                 obj.setProveedor(new Proveedor(rs.getInt("cod_proveedor1")));
                 obj.setCategoria(new Categoria(rs.getInt("id_categoria1")));
 

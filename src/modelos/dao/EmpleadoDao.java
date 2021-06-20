@@ -6,9 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import modelos.Conexion;
 import modelos.Empleado;
-import modelos.Sucursal;
 import modelos.Usuario;
-
 public class EmpleadoDao {
     Conexion conectar = new Conexion();
     Connection con;
@@ -45,12 +43,12 @@ public class EmpleadoDao {
     }
     
     public void update(Empleado obj) {
-        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, cargo_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?, afp_empleado =?, isss_empleado =?, renta_empleado =?, estado_empleado =?, id_empleado1 =?, id_sucursal1 =? where id_empleado=" + obj.getIdPersona();
+        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, cargo_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?, estado_empleado =? where id_empleado=" + obj.getIdPersona();
         alterarRegistro(sql, obj);
     }
     
     public void updateUsuario(Empleado obj) {
-        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, cargo_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?, afp_empleado =?, isss_empleado =?, renta_empleado =?, estado_empleado =?, id_empleado1 =?, id_usuario1 =?, id_sucursal1 =? where id_empleado=" + obj.getIdPersona();
+        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, cargo_empleado = ?, genero_empleado = ?, edad_empleado = ?, email_empleado = ?, tel_empleado = ?, dir_empleado = ?, salario_empleado =?, estado_empleado = ?, id_usuario1 = ? where id_empleado=" + obj.getIdPersona();
         alterarRegistroUsuario(sql, obj);
     }
 
@@ -75,11 +73,10 @@ public class EmpleadoDao {
                 obj.setTelefono(rs.getString("tel_empleado"));
                 obj.setDireccion(rs.getString("dir_empleado"));
                 obj.setSalario(rs.getDouble("salario_empleado"));
-                obj.setAfp(rs.getDouble("afp_empleado"));
-                obj.setIsss(rs.getDouble("isss_empleado"));
-                obj.setRenta(rs.getDouble("renta_empleado"));
                 obj.setEstado(rs.getInt("estado_empleado"));
-        
+                if(rs.getInt("id_usuario1") > 0) {
+                    obj.setUsuario(new Usuario(rs.getInt("id_usuario1")));
+                }
 
                 lista.add(obj);
             }
@@ -113,12 +110,7 @@ public class EmpleadoDao {
             ps.setString(8, obj.getTelefono());
             ps.setString(9, obj.getDireccion());
             ps.setDouble(10, obj.getSalario());
-            ps.setDouble(11, obj.getAfp());
-            ps.setDouble(12, obj.getIsss());
-            ps.setDouble(13, obj.getRenta());
-            ps.setInt(14, obj.getEstado());
-            ps.setInt(15, obj.getResponsable().getIdPersona());
-            ps.setInt(17, obj.getSucursal().getIdSucursal());
+            ps.setInt(11, obj.getEstado());
             
             ps.execute();
             
@@ -151,13 +143,8 @@ public class EmpleadoDao {
             ps.setString(8, obj.getTelefono());
             ps.setString(9, obj.getDireccion());
             ps.setDouble(10, obj.getSalario());
-            ps.setDouble(11, obj.getAfp());
-            ps.setDouble(12, obj.getIsss());
-            ps.setDouble(13, obj.getRenta());
-            ps.setInt(14, obj.getEstado());
-            ps.setInt(15, obj.getResponsable().getIdPersona());
-            ps.setInt(16, obj.getUsuario().getIdUsuario());
-            ps.setInt(17, obj.getSucursal().getIdSucursal());
+            ps.setInt(11, obj.getEstado());
+            ps.setInt(12, obj.getUsuario().getIdUsuario());
             
             ps.execute();
             

@@ -12,7 +12,6 @@ public class Empleado extends Persona{
     private int estado;
     private Empleado responsable;
     private Usuario usuario;
-    private Sucursal sucursal;
             
     public Empleado() {
         
@@ -136,11 +135,4 @@ public class Empleado extends Persona{
         this.usuario = usuario;
     }
 
-    public Sucursal getSucursal() {
-        return sucursal;
-    }
-
-    public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
-    }
 }

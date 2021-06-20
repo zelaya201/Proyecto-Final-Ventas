@@ -230,7 +230,7 @@ public class ModalUsuario extends javax.swing.JDialog {
 
         cbRol.setBackground(new java.awt.Color(255, 255, 255));
         cbRol.setForeground(new java.awt.Color(102, 102, 102));
-        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione tipo de Rol", "Empleado", "Gerente" }));
+        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione tipo de Rol", "Administrador", "Empleado" }));
         cbRol.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         cbRol.setFocusable(false);
         cbRol.setLightWeightPopupEnabled(false);

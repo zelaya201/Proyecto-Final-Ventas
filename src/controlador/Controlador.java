@@ -97,16 +97,13 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             
             modalUsuario.header.setText("Editar Usuario");
             modalUsuario.cbRol.setSelectedItem(usuarioSelected.getRol());
-            
-            modalUsuario.cbEmpleado.addItem("Adonay / 01234567-8");
-            modalUsuario.cbEmpleado.setSelectedItem("Adonay / 01234567-8");
                         
             modalUsuario.cbEmpleado.setEnabled(false);
             modalUsuario.cbRol.setEnabled(false);
             modalUsuario.jtUser.setText(usuarioSelected.getNickname());
             
             modalUsuario.setSize(482, 346); //Width - Height
-            //llenarComboBox();
+            llenarComboBox();
             modalUsuario.iniciar();
         }else if(modal.equals("eliminarUsuario") && principalOn.equals("Usuarios")){
             if(usuarioSelected != null){
@@ -248,7 +245,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                             String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
                             String dui = "";
 
-                            if(modalUsuario.cbRol.getSelectedItem().toString().equals("Gerente") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
+                            if(modalUsuario.cbRol.getSelectedItem().toString().equals("Administrador") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
                                 String v[] = modalUsuario.cbEmpleado.getSelectedItem().toString().split(" / ");
 
                                 ArrayList<Empleado> empleados = empleadoDao.buscar(v[1]);
@@ -257,16 +254,26 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                             }
 
                             ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
-                            //ArrayList<Usuario> existeReferencia = usuarioDao.selectAllTo("referencia", dui);
+                            ArrayList<Usuario> existeReferencia = usuarioDao.selectAllTo("usuario_referencia", dui);
 
-                            if(existeUser.isEmpty()){
+                            if(existeUser.isEmpty() && existeReferencia.isEmpty()){
   
-                                 Usuario usuario = new Usuario(modalUsuario.jtUser.getText(), clave, modalUsuario.cbRol.getSelectedItem().toString(), 1);
+                                 Usuario usuario = new Usuario(modalUsuario.jtUser.getText(), clave, modalUsuario.cbRol.getSelectedItem().toString(), 1, dui);
                                  
                                 if(usuarioDao.insert(usuario)){
-                                     //Mensaje Guardado
-                                    DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                                    DesktopNotify.showDesktopMessage("Usuario guardado", "El usuario ha sido alamcenado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                     
+                                    ArrayList<Usuario> usuarios = usuarioDao.selectAllTo("usuario_referencia", usuario.getReferencia());
+                                    Usuario usuarioRecuperado = usuarios.get(0); 
+                                     
+                                    if(usuarioRecuperado.getRol().equals("Empleado") || usuarioRecuperado.getRol().equals("Administrador")){
+                                        empleado.setUsuario(usuarioRecuperado);
+                                        empleadoDao.updateUsuario(empleado);
+                                        
+                                        //Mensaje de guardado
+                                        DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                                        DesktopNotify.showDesktopMessage("Usuario guardado", "El usuario ha sido alamcenado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                    }
+                                    
                                 }
                                 
                                 modalOn = "";
@@ -284,7 +291,6 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                         
                     }else{
                         
-          
                         
                         //Modificar
                         ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
@@ -356,37 +362,26 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     
     public void llenarComboBox(){
         
-//        if(modalOn.equals("modalUsuario")){
-//            modalUsuario.cbEmpleado.removeAllItems();
-//            modalUsuario.cbEmpleado.addItem("Seleccione");
-//            String dato = "";
-//            
-//            if(modalUsuario.cbRol.getSelectedItem().toString().equals("Gerente") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
-//                
-//                ArrayList<Empleado> empleados = empleadoDao.selectAll();
-//                
-//                for(Empleado x : empleados){
-//                    modalUsuario.cbEmpleado.addItem(x.getNombre() + " / " + x.getDui());
-//                    if(x.getDui().equals(usuarioSeleccionado.getReferencia())){
-//                        dato = x.getNombre() + " / " + x.getDui();
-//                    }
-//                }
-//                
-//                vistaUsuario.cbEmpleados.setSelectedItem(dato);
-//                
-//            }else if(vistaUsuario.cbRol.getSelectedItem().toString().equals("Profesor")){
-//                ArrayList<Profesor> profesores = daoProfesor.selectAll();
-//                
-//                for(Profesor x : profesores){
-//                    vistaUsuario.cbEmpleados.addItem(x.getNombre() + " / " + x.getDui());
-//                    if(x.getDui().equals(usuarioSeleccionado.getReferencia())){
-//                        dato = x.getNombre() + " / " + x.getDui();
-//                    }
-//                    
-//                    vistaUsuario.cbEmpleados.setSelectedItem(dato);
-//                }
-//            }
-//        }
+        if(modalOn.equals("modalUsuario")){
+            modalUsuario.cbEmpleado.removeAllItems();
+            modalUsuario.cbEmpleado.addItem("Seleccione");
+            String dato = "";
+            
+            if(modalUsuario.cbRol.getSelectedItem().toString().equals("Administrador") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
+                
+                ArrayList<Empleado> empleados = empleadoDao.selectAll();
+                
+                for(Empleado x : empleados){
+                    modalUsuario.cbEmpleado.addItem(x.getNombre() + " / " + x.getDui());
+                    if(x.getDui().equals(usuarioSelected.getReferencia())){
+                        dato = x.getNombre() + " / " + x.getDui();
+                    }
+                }
+                
+                modalUsuario.cbEmpleado.setSelectedItem(dato);
+                
+            }
+        }
        
     }
 
@@ -432,13 +427,15 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             modalUsuario.cbEmpleado.removeAllItems();
             modalUsuario.cbEmpleado.addItem("Asignar empleado");
             
-            if(modalUsuario.cbRol.getSelectedItem().toString().equals("Gerente") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
+            if(modalUsuario.cbRol.getSelectedItem().toString().equals("Administrador") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
                 
                 ArrayList<Empleado> empleados = empleadoDao.selectAll();
 
                 for(Empleado x : empleados){
                     modalUsuario.cbEmpleado.addItem(x.getNombre() + " / " + x.getDui());
                 }
+            }else{
+                modalUsuario.cbEmpleado.setEnabled(false);
             }
         }
     }
