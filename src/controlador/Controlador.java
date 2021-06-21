@@ -28,6 +28,7 @@ import utilidades.ImgTabla;
 import vistas.main.Login;
 import vistas.main.Menu;
 import vistas.modulos.Dashboard;
+import vistas.modulos.ModalEmpleado;
 import vistas.modulos.ModalUsuario;
 import vistas.modulos.VistaUsuario;
 import vistas.modulos.VistaEmpleado;
@@ -152,61 +153,61 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
           /* CONTROL DE EMPLEADOS */
         if(modal.equals("nuevoEmpleado") && principalOn.equals("Empleados")){
             empleadoSelected = null;
-            modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
-            modalUsuario.setControlador(this);
+            //modalEmpleado = new ModalEmpleado(new JFrame(), true, vistaEmpleado);
+            //modalEmpleado.setControlador(this);
             modalOn = "modalUsuario";
-            modalUsuario.iniciar();
-        }else if(modal.equals("editarUsuario") && principalOn.equals("Usuarios")){
-            modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
-            modalUsuario.setControlador(this);
+           // modalEmpleado.iniciar();
+        }else if(modal.equals("editarEmpleado") && principalOn.equals("Empleados")){
+          //  modalEmpleado = new ModalEmpleado(new JFrame(), true, vistaEmpleado);
+          //  modalEmpleado.setControlador(this);
             modalOn = "modalUsuario";
             
-            modalUsuario.form.remove(modalUsuario.jtPass);
-            modalUsuario.form.remove(modalUsuario.jtPassRepet);
-            modalUsuario.form.remove(modalUsuario.iconPass);
+           // modalEmpleado.form.remove(modalEmpleado.jtPass);
+           // modalEmpleado.form.remove(modalEmpleado.jtPassRepet);
+           // modalEmpleado.form.remove(modalEmpleado.iconPass);
             
-            modalUsuario.header.setText("Editar Usuario");
-            modalUsuario.cbRol.setSelectedItem(usuarioSelected.getRol());
+           // modalEmpleado.header.setText("Editar Empleado");
+            //modalEmpleado.cbRol.setSelectedItem(empleadoSelected.getRol());
             
-            modalUsuario.cbEmpleado.addItem("Adonay / 01234567-8");
-            modalUsuario.cbEmpleado.setSelectedItem("Adonay / 01234567-8");
+            //modalEmpleado.cbEmpleado.addItem("Adonay / 01234567-8");
+            //modalEmpleado.cbEmpleado.setSelectedItem("Adonay / 01234567-8");
                         
-            modalUsuario.cbEmpleado.setEnabled(false);
-            modalUsuario.cbRol.setEnabled(false);
-            modalUsuario.jtUser.setText(usuarioSelected.getNickname());
+            //modalUsuario.cbEmpleado.setEnabled(false);
+            //modalUsuario.cbRol.setEnabled(false);
+            //modalUsuario.jtUser.setText(usuarioSelected.getNickname()); 
             
-            modalUsuario.setSize(482, 346); //Width - Height
+         //   modalEmpleado.setSize(482, 346); //Width - Height
             //llenarComboBox();
-            modalUsuario.iniciar();
-        }else if(modal.equals("eliminarUsuario") && principalOn.equals("Usuarios")){
-            if(usuarioSelected != null){
-                usuarioSelected.setEstado(0);
-                if(usuarioDao.update(usuarioSelected)){
-                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                    DesktopNotify.showDesktopMessage("Usuario eliminado", "El usuario ha sido eliminado exitosamente.", DesktopNotify.INFORMATION, 8000);
-                    mostrarDatos(vistaUsuario.tablaUsuarios);
+           // modalEmpleado.iniciar();
+        }else if(modal.equals("eliminarEmpleado") && principalOn.equals("Empleados")){
+            if(empleadoSelected != null){
+                empleadoSelected.setEstado(0);
+                if(empleadoDao.update(empleadoSelected)){
+                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                    DesktopNotify.showDesktopMessage("Empleado eliminado", "El Empleado ha sido eliminado exitosamente.", DesktopNotify.INFORMATION, 8000);
+                    mostrarDatos(vistaEmpleado.tablaEmpleados);
                 }
-                
-                 usuarioSelected = null;
+                 
+                empleadoSelected = null;
                 
             }
-        }else if(modal.equals("changePassUsuario") && principalOn.equals("Usuarios")){
-            modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
-            modalUsuario.setControlador(this);
-            modalOn = "modalUsuario";
+        }else if(modal.equals("changePassEmpleado") && principalOn.equals("Empleados")){
+         //   modalEmpleado = new ModalEmpleado(new JFrame(), true, vistaEmpleado);
+           // modalEmpleado.setControlador(this);
+           // modalOn = "modalEmpleado";
             
-            modalUsuario.form.remove(modalUsuario.cbEmpleado);
-            modalUsuario.form.remove(modalUsuario.iconEmpleado);
-            modalUsuario.form.remove(modalUsuario.cbRol);
-            modalUsuario.form.remove(modalUsuario.iconRol);
+            //modalEmpleado.form.remove(modalEmpleado.cbEmpleado);
+            //modalEmpleado.form.remove(modalEmpleado.iconEmpleado);
+            //modalEmpleado.form.remove(modalEmpleado.cbRol);
+          //modalEmpleado.form.remove(modalEmpleado.iconRol);
             
-            modalUsuario.header.setText("Cambiar contraseña");
+         // modalEmpleado.header.setText("Cambiar contraseña");
             
-            modalUsuario.jtUser.setEnabled(false);
-            modalUsuario.jtUser.setText(usuarioSelected.getNickname());
+          // modalEmpleado.jtUser.setEnabled(false);
+     //modalEmpleado.jtUser.setText(Selected.getNickname());
             
-            modalUsuario.setSize(482, 285); //Width - Height
-            modalUsuario.iniciar();
+           // modalEmpleado.setSize(482, 285); //Width - Height
+            //modalEmpleado.iniciar();
         }
     }
     
@@ -241,6 +242,42 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 
                 if(x.getEstado() > 0){
                     modelo.addRow(new Object[]{i, x.getNickname(), x.getClave(), x.getRol(), lbImg_edit, lbImg_delete, lbImg_change});
+                    i++;
+                }
+               
+            }
+            
+            if(modelo.getRowCount() < 1){
+                modelo.addRow(new Object[]{"", "", "Ningún resultado encontrado"});
+            }
+            
+            tabla.setModel(modelo);
+        }
+          /* CONTROL DE Empleados */
+        if(principalOn.equals("Empleados")){
+            tabla.setDefaultRenderer(Object.class, new ImgTabla()); //Renderizar para poner las img
+            
+            tabla.getColumnModel().getColumn(0).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
+            tabla.getColumnModel().getColumn(1).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(2).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(3).setCellRenderer(diseño);
+            
+            ArrayList<Empleado> empleados = empleadoDao.selectAll();
+            int i = 1;
+            
+            for(Empleado x : empleados){
+
+                ImageIcon img_edit = new ImageIcon(getClass().getResource("/img/editar.png"));
+                JLabel lbImg_edit = new JLabel(new ImageIcon(img_edit.getImage()));
+
+                ImageIcon img_delete = new ImageIcon(getClass().getResource("/img/delete.png"));
+                JLabel lbImg_delete = new JLabel(new ImageIcon(img_delete.getImage()));
+
+                ImageIcon img_change = new ImageIcon(getClass().getResource("/img/key_22px.png"));
+                JLabel lbImg_change = new JLabel(new ImageIcon(img_change.getImage()));
+                
+                if(x.getEstado() > 0){
+                    modelo.addRow(new Object[]{i, x.getCargo(), x.getSalario(), x.getGenero(), x.getAfp(), x.getEmail(), x.getEstado(), x.getIsss(), x.getRenta(), x.getResponsable(), x.getSucursal(),x.getUsuario() ,lbImg_edit, lbImg_delete, lbImg_change});
                     i++;
                 }
                
@@ -490,6 +527,15 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 mostrarDatos(vistaUsuario.tablaUsuarios);
             }else{
                 mostrarBusqueda(lista, vistaUsuario.tablaUsuarios);
+            }
+        }
+          /* CONTROL DE EMPLEADOS */
+        if(principalOn.equals("Empleados")){
+            ArrayList<Empleado> lista = empleadoDao.buscar(vistaEmpleado.tfBusqueda.getText() + e.getKeyChar());
+            if(lista.isEmpty()){
+                mostrarDatos(vistaEmpleado.tablaEmpleados);
+            }else{
+                mostrarBusqueda(lista, vistaEmpleado.tablaEmpleados);
             }
         }
     }

@@ -4,7 +4,7 @@ public class Empleado extends Persona{
     private String cargo;
     private String genero;
     private int edad;
-    private String email;
+    private String gmail;
     private double salario;
     private double afp;
     private double isss;
@@ -22,12 +22,12 @@ public class Empleado extends Persona{
         super(idPersona);
     }
 
-    public Empleado(String cargo, String genero, int edad, String email, double salario, double afp, double isss, double renta, int estado, int idPersona, String dui, String nombre, String apellido, String direccion, String telefono) {
+    public Empleado(String cargo, String genero, int edad, String gmail, double salario, double afp, double isss, double renta, int estado, int idPersona, String dui, String nombre, String apellido, String direccion, String telefono) {
         super(idPersona, dui, nombre, apellido, direccion, telefono);
         this.cargo = cargo;
         this.genero = genero;
         this.edad = edad;
-        this.email = email;
+        this.gmail = gmail;
         this.salario = salario;
         this.afp = afp;
         this.isss = isss;
@@ -35,12 +35,12 @@ public class Empleado extends Persona{
         this.estado = estado;
     }
 
-    public Empleado(String cargo, String genero, int edad, String email, double salario, double afp, double isss, double renta, int estado, String dui, String nombre, String apellido, String direccion, String telefono) {
+    public Empleado(String cargo, String genero, int edad, String gmail, double salario, double afp, double isss, double renta, int estado, String dui, String nombre, String apellido, String direccion, String telefono) {
         super(dui, nombre, apellido, direccion, telefono);
         this.cargo = cargo;
         this.genero = genero;
         this.edad = edad;
-        this.email = email;
+        this.gmail = gmail;
         this.salario = salario;
         this.afp = afp;
         this.isss = isss;
@@ -73,11 +73,11 @@ public class Empleado extends Persona{
     }
 
     public String getEmail() {
-        return email;
+        return gmail;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.gmail = gmail;
     }
 
     public double getSalario() {
