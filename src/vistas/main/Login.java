@@ -213,7 +213,7 @@ public class Login extends javax.swing.JFrame {
     private void jtUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtUserKeyTyped
         char val = evt.getKeyChar();
         
-        if((val<'a' || val>'z') && (val<'A' || val>'Z') && (val < '0' || val > '9') && (val !='ñ')&& (val !='Ñ')&&(val<'á'|| val>'ú')&&(val<'Á'||val>'Ú')) evt.consume();
+        if((val<'a' || val>'z') && (val<'A' || val>'Z') && (val < '0' || val > '9')) evt.consume();
     }//GEN-LAST:event_jtUserKeyTyped
 
     /**

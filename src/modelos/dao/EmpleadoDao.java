@@ -102,13 +102,13 @@ public class EmpleadoDao {
             ps.setString(1, obj.getDui());
             ps.setString(2, obj.getNombre());
             ps.setString(3, obj.getApellido());
-            ps.setString(5, obj.getGenero());
-            ps.setInt(6, obj.getEdad());
-            ps.setString(7, obj.getEmail());
-            ps.setString(8, obj.getTelefono());
-            ps.setString(9, obj.getDireccion());
-            ps.setDouble(10, obj.getSalario());
-            ps.setInt(11, obj.getEstado());
+            ps.setString(4, obj.getGenero());
+            ps.setInt(5, obj.getEdad());
+            ps.setString(6, obj.getEmail());
+            ps.setString(7, obj.getTelefono());
+            ps.setString(8, obj.getDireccion());
+            ps.setDouble(9, obj.getSalario());
+            ps.setInt(10, obj.getEstado());
             
             ps.execute();
             
@@ -134,14 +134,14 @@ public class EmpleadoDao {
             ps.setString(1, obj.getDui());
             ps.setString(2, obj.getNombre());
             ps.setString(3, obj.getApellido());
-            ps.setString(5, obj.getGenero());
-            ps.setInt(6, obj.getEdad());
-            ps.setString(7, obj.getEmail());
-            ps.setString(8, obj.getTelefono());
-            ps.setString(9, obj.getDireccion());
-            ps.setDouble(10, obj.getSalario());
-            ps.setInt(11, obj.getEstado());
-            ps.setInt(12, obj.getUsuario().getIdUsuario());
+            ps.setString(4, obj.getGenero());
+            ps.setInt(5, obj.getEdad());
+            ps.setString(6, obj.getEmail());
+            ps.setString(7, obj.getTelefono());
+            ps.setString(8, obj.getDireccion());
+            ps.setDouble(9, obj.getSalario());
+            ps.setInt(10, obj.getEstado());
+            ps.setInt(11, obj.getUsuario().getIdUsuario());
             
             ps.execute();
             

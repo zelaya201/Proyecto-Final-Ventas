@@ -279,7 +279,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                         
                         menu.iniciar();
                         DesktopNotify.setDefaultTheme(NotifyTheme.LightBlue);
-                        DesktopNotify.showDesktopMessage("¡Bienvenido " + usuario.getNickname() + "!", "Espero disfrutes del sistema, ten un buen día.", DesktopNotify.INFORMATION, 10000);
+                        DesktopNotify.showDesktopMessage("¡Bienvenido/a " + usuario.getNickname() + "!", "Espero disfrutes del sistema, ten un buen día.", DesktopNotify.INFORMATION, 10000);
                         principalOn = "Menu";
                         login.dispose();
                     }else{
@@ -320,13 +320,14 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                                 ArrayList<Empleado> empleados = empleadoDao.buscar(v[1]);
                                 empleado = empleados.get(0);
                                 dui = empleados.get(0).getDui();
+                                
                             }
 
                             ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
                             ArrayList<Usuario> existeReferencia = usuarioDao.selectAllTo("usuario_referencia", dui);
 
                             if(existeUser.isEmpty() && existeReferencia.isEmpty()){
-  
+
                                  Usuario usuario = new Usuario(modalUsuario.jtUser.getText(), clave, modalUsuario.cbRol.getSelectedItem().toString(), 1, dui);
                                  
                                 if(usuarioDao.insert(usuario)){
@@ -349,8 +350,15 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                                 modalUsuario.dispose();
                                 
                             }else{
-                                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                                DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
+                                
+                                if(!existeUser.isEmpty()){
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                    DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
+                                }else{
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                    DesktopNotify.showDesktopMessage("Empleado ya asignado", "El empleado ya tiene asignada una cuenta de usuario.", DesktopNotify.WARNING, 10000);
+                                }
+                                                                
                             }
                         }else{
                             //Contraseñas diferentes
@@ -360,33 +368,40 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                         
                     }else{
                         
-                        
-                        //Modificar
-                        ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
-                        
-                        if(existeUser.isEmpty()){
-                            
-                            usuarioSelected.setNickname(modalUsuario.jtUser.getText());
-                            
-                            if(usuarioDao.update(usuarioSelected)){ //Guardado
-                                //Mensaje de modificado
-                                DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                                DesktopNotify.showDesktopMessage("Usuario actualizado", "El usuario ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
-                                usuarioSelected = null;
-                                modalUsuario.dispose();
-                            }else{ //Ocurrio un error
-                                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                                DesktopNotify.showDesktopMessage("Error", "Usuario no actualizado", DesktopNotify.FAIL, 8000);
+                        if(usuarioSelected != null){
+                            //Modificar
+                            ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
+
+                            if(existeUser.isEmpty()){
+
+                                usuarioSelected.setNickname(modalUsuario.jtUser.getText());
+
+                                if(usuarioDao.update(usuarioSelected)){ //Guardado
+                                    //Mensaje de modificado
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                                    DesktopNotify.showDesktopMessage("Usuario actualizado", "El usuario ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                    usuarioSelected = null;
+                                    modalUsuario.dispose();
+                                }else{ //Ocurrio un error
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                    DesktopNotify.showDesktopMessage("Error", "Usuario no actualizado", DesktopNotify.FAIL, 8000);
+                                }
+                            }else{
+
+                                if(existeUser.get(0).getNickname().equals(usuarioSelected.getNickname())){ //Dejo mismo nombre de usuario
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                                    DesktopNotify.showDesktopMessage("Usuario actualizado", "El usuario ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                    usuarioSelected = null;
+                                    modalUsuario.dispose();
+                                }else{ //Usuario ya existe
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                    DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
+                                }
                             }
                         }else{
-                            
-                            if(existeUser.get(0).getNickname().equals(usuarioSelected.getNickname())){ //Dejo mismo nombre de usuario
-                                usuarioSelected = null;
-                                modalUsuario.dispose();
-                            }else{ //Usuario ya existe
-                                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                                DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
-                            }
+                            //Campos incompletos
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                            DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
                         }
     
                     }
@@ -511,6 +526,11 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 for(Empleado x : empleados){
                     modalUsuario.cbEmpleado.addItem(x.getNombre() + " / " + x.getDui());
                 }
+                
+//                if(modalUsuario.cbEmpleado.getItemCount() < 0){
+//                    modalUsuario.cbEmpleado.addItem("No se encontro empleado");
+//                }
+                
             }else{
                 modalUsuario.cbEmpleado.setEnabled(false);
             }
