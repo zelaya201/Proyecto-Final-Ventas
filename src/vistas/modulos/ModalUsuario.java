@@ -155,6 +155,11 @@ public class ModalUsuario extends javax.swing.JDialog {
                 jtUserActionPerformed(evt);
             }
         });
+        jtUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtUserKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -271,6 +276,12 @@ public class ModalUsuario extends javax.swing.JDialog {
     private void jtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtUserActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtUserActionPerformed
+
+    private void jtUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtUserKeyTyped
+        char val = evt.getKeyChar();
+        
+        if((val<'a' || val>'z') && (val<'A' || val>'Z') && (val < '0' || val > '9') && (val !='ñ')&& (val !='Ñ')&&(val<'á'|| val>'ú')&&(val<'Á'||val>'Ú')) evt.consume();
+    }//GEN-LAST:event_jtUserKeyTyped
 
     public void comboBoxInit(){
         this.cbEmpleado.setUI(new MyComboBoxUI());

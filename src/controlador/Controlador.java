@@ -49,7 +49,8 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     /* EMPLEADOS */
     Empleado empleado = new Empleado();
     Empleado empleadoSelected = null;
-    EmpleadoDao empleadoDao = new EmpleadoDao();    
+    EmpleadoDao empleadoDao = new EmpleadoDao(); 
+    
 
     public Controlador(Menu menu) {
         this.menu = menu;
@@ -58,11 +59,16 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
 
     public Controlador(Login login) {
         this.login = login;
+        mostrarModulos("Login");
     }
     
     private void mostrarModulos(String vista){
         /* - - - - MOSTRAR MODULOS - - - - */
-        if(vista.equals("Menu")){
+        if(vista.equals("Login")){
+            login.setControlador(this);
+            login.iniciar();
+            principalOn = "Login";
+        }else if(vista.equals("Menu")){
             menu.setControlador(this);
             menu.iniciar();
             principalOn = "Menu";
@@ -229,6 +235,69 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
           
     }
     
+    public void verificarCredenciales(){
+        
+        if(principalOn.equals("Login")){
+            
+            if(!login.jtUser.getText().isEmpty() && !login.jtPassword.getText().isEmpty()){
+                
+                ArrayList<Usuario> usuarios = usuarioDao.buscar(login.jtUser.getText());
+                
+                if(!usuarios.isEmpty() && usuarios.get(0).getEstado() == 1){
+                    String clave = Encriptacion.getStringMessageDigest(login.jtPassword.getText(), Encriptacion.SHA256);
+                    
+                    if(clave.equals(usuarios.get(0).getClave())){
+                        this.usuario = usuarios.get(0);
+                        this.menu = new Menu();
+                        this.menu.setControlador(this);
+                        
+                        if(usuario.getRol().equals("Administrador")){
+  
+                            ArrayList<Empleado> empleados = empleadoDao.selectAllTo("dui_empleado", usuario.getReferencia());
+                            
+                            String n[] = empleados.get(0).getNombre().split(" ");
+                            String a[] = empleados.get(0).getApellido().split(" ");
+                            
+                            menu.lbUserName.setText(n[0] + " " + a[0]);
+                            new CambiaPanel(menu.body, new Dashboard());
+                            
+                        }else{
+                            ArrayList<Empleado> empleados = empleadoDao.selectAllTo("dui_empleado", usuario.getReferencia());
+                            
+                            String n[] = empleados.get(0).getNombre().split(" ");
+                            String a[] = empleados.get(0).getApellido().split(" ");
+                            
+                            menu.lbUserName.setText(n[0] + " " + a[0]); //Nombre de Usuario
+                            
+                            //Eliminar Modulos
+                            menu.modulos.remove(menu.btnDashboard);
+                            menu.modulos.remove(menu.btnUsuarios);
+                            menu.modulos.remove(menu.btnEmpleados);
+                            menu.modulos.remove(menu.btnProveedores);
+
+                        }
+                        
+                        menu.iniciar();
+                        DesktopNotify.setDefaultTheme(NotifyTheme.LightBlue);
+                        DesktopNotify.showDesktopMessage("¡Bienvenido " + usuario.getNickname() + "!", "Espero disfrutes del sistema, ten un buen día.", DesktopNotify.INFORMATION, 10000);
+                        principalOn = "Menu";
+                        login.dispose();
+                    }else{
+                        DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                        DesktopNotify.showDesktopMessage("Contraseña incorrecta", "Asegúrese que la contraseña sea correcta.", DesktopNotify.WARNING, 8000);
+                    }
+                }else{
+                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                    DesktopNotify.showDesktopMessage("Usuario incorrecto", "Asegúrese de que el usuario digitado sea correcto.", DesktopNotify.WARNING, 8000);
+                }
+            }else{
+                //Campos vacios
+                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
+            }
+        }
+    }
+    
     public void eventosBotones(String btn){
         
         /* CONTROL DE USUARIOS */
@@ -387,20 +456,28 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
 
     @Override
     public void mousePressed(MouseEvent e) {
+        
         try{
-                /* - - - BOTONES DEL MENU Y MODULOS - - - -*/
-            if(e.getSource().equals(menu.btnDashboard)){
-                mostrarModulos("Menu");
-            }else if(e.getSource().equals(menu.btnUsuarios)){
-                mostrarModulos("Usuarios");
-            }else if(e.getSource().equals(vistaUsuario.btnNuevo)){
-                mostrarModals("nuevoUsuario");
-            }else if(e.getSource().equals(modalUsuario.btnGuardar)){
-                eventosBotones("Agregar");
+            if(!principalOn.equals("Login")){
+                    /* - - - BOTONES DEL MENU Y MODULOS - - - -*/
+                if(e.getSource().equals(menu.btnDashboard)){
+                    mostrarModulos("Menu");
+                }else if(e.getSource().equals(menu.btnUsuarios)){
+                    mostrarModulos("Usuarios");
+                }else if(e.getSource().equals(vistaUsuario.btnNuevo)){
+                    mostrarModals("nuevoUsuario");
+                }else if(e.getSource().equals(modalUsuario.btnGuardar)){
+                    eventosBotones("Agregar");
+                }
+            }else{
+                /* LOGIN */
+                if(e.getSource().equals(login.btnEntrar)){
+                    verificarCredenciales(); 
+                }
             }
         }catch(Exception ex){
             
-        }
+        } 
         
     }
     

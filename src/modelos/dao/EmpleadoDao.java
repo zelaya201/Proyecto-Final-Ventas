@@ -38,17 +38,17 @@ public class EmpleadoDao {
     } 
     
     public boolean insert(Empleado obj){
-        String sql = "insert into empleado(dui_empleado,nom_empleado,ape_empleado,cargo_empleado,genero_empleado,edad_empleado,email_empleado,tel_empleado,dir_empleado,salario_empleado,afp_empleado,isss_empleado,renta_empleado,estado_empleado,id_empleado1,id_sucursal1)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into empleado(dui_empleado,nom_empleado,ape_empleado,genero_empleado,edad_empleado,email_empleado,tel_empleado,dir_empleado,salario_empleado,afp_empleado,isss_empleado,renta_empleado,estado_empleado,id_empleado1,id_sucursal1)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         return alterarRegistro(sql, obj);
     }
     
     public void update(Empleado obj) {
-        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, cargo_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?, estado_empleado =? where id_empleado=" + obj.getIdPersona();
+        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?, estado_empleado =? where id_empleado=" + obj.getIdPersona();
         alterarRegistro(sql, obj);
     }
     
     public void updateUsuario(Empleado obj) {
-        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, cargo_empleado = ?, genero_empleado = ?, edad_empleado = ?, email_empleado = ?, tel_empleado = ?, dir_empleado = ?, salario_empleado =?, estado_empleado = ?, id_usuario1 = ? where id_empleado=" + obj.getIdPersona();
+        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, genero_empleado = ?, edad_empleado = ?, email_empleado = ?, tel_empleado = ?, dir_empleado = ?, salario_empleado =?, estado_empleado = ?, id_usuario1 = ? where id_empleado=" + obj.getIdPersona();
         alterarRegistroUsuario(sql, obj);
     }
 
@@ -66,7 +66,6 @@ public class EmpleadoDao {
                 obj.setDui(rs.getString("dui_empleado"));
                 obj.setNombre(rs.getString("nom_empleado"));
                 obj.setApellido(rs.getString("ape_empleado"));
-                obj.setCargo(rs.getString("cargo_empleado"));
                 obj.setGenero(rs.getString("genero_empleado"));
                 obj.setEdad(rs.getInt("edad_empleado"));
                 obj.setEmail(rs.getString("email_empleado"));
@@ -82,7 +81,7 @@ public class EmpleadoDao {
             }
             
         }catch(Exception e) {
-            System.out.println("Error consulta");
+            System.out.println("Error consulta Empleado");
         }finally{
             try {
                 ps.close();
@@ -103,7 +102,6 @@ public class EmpleadoDao {
             ps.setString(1, obj.getDui());
             ps.setString(2, obj.getNombre());
             ps.setString(3, obj.getApellido());
-            ps.setString(4, obj.getCargo());
             ps.setString(5, obj.getGenero());
             ps.setInt(6, obj.getEdad());
             ps.setString(7, obj.getEmail());
@@ -136,7 +134,6 @@ public class EmpleadoDao {
             ps.setString(1, obj.getDui());
             ps.setString(2, obj.getNombre());
             ps.setString(3, obj.getApellido());
-            ps.setString(4, obj.getCargo());
             ps.setString(5, obj.getGenero());
             ps.setInt(6, obj.getEdad());
             ps.setString(7, obj.getEmail());

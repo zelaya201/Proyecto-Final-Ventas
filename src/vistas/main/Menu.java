@@ -39,18 +39,16 @@ public class Menu extends javax.swing.JFrame {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         aside = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        modulos = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         btnDashboard = new javax.swing.JLabel();
         btnProductos = new javax.swing.JLabel();
         btnProveedores = new javax.swing.JLabel();
         btnFacturas = new javax.swing.JLabel();
-        btnSucursales = new javax.swing.JLabel();
         btnEmpleados = new javax.swing.JLabel();
-        btnPlanilla = new javax.swing.JLabel();
         btnUsuarios = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lbUserName = new javax.swing.JLabel();
         header = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -63,13 +61,13 @@ public class Menu extends javax.swing.JFrame {
         flowLayout1.setAlignOnBaseline(true);
         aside.setLayout(flowLayout1);
 
-        jPanel2.setOpaque(false);
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        modulos.setOpaque(false);
+        modulos.setLayout(new java.awt.GridBagLayout());
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/more_info_35px.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        jPanel2.add(jLabel9, gridBagConstraints);
+        modulos.add(jLabel9, gridBagConstraints);
 
         btnDashboard.setBackground(new java.awt.Color(42, 53, 66));
         btnDashboard.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -100,7 +98,7 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 49;
         gridBagConstraints.ipady = 22;
-        jPanel2.add(btnDashboard, gridBagConstraints);
+        modulos.add(btnDashboard, gridBagConstraints);
 
         btnProductos.setBackground(new java.awt.Color(42, 53, 66));
         btnProductos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -124,7 +122,7 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 109;
         gridBagConstraints.ipady = 22;
-        jPanel2.add(btnProductos, gridBagConstraints);
+        modulos.add(btnProductos, gridBagConstraints);
 
         btnProveedores.setBackground(new java.awt.Color(42, 53, 66));
         btnProveedores.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -141,6 +139,9 @@ public class Menu extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnProveedoresMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnProveedoresMouseExited(evt);
+            }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -149,7 +150,7 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 49;
         gridBagConstraints.ipady = 22;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(btnProveedores, gridBagConstraints);
+        modulos.add(btnProveedores, gridBagConstraints);
 
         btnFacturas.setBackground(new java.awt.Color(42, 53, 66));
         btnFacturas.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -174,32 +175,7 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 49;
         gridBagConstraints.ipady = 22;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(btnFacturas, gridBagConstraints);
-
-        btnSucursales.setBackground(new java.awt.Color(42, 53, 66));
-        btnSucursales.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnSucursales.setForeground(new java.awt.Color(255, 255, 255));
-        btnSucursales.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/business_building_20px.png"))); // NOI18N
-        btnSucursales.setText("Sucursales");
-        btnSucursales.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        btnSucursales.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnSucursales.setOpaque(true);
-        btnSucursales.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnSucursalesMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnSucursalesMouseExited(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 49;
-        gridBagConstraints.ipady = 22;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(btnSucursales, gridBagConstraints);
+        modulos.add(btnFacturas, gridBagConstraints);
 
         btnEmpleados.setBackground(new java.awt.Color(42, 53, 66));
         btnEmpleados.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -219,37 +195,12 @@ public class Menu extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 49;
         gridBagConstraints.ipady = 22;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(btnEmpleados, gridBagConstraints);
-
-        btnPlanilla.setBackground(new java.awt.Color(42, 53, 66));
-        btnPlanilla.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnPlanilla.setForeground(new java.awt.Color(255, 255, 255));
-        btnPlanilla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/page_20px.png"))); // NOI18N
-        btnPlanilla.setText("Planilla de Empleados");
-        btnPlanilla.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        btnPlanilla.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnPlanilla.setOpaque(true);
-        btnPlanilla.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnPlanillaMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnPlanillaMouseExited(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 49;
-        gridBagConstraints.ipady = 22;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(btnPlanilla, gridBagConstraints);
+        modulos.add(btnEmpleados, gridBagConstraints);
 
         btnUsuarios.setBackground(new java.awt.Color(42, 53, 66));
         btnUsuarios.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -275,12 +226,12 @@ public class Menu extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 49;
         gridBagConstraints.ipady = 22;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(btnUsuarios, gridBagConstraints);
+        modulos.add(btnUsuarios, gridBagConstraints);
         btnUsuarios.getAccessibleContext().setAccessibleName("VistaUsuarios");
 
         jLabel13.setBackground(new java.awt.Color(37, 46, 57));
@@ -296,17 +247,17 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 202;
         gridBagConstraints.ipady = 23;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 6, 0);
-        jPanel2.add(jLabel13, gridBagConstraints);
+        modulos.add(jLabel13, gridBagConstraints);
 
-        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel1.setText("JOSUE AGUILAR");
+        lbUserName.setForeground(new java.awt.Color(204, 204, 204));
+        lbUserName.setText("Nombre Usuario");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-        jPanel2.add(jLabel1, gridBagConstraints);
+        modulos.add(lbUserName, gridBagConstraints);
 
-        aside.add(jPanel2);
+        aside.add(modulos);
 
         getContentPane().add(aside, java.awt.BorderLayout.LINE_START);
 
@@ -316,7 +267,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Sistema de Ventas y Planillas | Panel de Control");
+        jLabel10.setText("Sistema de Ventas | Panel de Control");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -361,11 +312,11 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProductosMouseExited
 
     private void btnProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedoresMouseClicked
-        efectoEntered(btnProveedores);
+        
     }//GEN-LAST:event_btnProveedoresMouseClicked
 
     private void btnProveedoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedoresMouseEntered
-        efectoExited(btnProveedores, 3);
+        efectoEntered(btnProveedores);
     }//GEN-LAST:event_btnProveedoresMouseEntered
 
     private void btnFacturasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacturasMouseEntered
@@ -376,36 +327,20 @@ public class Menu extends javax.swing.JFrame {
         efectoExited(btnFacturas, 4);
     }//GEN-LAST:event_btnFacturasMouseExited
 
-    private void btnSucursalesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSucursalesMouseEntered
-        efectoEntered(btnSucursales);
-    }//GEN-LAST:event_btnSucursalesMouseEntered
-
-    private void btnSucursalesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSucursalesMouseExited
-        efectoExited(btnSucursales, 5);
-    }//GEN-LAST:event_btnSucursalesMouseExited
-
     private void btnEmpleadosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEmpleadosMouseEntered
         efectoEntered(btnEmpleados);
     }//GEN-LAST:event_btnEmpleadosMouseEntered
 
     private void btnEmpleadosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEmpleadosMouseExited
-        efectoExited(btnEmpleados, 6);
+        efectoExited(btnEmpleados, 5);
     }//GEN-LAST:event_btnEmpleadosMouseExited
-
-    private void btnPlanillaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlanillaMouseEntered
-        efectoEntered(btnPlanilla);
-    }//GEN-LAST:event_btnPlanillaMouseEntered
-
-    private void btnPlanillaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlanillaMouseExited
-        efectoExited(btnPlanilla, 7);
-    }//GEN-LAST:event_btnPlanillaMouseExited
 
     private void btnUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMouseEntered
         efectoEntered(btnUsuarios);
     }//GEN-LAST:event_btnUsuariosMouseEntered
 
     private void btnUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMouseExited
-        efectoExited(btnUsuarios, 8);
+        efectoExited(btnUsuarios, 6);
     }//GEN-LAST:event_btnUsuariosMouseExited
 
     private void btnDashboardMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseEntered
@@ -424,9 +359,13 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnUsuariosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMousePressed
         efectoReset(clicked);
-        clicked = 8;
+        clicked = 6;
         efectoPressed(btnUsuarios);
     }//GEN-LAST:event_btnUsuariosMousePressed
+
+    private void btnProveedoresMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedoresMouseExited
+        efectoExited(btnProveedores, 3);
+    }//GEN-LAST:event_btnProveedoresMouseExited
 
     public void efectoEntered(JLabel label){
          label.setBackground(new java.awt.Color(37, 46, 57));
@@ -447,25 +386,19 @@ public class Menu extends javax.swing.JFrame {
         if(n == 1){
             btnDashboard.setBackground(new java.awt.Color(42, 53, 66));
             btnDashboard.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        }else if(n == 2 ){
+        }else if(n == 2){
             btnProductos.setBackground(new java.awt.Color(42, 53, 66));
             btnProductos.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
         }else if(n == 3 ){
             btnProveedores.setBackground(new java.awt.Color(42, 53, 66));
             btnProveedores.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        }else if(n == 4 ){
+        }else if(n == 4){
             btnFacturas.setBackground(new java.awt.Color(42, 53, 66));
             btnFacturas.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        }else if(n == 5 ){
-            btnSucursales.setBackground(new java.awt.Color(42, 53, 66));
-            btnSucursales.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        }else if(n == 6 ){
+        }else if(n == 5){
             btnEmpleados.setBackground(new java.awt.Color(42, 53, 66));
             btnEmpleados.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        }else if(n == 7 ){
-            btnPlanilla.setBackground(new java.awt.Color(42, 53, 66));
-            btnPlanilla.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        }else if(n == 8 ){
+        }else if(n == 6){
             btnUsuarios.setBackground(new java.awt.Color(42, 53, 66));
             btnUsuarios.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
         }
@@ -508,23 +441,21 @@ public class Menu extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel aside;
+    public javax.swing.JPanel aside;
     public javax.swing.JPanel body;
     public javax.swing.JLabel btnDashboard;
-    private javax.swing.JLabel btnEmpleados;
-    private javax.swing.JLabel btnFacturas;
-    private javax.swing.JLabel btnPlanilla;
-    private javax.swing.JLabel btnProductos;
-    private javax.swing.JLabel btnProveedores;
-    private javax.swing.JLabel btnSucursales;
+    public javax.swing.JLabel btnEmpleados;
+    public javax.swing.JLabel btnFacturas;
+    public javax.swing.JLabel btnProductos;
+    public javax.swing.JLabel btnProveedores;
     public javax.swing.JLabel btnUsuarios;
     private javax.swing.JPanel header;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;
+    public javax.swing.JLabel lbUserName;
+    public javax.swing.JPanel modulos;
     // End of variables declaration//GEN-END:variables
 }

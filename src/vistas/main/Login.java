@@ -16,7 +16,7 @@ public class Login extends javax.swing.JFrame {
     }
     
     public void setControlador(Controlador control){
-        
+        btnEntrar.addMouseListener(control);
     }
     
     public void iniciar(){
@@ -42,6 +42,7 @@ public class Login extends javax.swing.JFrame {
         iconKey = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,28 +54,31 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setText("Inicio de Sesión");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipadx = 220;
         gridBagConstraints.ipady = 22;
-        gridBagConstraints.insets = new java.awt.Insets(44, 0, 20, 0);
         jPanel1.add(jLabel1, gridBagConstraints);
 
         jtUser.setBackground(new java.awt.Color(255, 255, 255));
         jtUser.setForeground(new java.awt.Color(51, 51, 51));
         jtUser.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 1)));
         jtUser.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtUserFocusLost(evt);
+            }
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jtUserFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jtUserFocusLost(evt);
+        });
+        jtUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtUserKeyTyped(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 182;
         gridBagConstraints.ipady = 25;
@@ -87,17 +91,16 @@ public class Login extends javax.swing.JFrame {
         jtPassword.setForeground(new java.awt.Color(51, 51, 51));
         jtPassword.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 1)));
         jtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jtPasswordFocusLost(evt);
-            }
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jtPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtPasswordFocusLost(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 182;
         gridBagConstraints.ipady = 25;
@@ -105,20 +108,20 @@ public class Login extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 20);
         jPanel1.add(jtPassword, gridBagConstraints);
 
-        btnEntrar.setBackground(new java.awt.Color(0, 153, 204));
+        btnEntrar.setBackground(new java.awt.Color(0, 102, 204));
         btnEntrar.setFont(new java.awt.Font("Microsoft JhengHei", 0, 14)); // NOI18N
         btnEntrar.setForeground(new java.awt.Color(255, 255, 255));
         btnEntrar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnEntrar.setText("Entrar");
+        btnEntrar.setText("Iniciar sesión");
         btnEntrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEntrar.setOpaque(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.ipadx = 120;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 60;
         gridBagConstraints.ipady = 20;
-        gridBagConstraints.insets = new java.awt.Insets(30, 0, 100, 0);
+        gridBagConstraints.insets = new java.awt.Insets(30, 0, 70, 0);
         jPanel1.add(btnEntrar, gridBagConstraints);
 
         iconUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -126,7 +129,7 @@ public class Login extends javax.swing.JFrame {
         iconUser.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.ipadx = 21;
         gridBagConstraints.ipady = 18;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
@@ -138,7 +141,7 @@ public class Login extends javax.swing.JFrame {
         iconKey.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.ipadx = 21;
         gridBagConstraints.ipady = 18;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
@@ -149,18 +152,25 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setText("¿Tienes problemas para inciar?");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
         jPanel1.add(jLabel2, gridBagConstraints);
 
         jLabel5.setForeground(new java.awt.Color(153, 153, 153));
         jLabel5.setText("Contacta a soporte Técnico");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel1.add(jLabel5, gridBagConstraints);
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/male_user_110px.png"))); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        jPanel1.add(jLabel3, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -170,7 +180,7 @@ public class Login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
         );
 
         pack();
@@ -199,6 +209,12 @@ public class Login extends javax.swing.JFrame {
         iconKey.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/key_25px.png")));
         iconKey.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204),1,true));
     }//GEN-LAST:event_jtPasswordFocusLost
+
+    private void jtUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtUserKeyTyped
+        char val = evt.getKeyChar();
+        
+        if((val<'a' || val>'z') && (val<'A' || val>'Z') && (val < '0' || val > '9') && (val !='ñ')&& (val !='Ñ')&&(val<'á'|| val>'ú')&&(val<'Á'||val>'Ú')) evt.consume();
+    }//GEN-LAST:event_jtUserKeyTyped
 
     /**
      * @param args the command line arguments
@@ -237,14 +253,15 @@ public class Login extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnEntrar;
+    public javax.swing.JLabel btnEntrar;
     private javax.swing.JLabel iconKey;
     private javax.swing.JLabel iconUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jtPassword;
-    private javax.swing.JTextField jtUser;
+    public javax.swing.JPasswordField jtPassword;
+    public javax.swing.JTextField jtUser;
     // End of variables declaration//GEN-END:variables
 }
