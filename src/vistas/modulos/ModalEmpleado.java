@@ -8,7 +8,14 @@ package vistas.modulos;
 
 import controlador.Controlador;
 import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.LayoutManager;
 import java.awt.event.ComponentListener;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import utilidades.MyComboBoxUI;
 import utilidades.TextPrompt;
 
@@ -19,12 +26,14 @@ import utilidades.TextPrompt;
 public class ModalEmpleado extends javax.swing.JPanel {
     
  VistaEmpleado vistaEmpleado;
-        
+
+
+ 
     public ModalEmpleado(java.awt.Frame parent, boolean modal, VistaEmpleado vistaEmpleado) {
         //super(parent, modal);
         initComponents();
         comboBoxInit();
-       // setLocationRelativeTo(null);
+      //  setLocationRelativeTo(null);
         this.vistaEmpleado = vistaEmpleado;
         new TextPrompt("Cargo", jtCargo);
         new TextPrompt("estado", jtEstado);
@@ -38,6 +47,11 @@ public class ModalEmpleado extends javax.swing.JPanel {
         
         
 
+    }
+
+    
+     public void iniciar(){
+        this.setVisible(true);
     }
     public ModalEmpleado() {
         initComponents();
@@ -156,6 +170,12 @@ public class ModalEmpleado extends javax.swing.JPanel {
         iconUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         iconUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user_22px.png"))); // NOI18N
         iconUser.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+
+        jtCargo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtCargoActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel5.setText("SALARIO");
@@ -370,6 +390,10 @@ public class ModalEmpleado extends javax.swing.JPanel {
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void jtCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtCargoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtCargoActionPerformed
 
   public void comboBoxInit(){
         this.cbResponsable.setUI(new MyComboBoxUI());

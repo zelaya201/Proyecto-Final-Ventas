@@ -15,7 +15,7 @@ public class Menu extends javax.swing.JFrame {
     
     
    VistaEmpleado vistaEmpleado;
- 
+     
    
    
     public Menu() {
@@ -29,6 +29,8 @@ public class Menu extends javax.swing.JFrame {
         this.btnUsuarios.addMouseListener(control);
         this.btnDashboard.addMouseListener(control);
         this.btnEmpleados.addMouseListener(control);
+         this.btnProductos.addMouseListener(control);
+
     }
     
     public void iniciar(){
@@ -223,6 +225,9 @@ public class Menu extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnEmpleadosMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnEmpleadosMousePressed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -436,6 +441,14 @@ public class Menu extends javax.swing.JFrame {
         efectoPressed(btnUsuarios);
     }//GEN-LAST:event_btnUsuariosMousePressed
 
+    private void btnEmpleadosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEmpleadosMousePressed
+         efectoReset(clicked);
+        clicked = 6;
+        efectoPressed(btnEmpleados);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEmpleadosMousePressed
+
     public void efectoEntered(JLabel label){
          label.setBackground(new java.awt.Color(37, 46, 57));
     }
@@ -519,7 +532,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel aside;
     public javax.swing.JPanel body;
     public javax.swing.JLabel btnDashboard;
-    private javax.swing.JLabel btnEmpleados;
+    public javax.swing.JLabel btnEmpleados;
     private javax.swing.JLabel btnFacturas;
     private javax.swing.JLabel btnPlanilla;
     private javax.swing.JLabel btnProductos;
