@@ -3,14 +3,14 @@ package vistas.main;
 import controlador.Controlador;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import utilidades.CambiaPanel;
-import vistas.modulos.Dashboard;
+import vistas.modulos.MenuDesplegable;
 import vistas.modulos.VistaUsuario;
 
 public class Menu extends javax.swing.JFrame {
 
     VistaUsuario vistaUsuario;
     int clicked = 1;
+    MenuDesplegable obj = new MenuDesplegable();
    
     public Menu() {
         initComponents();
@@ -37,7 +37,6 @@ public class Menu extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
         aside = new javax.swing.JPanel();
         modulos = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -279,6 +278,17 @@ public class Menu extends javax.swing.JFrame {
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/squared_menu_22px.png"))); // NOI18N
         jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel12MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel12MouseExited(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jLabel12MouseReleased(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.ipadx = 21;
         gridBagConstraints.ipady = 14;
@@ -296,7 +306,7 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMouseClicked
-
+        
     }//GEN-LAST:event_btnUsuariosMouseClicked
 
     private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
@@ -366,6 +376,18 @@ public class Menu extends javax.swing.JFrame {
     private void btnProveedoresMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedoresMouseExited
         efectoExited(btnProveedores, 3);
     }//GEN-LAST:event_btnProveedoresMouseExited
+
+    private void jLabel12MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseEntered
+        //obj.setVisible(true);
+    }//GEN-LAST:event_jLabel12MouseEntered
+
+    private void jLabel12MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseExited
+        //obj.dispose();
+    }//GEN-LAST:event_jLabel12MouseExited
+
+    private void jLabel12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseReleased
+        
+    }//GEN-LAST:event_jLabel12MouseReleased
 
     public void efectoEntered(JLabel label){
          label.setBackground(new java.awt.Color(37, 46, 57));
@@ -454,7 +476,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPopupMenu jPopupMenu1;
     public javax.swing.JLabel lbUserName;
     public javax.swing.JPanel modulos;
     // End of variables declaration//GEN-END:variables
