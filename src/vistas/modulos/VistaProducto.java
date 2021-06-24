@@ -2,9 +2,6 @@ package vistas.modulos;
 
 import controlador.Controlador;
 import java.awt.Dimension;
-import javafx.scene.paint.Color;
-import javax.swing.JComboBox;
-import javax.swing.UIManager;
 import utilidades.MyComboBoxUI;
 import utilidades.TextPrompt;
 
@@ -18,9 +15,12 @@ public class VistaProducto extends javax.swing.JPanel {
 
         new TextPrompt("Buscar productos", tfBusqueda);
     }
-    
+
     public void setControlador(Controlador control){
+        this.tbProductos.addMouseListener(control);
         this.btnNuevoProducto.addMouseListener(control);
+        this.cbMostrar.addItemListener(control);
+        this.tfBusqueda.addKeyListener(control);
     }
 
     /**
@@ -41,7 +41,7 @@ public class VistaProducto extends javax.swing.JPanel {
         cbMostrar = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tablaUsuarios = new rojerusan.RSTableMetro();
+        tbProductos = new rojerusan.RSTableMetro();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setOpaque(false);
@@ -149,59 +149,59 @@ public class VistaProducto extends javax.swing.JPanel {
         jScrollPane2.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jScrollPane2.setOpaque(false);
 
-        tablaUsuarios.setBackground(new java.awt.Color(255, 255, 255));
-        tablaUsuarios.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(249, 249, 249)));
-        tablaUsuarios.setForeground(new java.awt.Color(255, 255, 255));
-        tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+        tbProductos.setBackground(new java.awt.Color(255, 255, 255));
+        tbProductos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(249, 249, 249)));
+        tbProductos.setForeground(new java.awt.Color(255, 255, 255));
+        tbProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Codigo", "Imagen", "Producto", "Categoria", "Precio", "Stock", "Estado", "Acciones"
+                "Codigo", "Imagen", "Producto", "Categoria", "Precio", "Stock", "Estado", "Editar", "Eliminar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tablaUsuarios.setAltoHead(30);
-        tablaUsuarios.setColorBackgoundHead(new java.awt.Color(249, 249, 249));
-        tablaUsuarios.setColorBordeFilas(new java.awt.Color(255, 255, 255));
-        tablaUsuarios.setColorBordeHead(new java.awt.Color(255, 255, 255));
-        tablaUsuarios.setColorFilasBackgound2(new java.awt.Color(249, 249, 249));
-        tablaUsuarios.setColorFilasForeground1(new java.awt.Color(51, 51, 51));
-        tablaUsuarios.setColorFilasForeground2(new java.awt.Color(51, 51, 51));
-        tablaUsuarios.setColorForegroundHead(new java.awt.Color(0, 0, 0));
-        tablaUsuarios.setColorSelForeground(new java.awt.Color(51, 51, 51));
-        tablaUsuarios.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
-        tablaUsuarios.setFuenteFilas(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
-        tablaUsuarios.setFuenteFilasSelect(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
-        tablaUsuarios.setFuenteHead(new java.awt.Font("Calibri", 1, 14)); // NOI18N
-        tablaUsuarios.setGridColor(new java.awt.Color(255, 255, 255));
-        tablaUsuarios.setGrosorBordeFilas(0);
-        tablaUsuarios.setGrosorBordeHead(0);
-        tablaUsuarios.setMultipleSeleccion(false);
-        tablaUsuarios.setRowHeight(40);
-        tablaUsuarios.getTableHeader().setResizingAllowed(false);
-        tablaUsuarios.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(tablaUsuarios);
-        if (tablaUsuarios.getColumnModel().getColumnCount() > 0) {
-            tablaUsuarios.getColumnModel().getColumn(0).setResizable(false);
-            tablaUsuarios.getColumnModel().getColumn(1).setResizable(false);
-            tablaUsuarios.getColumnModel().getColumn(2).setResizable(false);
-            tablaUsuarios.getColumnModel().getColumn(3).setResizable(false);
-            tablaUsuarios.getColumnModel().getColumn(4).setResizable(false);
-            tablaUsuarios.getColumnModel().getColumn(5).setResizable(false);
-            tablaUsuarios.getColumnModel().getColumn(7).setResizable(false);
+        tbProductos.setAltoHead(30);
+        tbProductos.setColorBackgoundHead(new java.awt.Color(249, 249, 249));
+        tbProductos.setColorBordeFilas(new java.awt.Color(255, 255, 255));
+        tbProductos.setColorBordeHead(new java.awt.Color(255, 255, 255));
+        tbProductos.setColorFilasBackgound2(new java.awt.Color(249, 249, 249));
+        tbProductos.setColorFilasForeground1(new java.awt.Color(51, 51, 51));
+        tbProductos.setColorFilasForeground2(new java.awt.Color(51, 51, 51));
+        tbProductos.setColorForegroundHead(new java.awt.Color(0, 0, 0));
+        tbProductos.setColorSelForeground(new java.awt.Color(51, 51, 51));
+        tbProductos.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        tbProductos.setFuenteFilas(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        tbProductos.setFuenteFilasSelect(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        tbProductos.setFuenteHead(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        tbProductos.setGridColor(new java.awt.Color(255, 255, 255));
+        tbProductos.setGrosorBordeFilas(0);
+        tbProductos.setGrosorBordeHead(0);
+        tbProductos.setMultipleSeleccion(false);
+        tbProductos.setRowHeight(40);
+        tbProductos.getTableHeader().setResizingAllowed(false);
+        tbProductos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tbProductos);
+        if (tbProductos.getColumnModel().getColumnCount() > 0) {
+            tbProductos.getColumnModel().getColumn(0).setResizable(false);
+            tbProductos.getColumnModel().getColumn(1).setResizable(false);
+            tbProductos.getColumnModel().getColumn(2).setResizable(false);
+            tbProductos.getColumnModel().getColumn(3).setResizable(false);
+            tbProductos.getColumnModel().getColumn(4).setResizable(false);
+            tbProductos.getColumnModel().getColumn(5).setResizable(false);
+            tbProductos.getColumnModel().getColumn(7).setResizable(false);
         }
 
         jPanel1.add(jScrollPane2, "card2");
@@ -224,13 +224,13 @@ public class VistaProducto extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel btnNuevoProducto;
-    private javax.swing.JComboBox<String> cbMostrar;
+    public javax.swing.JComboBox<String> cbMostrar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
+    public javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private rojerusan.RSTableMetro tablaUsuarios;
-    private javax.swing.JTextField tfBusqueda;
+    public rojerusan.RSTableMetro tbProductos;
+    public javax.swing.JTextField tfBusqueda;
     // End of variables declaration//GEN-END:variables
 }

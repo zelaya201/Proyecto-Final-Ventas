@@ -1,21 +1,24 @@
 package modelos.dao;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelos.Categoria;
 import modelos.Conexion;
 import modelos.Producto;
 import modelos.Proveedor;
-import modelos.Sucursal;
 
 public class ProductoDao {
     Conexion conectar = new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
-    
+   
     public ProductoDao(){
         
     }
@@ -30,10 +33,10 @@ public class ProductoDao {
         return select(sql);
     }
     
-    /*public ArrayList<Producto> buscar(String dato) {
-        String sql = "select * from producto where carnet like '" + dato + "%' or  nombre like '" + dato + "%' or apellido like '" + dato + "%'";
+    public ArrayList<Producto> buscar(String dato) {
+        String sql = "select * from producto where  cod_producto like '" + dato + "%' or  descripcion_producto like '" + dato + "%'";
         return select(sql);
-    }*/
+    }
     
     public ArrayList<Producto> selectId(int id) {
         String sql = "select * from producto where cod_producto=" + id;
@@ -41,13 +44,13 @@ public class ProductoDao {
     } 
     
     public boolean insert(Producto obj){
-        String sql = "insert into producto(foto_producto,descripcion_producto,id_sucursal3,cod_proveedor1,id_categoria1)VALUES(?,?,?,?,?,?)";
+        String sql = "insert into producto(foto_producto,descripcion_producto,cod_proveedor1,id_categoria1)values(?,?,?,?)";
         return alterarRegistro(sql, obj);
     }
     
-    public void update(Producto obj) {
-        String sql = "update producto set foto_producto =?, descripcion_producto =?, id_categoria1 =? where idProducto=" + obj.getCodProducto();
-        alterarRegistro(sql, obj);
+    public boolean update(Producto obj) {
+        String sql = "update producto set foto_producto =?, descripcion_producto =?, cod_proveedor1 =?, id_categoria1 =? where cod_producto=" + obj.getCodProducto();
+        return alterarRegistro(sql, obj);
     }
 
     private ArrayList<Producto> select(String sql){
@@ -63,7 +66,6 @@ public class ProductoDao {
                 obj.setCodProducto(rs.getInt("cod_producto"));
                 obj.setBdFoto(rs.getBlob("foto_producto"));
                 obj.setDescripcion(rs.getString("descripcion_producto"));
-                obj.setSucursal(new Sucursal(rs.getInt("id_sucursal3")));
                 obj.setProveedor(new Proveedor(rs.getInt("cod_proveedor1")));
                 obj.setCategoria(new Categoria(rs.getInt("id_categoria1")));
 
@@ -71,7 +73,7 @@ public class ProductoDao {
             }
             
         }catch(Exception e) {
-            
+             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, e);
         }finally{
             try {
                 ps.close();
@@ -88,15 +90,23 @@ public class ProductoDao {
         try {
             con = conectar.getConexion();
             ps = con.prepareStatement(sql);
+            FileInputStream fis = null;
             
-            ps.setBinaryStream(1, obj.getFileFoto());
+            File file = new File(obj.getRutaFoto());
+            fis = new FileInputStream(file);
+            
+            ps.setBlob(1, fis, (int)file.length());
             ps.setString(2, obj.getDescripcion());
+            ps.setInt(3, obj.getProveedor().getCodProveedor());
+            ps.setInt(4, obj.getCategoria().getIdCategoria());
             
             ps.execute();
             
             return true;
         }catch(Exception e) {
-            
+//            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+//            DesktopNotify.showDesktopMessage("Error en SQL", "Un error ha ocurrido en la consulta sql.", DesktopNotify.WARNING, 10000);       
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, e);
         }finally{
             try {
                 ps.close();

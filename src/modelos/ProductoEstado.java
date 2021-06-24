@@ -1,7 +1,8 @@
 package modelos;
 
+import modelos.dao.ProductoDao;
+
 public class ProductoEstado {
-    private int idProductoEstado;
     private double precioCompra;
     private double precioVenta;
     private int stock;
@@ -12,35 +13,14 @@ public class ProductoEstado {
     public ProductoEstado(){
         
     }
-
-    public ProductoEstado(int idProductoEstado) {
-        this.idProductoEstado = idProductoEstado;
-    }
     
-    public ProductoEstado(int idProductoEstado, double precioCompra, double precioVenta, int stock, int estado, double ganancia, Producto producto) {
-        this.idProductoEstado = idProductoEstado;
+    public ProductoEstado(double precioCompra, double precioVenta, int stock, int estado, double ganancia, Producto producto) {
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
         this.stock = stock;
         this.estado = estado;
         this.ganancia = ganancia;
         this.producto = producto;
-    }
-
-    public ProductoEstado(double precioCompra, double precioVenta, int stock, int estado, double ganancia) {
-        this.precioCompra = precioCompra;
-        this.precioVenta = precioVenta;
-        this.stock = stock;
-        this.estado = estado;
-        this.ganancia = ganancia;
-    }
-
-    public int getIdProductoEstado() {
-        return idProductoEstado;
-    }
-
-    public void setIdProductoEstado(int idProductoEstado) {
-        this.idProductoEstado = idProductoEstado;
     }
 
     public double getPrecioCompra() {
@@ -84,6 +64,9 @@ public class ProductoEstado {
     }
 
     public Producto getProducto() {
+        ProductoDao productoDao = new ProductoDao();
+        producto = productoDao.selectAllTo("cod_producto", String.valueOf(producto.getCodProducto())).get(0);
+
         return producto;
     }
 

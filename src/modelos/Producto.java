@@ -1,15 +1,15 @@
 package modelos;
 
-import java.io.FileInputStream;
 import java.sql.Blob;
 import java.util.ArrayList;
+import modelos.dao.CategoriaDao;
+import modelos.dao.ProveedorDao;
 
 public class Producto {
     private int codProducto;
     private Blob bdFoto;
-    private FileInputStream fileFoto;
+    private String rutaFoto;
     private String descripcion;
-    private Sucursal sucursal;
     private Proveedor proveedor;
     private Categoria categoria;
     private ArrayList<ProductoEstado> estadosProducto;
@@ -23,15 +23,17 @@ public class Producto {
         this.codProducto = codProducto;
     }
 
-    public Producto(int codProducto, FileInputStream fileFoto, String descripcion) {
+    public Producto(int codProducto, String rutaFoto, String descripcion) {
         this.codProducto = codProducto;
-        this.fileFoto = fileFoto;
+        this.rutaFoto = rutaFoto;
         this.descripcion = descripcion;
     }
 
-    public Producto(FileInputStream fileFoto, String descripcion) {
-        this.fileFoto = fileFoto;
+    public Producto(String rutaFoto, String descripcion, Proveedor proveedor, Categoria categoria) {
+        this.rutaFoto = rutaFoto;
         this.descripcion = descripcion;
+        this.proveedor = proveedor;
+        this.categoria = categoria;
     }
 
     public int getCodProducto() {
@@ -50,12 +52,12 @@ public class Producto {
         this.bdFoto = bdFoto;
     }
 
-    public FileInputStream getFileFoto() {
-        return fileFoto;
+    public String getRutaFoto() {
+        return rutaFoto;
     }
 
-    public void setFileFoto(FileInputStream fileFoto) {
-        this.fileFoto = fileFoto;
+    public void setRutaFoto(String rutaFoto) {
+        this.rutaFoto = rutaFoto;
     }
     
     public String getDescripcion() {
@@ -66,15 +68,10 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public Sucursal getSucursal() {
-        return sucursal;
-    }
-
-    public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
-    }
-
     public Proveedor getProveedor() {
+        ProveedorDao proveedorDao = new ProveedorDao();
+        proveedor = proveedorDao.selectAllTo("cod_proveedor", String.valueOf(proveedor.getCodProveedor())).get(0);
+
         return proveedor;
     }
 
@@ -83,6 +80,9 @@ public class Producto {
     }
 
     public Categoria getCategoria() {
+        CategoriaDao categoriaDao = new CategoriaDao();
+        categoria = categoriaDao.selectAllTo("id_categoria", String.valueOf(categoria.getIdCategoria())).get(0);
+
         return categoria;
     }
 
