@@ -1,83 +1,12 @@
 
 package vistas.modulos;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.StandardChartTheme;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.StandardBarPainter;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.RectangleInsets;
-
 public class Dashboard extends javax.swing.JPanel {
 
-    
     public Dashboard() {
         initComponents();
-        getBarChart();
     }
     
-    public void getBarChart(){
-        
-        String fontName = "Segoe UI";
-            
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.addValue(30, "", "Enero");
-        dataset.addValue(40, "", "Febrero");
-        dataset.addValue(50, "", "Marzo");
-        dataset.addValue(46, "", "Abril");
-        dataset.addValue(80, "", "Mayo");
-        dataset.addValue(40, "", "Junio");
-        dataset.addValue(10, "", "Julio");
-        dataset.addValue(67, "", "Agosto");
-        dataset.addValue(50, "", "Septiembre");
-        dataset.addValue(60, "", "Octubre");
-        dataset.addValue(100, "", "Noviembre");
-        dataset.addValue(90, "", "Diciembre");
-        
-        
-        //JFreeChart jchart = ChartFactory.createBarChart("Cantidad de Ventas Realizadas por Mes", "Meses", "Cantidad", dataset, PlotOrientation.VERTICAL, true, true, false);
-        JFreeChart jchart = ChartFactory.createBarChart("Cantidad de Ventas realizadas por Mes", "Meses", "Cantidad", dataset, PlotOrientation.VERTICAL, false, true, false);
-
-        
-        StandardChartTheme theme = (StandardChartTheme)org.jfree.chart.StandardChartTheme.createJFreeTheme();
-        theme.setTitlePaint(Color.decode("#333333"));
-        theme.setExtraLargeFont(new Font(fontName,Font.BOLD, 15)); //title
-        theme.setLargeFont(new Font(fontName,Font.BOLD, 15)); //axis-title
-        theme.setRegularFont(new Font(fontName,Font.PLAIN, 11));
-        theme.setRangeGridlinePaint(Color.decode("#e6e6e6"));
-        theme.setPlotBackgroundPaint(Color.white);
-        theme.setChartBackgroundPaint(Color.white);
-        theme.setGridBandPaint(Color.red);
-        theme.setAxisOffset(new RectangleInsets(0,0,0,0));
-        theme.setBarPainter(new StandardBarPainter());
-        theme.setAxisLabelPaint(Color.decode("#666666"));
-        theme.apply(jchart);
-        
-        jchart.getCategoryPlot().setOutlineVisible(false);
-        jchart.getCategoryPlot().getRangeAxis().setAxisLineVisible(true);
-        jchart.getCategoryPlot().getRangeAxis().setTickMarksVisible(false);
-        jchart.getCategoryPlot().setRangeGridlineStroke( new BasicStroke() );
-        jchart.getCategoryPlot().getRangeAxis().setTickLabelPaint( Color.decode("#666666") );
-        jchart.getCategoryPlot().getDomainAxis().setTickLabelPaint( Color.decode("#666666") );
-        jchart.setTextAntiAlias( true );
-        jchart.setAntiAlias( true );
-        jchart.getCategoryPlot().getRenderer().setSeriesPaint( 0, Color.decode( "#00A65A"));
-        
-   
-        
-        ChartPanel chartPanel = new ChartPanel(jchart);
-        //barChart.removeAll();
-        pChart.add(chartPanel);
-        pChart.updateUI();
-        
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -93,22 +22,22 @@ public class Dashboard extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         article1 = new javax.swing.JPanel();
         totales = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
+        totalEmpleados = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
+        totalEmp = new javax.swing.JLabel();
+        totalUsuarios = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
+        totalUsers = new javax.swing.JLabel();
+        totalProductos = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        totalProduct = new javax.swing.JLabel();
+        totalVentas = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        totalVents = new javax.swing.JLabel();
         barChart = new javax.swing.JPanel();
         pChart = new javax.swing.JPanel();
         alertas = new javax.swing.JPanel();
@@ -152,8 +81,8 @@ public class Dashboard extends javax.swing.JPanel {
         totales.setOpaque(false);
         totales.setLayout(new javax.swing.BoxLayout(totales, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jPanel7.setBackground(new java.awt.Color(243, 156, 18));
-        jPanel7.setLayout(new java.awt.GridBagLayout());
+        totalEmpleados.setBackground(new java.awt.Color(243, 156, 18));
+        totalEmpleados.setLayout(new java.awt.GridBagLayout());
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/suitcase_60px.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -163,7 +92,7 @@ public class Dashboard extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        jPanel7.add(jLabel12, gridBagConstraints);
+        totalEmpleados.add(jLabel12, gridBagConstraints);
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
@@ -175,22 +104,22 @@ public class Dashboard extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
-        jPanel7.add(jLabel13, gridBagConstraints);
+        totalEmpleados.add(jLabel13, gridBagConstraints);
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setText("0");
+        totalEmp.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        totalEmp.setForeground(new java.awt.Color(255, 255, 255));
+        totalEmp.setText("0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
-        jPanel7.add(jLabel14, gridBagConstraints);
+        totalEmpleados.add(totalEmp, gridBagConstraints);
 
-        totales.add(jPanel7);
+        totales.add(totalEmpleados);
 
-        jPanel9.setBackground(new java.awt.Color(0, 166, 90));
-        jPanel9.setLayout(new java.awt.GridBagLayout());
+        totalUsuarios.setBackground(new java.awt.Color(0, 166, 90));
+        totalUsuarios.setLayout(new java.awt.GridBagLayout());
 
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user_group_60px.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -200,7 +129,7 @@ public class Dashboard extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        jPanel9.add(jLabel18, gridBagConstraints);
+        totalUsuarios.add(jLabel18, gridBagConstraints);
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
@@ -212,22 +141,22 @@ public class Dashboard extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
-        jPanel9.add(jLabel19, gridBagConstraints);
+        totalUsuarios.add(jLabel19, gridBagConstraints);
 
-        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel20.setText("0");
+        totalUsers.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        totalUsers.setForeground(new java.awt.Color(255, 255, 255));
+        totalUsers.setText("0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
-        jPanel9.add(jLabel20, gridBagConstraints);
+        totalUsuarios.add(totalUsers, gridBagConstraints);
 
-        totales.add(jPanel9);
+        totales.add(totalUsuarios);
 
-        jPanel6.setBackground(new java.awt.Color(0, 192, 239));
-        jPanel6.setLayout(new java.awt.GridBagLayout());
+        totalProductos.setBackground(new java.awt.Color(0, 192, 239));
+        totalProductos.setLayout(new java.awt.GridBagLayout());
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/product_60px.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -237,7 +166,7 @@ public class Dashboard extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        jPanel6.add(jLabel9, gridBagConstraints);
+        totalProductos.add(jLabel9, gridBagConstraints);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -248,22 +177,22 @@ public class Dashboard extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
-        jPanel6.add(jLabel10, gridBagConstraints);
+        totalProductos.add(jLabel10, gridBagConstraints);
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("0");
+        totalProduct.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        totalProduct.setForeground(new java.awt.Color(255, 255, 255));
+        totalProduct.setText("0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
-        jPanel6.add(jLabel11, gridBagConstraints);
+        totalProductos.add(totalProduct, gridBagConstraints);
 
-        totales.add(jPanel6);
+        totales.add(totalProductos);
 
-        jPanel2.setBackground(new java.awt.Color(51, 122, 183));
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        totalVentas.setBackground(new java.awt.Color(51, 122, 183));
+        totalVentas.setLayout(new java.awt.GridBagLayout());
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/purchase_order_60px.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -273,7 +202,7 @@ public class Dashboard extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        jPanel2.add(jLabel6, gridBagConstraints);
+        totalVentas.add(jLabel6, gridBagConstraints);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -285,19 +214,19 @@ public class Dashboard extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
-        jPanel2.add(jLabel7, gridBagConstraints);
+        totalVentas.add(jLabel7, gridBagConstraints);
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("0");
+        totalVents.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        totalVents.setForeground(new java.awt.Color(255, 255, 255));
+        totalVents.setText("0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
-        jPanel2.add(jLabel8, gridBagConstraints);
+        totalVentas.add(totalVents, gridBagConstraints);
 
-        totales.add(jPanel2);
+        totales.add(totalVentas);
 
         article1.add(totales);
 
@@ -457,7 +386,7 @@ public class Dashboard extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "No.", "Cliente", "Fecha", "Total"
+                "No. de Factura", "Cliente", "Fecha", "Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -523,36 +452,36 @@ public class Dashboard extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel alertas;
-    private javax.swing.JPanel article1;
+    public javax.swing.JPanel article1;
     private javax.swing.JPanel article2;
-    private javax.swing.JPanel barChart;
+    public javax.swing.JPanel barChart;
     private javax.swing.JPanel header;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JPanel pChart;
+    public javax.swing.JPanel pChart;
     private javax.swing.JPanel productos;
     public rojerusan.RSTableMetro tablaUltimasVentas;
     public rojerusan.RSTableMetro tablaUltimasVentas1;
+    public javax.swing.JLabel totalEmp;
+    private javax.swing.JPanel totalEmpleados;
+    private javax.swing.JLabel totalProduct;
+    private javax.swing.JPanel totalProductos;
+    private javax.swing.JLabel totalUsers;
+    private javax.swing.JPanel totalUsuarios;
+    private javax.swing.JPanel totalVentas;
+    private javax.swing.JLabel totalVents;
     private javax.swing.JPanel totales;
     private javax.swing.JPanel ventas;
     // End of variables declaration//GEN-END:variables

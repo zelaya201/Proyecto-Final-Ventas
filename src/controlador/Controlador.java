@@ -20,11 +20,14 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelos.Empleado;
+import modelos.Factura;
 import modelos.Usuario;
 import modelos.dao.EmpleadoDao;
+import modelos.dao.FacturaDao;
 import modelos.dao.UsuarioDao;
 import utilidades.CambiaPanel;
 import utilidades.ImgTabla;
+import utilidades.JFreeCharts;
 import vistas.main.Login;
 import vistas.main.Menu;
 import vistas.modulos.Dashboard;
@@ -39,6 +42,10 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     private String modalOn = "";
     
     
+    /* DASHBOARD */
+    JFreeCharts barChart = new JFreeCharts();
+    Dashboard dashboard;
+    
     /* CONTROL DE USUARIOS */
     Usuario usuario = new Usuario();
     Usuario usuarioSelected = null;
@@ -50,6 +57,11 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     Empleado empleado = new Empleado();
     Empleado empleadoSelected = null;
     EmpleadoDao empleadoDao = new EmpleadoDao(); 
+    
+    /* FACTURAS */
+    Factura factura = new Factura();
+    Factura facturaSelected = null;
+    FacturaDao facturaDao = new FacturaDao();
     
 
     public Controlador(Menu menu) {
@@ -69,10 +81,13 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             login.iniciar();
             principalOn = "Login";
         }else if(vista.equals("Menu")){
+            dashboard = new Dashboard();
             menu.setControlador(this);
             menu.iniciar();
             principalOn = "Menu";
-            new CambiaPanel(menu.body, new Dashboard());
+            
+            new CambiaPanel(menu.body, dashboard);
+            mostrarChart();
         }else if(vista.equals("Usuarios")){
             vistaUsuario = new VistaUsuario();
             vistaUsuario.setControlador(this);
@@ -247,6 +262,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                     String clave = Encriptacion.getStringMessageDigest(login.jtPassword.getText(), Encriptacion.SHA256);
                     
                     if(clave.equals(usuarios.get(0).getClave())){
+                        dashboard = new Dashboard();
                         this.usuario = usuarios.get(0);
                         this.menu = new Menu();
                         this.menu.setControlador(this);
@@ -259,7 +275,8 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                             String a[] = empleados.get(0).getApellido().split(" ");
                             
                             menu.lbUserName.setText(n[0] + " " + a[0]);
-                            new CambiaPanel(menu.body, new Dashboard());
+                            new CambiaPanel(menu.body, dashboard);
+                            mostrarChart();
                             
                         }else{
                             ArrayList<Empleado> empleados = empleadoDao.selectAllTo("dui_empleado", usuario.getReferencia());
@@ -469,6 +486,31 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
        
     }
 
+    public void mostrarChart(){
+        
+        int cant[] = new int[12];
+        int j = 0;
+        
+        ArrayList<Factura> facturas = facturaDao.selectAll();
+        
+        for(int i = 0; i < 12; i++){
+            for(Factura x : facturas){
+                String f[] = x.getFecha().toString().split("-");
+
+                if(Integer.parseInt(f[1]) == i){
+                    j++;
+                }
+                
+            }
+            System.out.println(i);
+            cant[i] = j;
+            j = 0;
+        }
+        
+        barChart.getBarChart(dashboard.pChart, cant);
+        
+    }
+    
     @Override
     public void mousePressed(MouseEvent e) {
         
