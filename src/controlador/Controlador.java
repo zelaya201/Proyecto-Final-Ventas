@@ -21,9 +21,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelos.Empleado;
 import modelos.Factura;
+import modelos.Producto;
 import modelos.Usuario;
 import modelos.dao.EmpleadoDao;
 import modelos.dao.FacturaDao;
+import modelos.dao.ProductoDao;
 import modelos.dao.UsuarioDao;
 import utilidades.CambiaPanel;
 import utilidades.ImgTabla;
@@ -63,6 +65,8 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     Factura facturaSelected = null;
     FacturaDao facturaDao = new FacturaDao();
     
+    /* PRODUCTOS */
+    ProductoDao productoDao = new ProductoDao();
 
     public Controlador(Menu menu) {
         this.menu = menu;
@@ -497,17 +501,54 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             for(Factura x : facturas){
                 String f[] = x.getFecha().toString().split("-");
 
-                if(Integer.parseInt(f[1]) == i){
+                if((Integer.parseInt(f[1]) - 1) == i){
                     j++;
                 }
                 
             }
-            System.out.println(i);
+            
             cant[i] = j;
             j = 0;
         }
         
         barChart.getBarChart(dashboard.pChart, cant);
+        
+        /* TOTALES */
+        
+        //Cantidad de Facturas     
+        dashboard.totalVents.setText(String.valueOf(facturas.size()));
+        
+        //Cantidad de Productos
+        ArrayList<Producto> productos = productoDao.selectAll();
+        dashboard.totalProduct.setText(String.valueOf(productos.size()));
+        
+        //Cantidad de Usuarios
+        ArrayList<Usuario> usuarios = usuarioDao.selectAll();
+        j = 0;
+        
+        for(Usuario x : usuarios){
+            if(x.getEstado() > 0){
+                j++;
+            }
+        }
+        
+        dashboard.totalUsers.setText(String.valueOf(j));
+        
+        //Cantidad de Empleados
+        ArrayList<Empleado> empleados = empleadoDao.selectAll();
+        j = 0;
+        
+        for(Empleado x : empleados){
+            if(x.getEstado() > 0){
+                j++;
+            }
+        }
+        
+        dashboard.totalEmp.setText(String.valueOf(j));
+        
+        
+        
+        
         
     }
     

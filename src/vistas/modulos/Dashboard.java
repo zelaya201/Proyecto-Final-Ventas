@@ -476,13 +476,13 @@ public class Dashboard extends javax.swing.JPanel {
     public rojerusan.RSTableMetro tablaUltimasVentas1;
     public javax.swing.JLabel totalEmp;
     private javax.swing.JPanel totalEmpleados;
-    private javax.swing.JLabel totalProduct;
-    private javax.swing.JPanel totalProductos;
-    private javax.swing.JLabel totalUsers;
-    private javax.swing.JPanel totalUsuarios;
-    private javax.swing.JPanel totalVentas;
-    private javax.swing.JLabel totalVents;
-    private javax.swing.JPanel totales;
+    public javax.swing.JLabel totalProduct;
+    public javax.swing.JPanel totalProductos;
+    public javax.swing.JLabel totalUsers;
+    public javax.swing.JPanel totalUsuarios;
+    public javax.swing.JPanel totalVentas;
+    public javax.swing.JLabel totalVents;
+    public javax.swing.JPanel totales;
     private javax.swing.JPanel ventas;
     // End of variables declaration//GEN-END:variables
 }
