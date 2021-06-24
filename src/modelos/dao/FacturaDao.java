@@ -24,6 +24,11 @@ public class FacturaDao {
         return select(sql);
     }
     
+    public ArrayList<Factura> selectAllOrderBy() {
+        String sql = "select * from factura order by fecha_factura desc";
+        return select(sql);
+    }
+    
     public ArrayList<Factura> selectAllTo(String atributo, String condicion) {
         String sql = "select * from factura where " + atributo + "='" + condicion + "'";
         return select(sql);

@@ -5,6 +5,7 @@ package controlador;
 import ds.desktop.notify.DesktopNotify;
 import ds.desktop.notify.NotifyTheme;
 import ejemplocompleto.utilidades.Encriptacion;
+import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
@@ -12,20 +13,33 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import modelos.Cliente;
 import modelos.Empleado;
 import modelos.Factura;
 import modelos.Producto;
+import modelos.ProductoEstado;
 import modelos.Usuario;
+import modelos.dao.ClienteDao;
 import modelos.dao.EmpleadoDao;
 import modelos.dao.FacturaDao;
 import modelos.dao.ProductoDao;
+import modelos.dao.ProductoEstadoDao;
 import modelos.dao.UsuarioDao;
 import utilidades.CambiaPanel;
 import utilidades.ImgTabla;
@@ -55,6 +69,17 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     VistaUsuario vistaUsuario;
     ModalUsuario modalUsuario;
     
+    /* PRODUCTOS */
+    Producto producto = null;
+    Producto productoSelected = null;
+    ProductoDao productoDao = new ProductoDao();
+    ProductoEstadoDao productoEstadoDao = new ProductoEstadoDao();
+//    VistaProducto vistaProducto;
+//    ModalProducto modalProducto;
+    int estado;
+    String rutaFoto = "src/img/stock_product.png";
+    int itemSeleccionado = 1;
+    
     /* EMPLEADOS */
     Empleado empleado = new Empleado();
     Empleado empleadoSelected = null;
@@ -65,8 +90,8 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     Factura facturaSelected = null;
     FacturaDao facturaDao = new FacturaDao();
     
-    /* PRODUCTOS */
-    ProductoDao productoDao = new ProductoDao();
+    /* CLIENTES */
+    ClienteDao clienteDao = new ClienteDao();
 
     public Controlador(Menu menu) {
         this.menu = menu;
@@ -163,7 +188,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     }
     
     public void mostrarDatos(JTable tabla){
-          
+
         DefaultTableCellRenderer diseño = (DefaultTableCellRenderer) tabla.getCellRenderer(0, 0); //Obtener diseño de la tabla
         modelo = (DefaultTableModel)tabla.getModel();
         modelo.setRowCount(0);
@@ -203,6 +228,83 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             }
             
             tabla.setModel(modelo);
+        }
+        
+        if(principalOn.equals("Menu")){
+            
+            /* Tabla ultimos productos */
+            tabla.setDefaultRenderer(Object.class, new ImgTabla()); //Renderizar para poner las img
+            DecimalFormat id = new DecimalFormat("000000");
+
+            tabla.getColumnModel().getColumn(0).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
+            tabla.getColumnModel().getColumn(2).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(3).setCellRenderer(diseño);
+
+            ArrayList<Producto> productos = productoDao.selectAllOrderBy();
+            ArrayList<ProductoEstado> productoEstados = productoEstadoDao.selectAll();
+            int i = 0;
+            
+                for (Producto x : productos) {
+                    for (ProductoEstado y : productoEstados) {
+                                              
+                        if (x.getCodProducto() == y.getProducto().getCodProducto() && y.getEstado() == 1) {
+                    
+                            try {
+                                Blob blob = x.getBdFoto();
+                                byte[] data = blob.getBytes(1, (int) blob.length());
+                                BufferedImage img = null;
+
+                                try {
+                                    img = ImageIO.read(new ByteArrayInputStream(data));
+                                } catch (IOException ex) {
+                                    Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+
+                                ImageIcon imgIco = new ImageIcon(img);
+                                ImageIcon imgIco2 = new ImageIcon(img.getScaledInstance(60, 60, Image.SCALE_DEFAULT));
+                                JLabel lbImg = new JLabel(imgIco2);
+
+                                if (y.getEstado() == 1 && i < 6) {
+                                    modelo.addRow(new Object[]{id.format(x.getCodProducto()), lbImg, x.getDescripcion(), y.getStock()});
+                                    i++;
+                                }
+
+                                tabla.setRowHeight(65);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                    
+                }
+       
+            tabla.setModel(modelo);
+            modelo = (DefaultTableModel)dashboard.tablaUltimasVentas.getModel();
+            modelo.setRowCount(0);
+            
+            /* Tabla ultimas ventas */
+            dashboard.tablaUltimasVentas.getColumnModel().getColumn(0).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
+            dashboard.tablaUltimasVentas.getColumnModel().getColumn(1).setCellRenderer(diseño);
+            dashboard.tablaUltimasVentas.getColumnModel().getColumn(2).setCellRenderer(diseño);
+            dashboard.tablaUltimasVentas.getColumnModel().getColumn(3).setCellRenderer(diseño);
+            
+            ArrayList<Factura> facturas = facturaDao.selectAllOrderBy();
+            ArrayList<Cliente> clientes = clienteDao.selectAll();
+            i = 0;
+            
+            for(Factura x : facturas){
+                
+                for(Cliente k : clientes){
+                    if(x.getCliente().getIdPersona() == k.getIdPersona() && i < 10){
+                        modelo.addRow(new Object[]{id.format(x.getNoFactura()), k.getNombre() + " " + k.getApellido(), x.getFecha(), x.getTotal()});
+                        i++;
+                    }
+                }
+                
+                
+            }
+            
+            dashboard.tablaUltimasVentas.setModel(modelo);
         }
     }
     
@@ -266,6 +368,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                     String clave = Encriptacion.getStringMessageDigest(login.jtPassword.getText(), Encriptacion.SHA256);
                     
                     if(clave.equals(usuarios.get(0).getClave())){
+                        
                         dashboard = new Dashboard();
                         this.usuario = usuarios.get(0);
                         this.menu = new Menu();
@@ -280,6 +383,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                             
                             menu.lbUserName.setText(n[0] + " " + a[0]);
                             new CambiaPanel(menu.body, dashboard);
+                            principalOn = "Menu";
                             mostrarChart();
                             
                         }else{
@@ -297,11 +401,11 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                             menu.modulos.remove(menu.btnProveedores);
 
                         }
-                        
+
                         menu.iniciar();
                         DesktopNotify.setDefaultTheme(NotifyTheme.LightBlue);
                         DesktopNotify.showDesktopMessage("¡Bienvenido/a " + usuario.getNickname() + "!", "Espero disfrutes del sistema, ten un buen día.", DesktopNotify.INFORMATION, 10000);
-                        principalOn = "Menu";
+                        
                         login.dispose();
                     }else{
                         DesktopNotify.setDefaultTheme(NotifyTheme.Red);
@@ -494,8 +598,13 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
         
         int cant[] = new int[12];
         int j = 0;
+        int u = 0;
+        int e = 0;
         
         ArrayList<Factura> facturas = facturaDao.selectAll();
+        ArrayList<Producto> productos = productoDao.selectAll();
+        ArrayList<Usuario> usuarios = usuarioDao.selectAll();
+        ArrayList<Empleado> empleados = empleadoDao.selectAll();
         
         for(int i = 0; i < 12; i++){
             for(Factura x : facturas){
@@ -511,45 +620,28 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             j = 0;
         }
         
-        barChart.getBarChart(dashboard.pChart, cant);
-        
-        /* TOTALES */
-        
-        //Cantidad de Facturas     
-        dashboard.totalVents.setText(String.valueOf(facturas.size()));
-        
-        //Cantidad de Productos
-        ArrayList<Producto> productos = productoDao.selectAll();
-        dashboard.totalProduct.setText(String.valueOf(productos.size()));
-        
-        //Cantidad de Usuarios
-        ArrayList<Usuario> usuarios = usuarioDao.selectAll();
-        j = 0;
+        barChart.getBarChart(dashboard.pChart, cant); //Mostrar grafica
         
         for(Usuario x : usuarios){
             if(x.getEstado() > 0){
-                j++;
+                u++;
             }
         }
-        
-        dashboard.totalUsers.setText(String.valueOf(j));
-        
-        //Cantidad de Empleados
-        ArrayList<Empleado> empleados = empleadoDao.selectAll();
-        j = 0;
-        
+
         for(Empleado x : empleados){
             if(x.getEstado() > 0){
-                j++;
+                e++;
             }
         }
         
-        dashboard.totalEmp.setText(String.valueOf(j));
         
+        /* TOTALES */  
+        dashboard.totalVents.setText(String.valueOf(facturas.size()));
+        dashboard.totalProduct.setText(String.valueOf(productos.size()));
+        dashboard.totalUsers.setText(String.valueOf(u));
+        dashboard.totalEmp.setText(String.valueOf(e));
         
-        
-        
-        
+        mostrarDatos(dashboard.tablaUltimosProductos);
     }
     
     @Override

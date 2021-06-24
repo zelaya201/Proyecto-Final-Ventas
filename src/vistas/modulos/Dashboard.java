@@ -46,7 +46,7 @@ public class Dashboard extends javax.swing.JPanel {
         productos = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tablaUltimasVentas1 = new rojerusan.RSTableMetro();
+        tablaUltimosProductos = new rojerusan.RSTableMetro();
         ventas = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaUltimasVentas = new rojerusan.RSTableMetro();
@@ -298,10 +298,10 @@ public class Dashboard extends javax.swing.JPanel {
         jScrollPane3.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jScrollPane3.setOpaque(false);
 
-        tablaUltimasVentas1.setBackground(new java.awt.Color(255, 255, 255));
-        tablaUltimasVentas1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(249, 249, 249)));
-        tablaUltimasVentas1.setForeground(new java.awt.Color(255, 255, 255));
-        tablaUltimasVentas1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaUltimosProductos.setBackground(new java.awt.Color(255, 255, 255));
+        tablaUltimosProductos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(249, 249, 249)));
+        tablaUltimosProductos.setForeground(new java.awt.Color(255, 255, 255));
+        tablaUltimosProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -326,29 +326,29 @@ public class Dashboard extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tablaUltimasVentas1.setAltoHead(30);
-        tablaUltimasVentas1.setColorBackgoundHead(new java.awt.Color(249, 249, 249));
-        tablaUltimasVentas1.setColorBordeFilas(new java.awt.Color(255, 255, 255));
-        tablaUltimasVentas1.setColorBordeHead(new java.awt.Color(255, 255, 255));
-        tablaUltimasVentas1.setColorFilasBackgound2(new java.awt.Color(249, 249, 249));
-        tablaUltimasVentas1.setColorFilasForeground1(new java.awt.Color(51, 51, 51));
-        tablaUltimasVentas1.setColorFilasForeground2(new java.awt.Color(51, 51, 51));
-        tablaUltimasVentas1.setColorForegroundHead(new java.awt.Color(0, 0, 0));
-        tablaUltimasVentas1.setColorSelBackgound(new java.awt.Color(240, 240, 240));
-        tablaUltimasVentas1.setColorSelForeground(new java.awt.Color(51, 51, 51));
-        tablaUltimasVentas1.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
-        tablaUltimasVentas1.setFuenteFilas(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
-        tablaUltimasVentas1.setFuenteFilasSelect(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
-        tablaUltimasVentas1.setFuenteHead(new java.awt.Font("Calibri", 1, 14)); // NOI18N
-        tablaUltimasVentas1.setGridColor(new java.awt.Color(255, 255, 255));
-        tablaUltimasVentas1.setGrosorBordeFilas(0);
-        tablaUltimasVentas1.setGrosorBordeHead(0);
-        tablaUltimasVentas1.setMultipleSeleccion(false);
-        tablaUltimasVentas1.setRowHeight(40);
-        tablaUltimasVentas1.setRowSelectionAllowed(false);
-        tablaUltimasVentas1.getTableHeader().setResizingAllowed(false);
-        tablaUltimasVentas1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(tablaUltimasVentas1);
+        tablaUltimosProductos.setAltoHead(30);
+        tablaUltimosProductos.setColorBackgoundHead(new java.awt.Color(249, 249, 249));
+        tablaUltimosProductos.setColorBordeFilas(new java.awt.Color(255, 255, 255));
+        tablaUltimosProductos.setColorBordeHead(new java.awt.Color(255, 255, 255));
+        tablaUltimosProductos.setColorFilasBackgound2(new java.awt.Color(249, 249, 249));
+        tablaUltimosProductos.setColorFilasForeground1(new java.awt.Color(51, 51, 51));
+        tablaUltimosProductos.setColorFilasForeground2(new java.awt.Color(51, 51, 51));
+        tablaUltimosProductos.setColorForegroundHead(new java.awt.Color(0, 0, 0));
+        tablaUltimosProductos.setColorSelBackgound(new java.awt.Color(240, 240, 240));
+        tablaUltimosProductos.setColorSelForeground(new java.awt.Color(51, 51, 51));
+        tablaUltimosProductos.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        tablaUltimosProductos.setFuenteFilas(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        tablaUltimosProductos.setFuenteFilasSelect(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        tablaUltimosProductos.setFuenteHead(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        tablaUltimosProductos.setGridColor(new java.awt.Color(255, 255, 255));
+        tablaUltimosProductos.setGrosorBordeFilas(0);
+        tablaUltimosProductos.setGrosorBordeHead(0);
+        tablaUltimosProductos.setMultipleSeleccion(false);
+        tablaUltimosProductos.setRowHeight(40);
+        tablaUltimosProductos.setRowSelectionAllowed(false);
+        tablaUltimosProductos.getTableHeader().setResizingAllowed(false);
+        tablaUltimosProductos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(tablaUltimosProductos);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -473,7 +473,7 @@ public class Dashboard extends javax.swing.JPanel {
     public javax.swing.JPanel pChart;
     private javax.swing.JPanel productos;
     public rojerusan.RSTableMetro tablaUltimasVentas;
-    public rojerusan.RSTableMetro tablaUltimasVentas1;
+    public rojerusan.RSTableMetro tablaUltimosProductos;
     public javax.swing.JLabel totalEmp;
     private javax.swing.JPanel totalEmpleados;
     public javax.swing.JLabel totalProduct;
