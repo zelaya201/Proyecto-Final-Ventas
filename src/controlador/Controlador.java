@@ -179,7 +179,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             modalEmpleado.cbSucursal.setEnabled(false);
             modalEmpleado.cbUsuario.setEnabled(false);
         
-           // modalEmpleado.jtCargo.setText(empleadoSelected.getCargo()); 
+            modalEmpleado.jtCargo.setText(empleadoSelected.getCargo()); 
             
             modalEmpleado.setSize(482, 346); //Width - Height
             llenarComboBox();
@@ -208,9 +208,13 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             
          // modalEmpleado.header.setText("Cambiar contraseña");
             
-          // modalEmpleado.jtCargo.setEnabled(false);
-     //modalEmpleado.jtUser.setText(Selected.getNickname());
+           modalEmpleado.jtCargo.setEnabled(false);
+     modalEmpleado.jtCargo.setText(empleadoSelected.getCargo());
+     modalEmpleado.jtEstado.setEnabled(false);
+
+     
             
+     
             modalEmpleado.setSize(482, 285); //Width - Height
             modalEmpleado.iniciar();
         }
@@ -266,6 +270,10 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             tabla.getColumnModel().getColumn(1).setCellRenderer(diseño);
             tabla.getColumnModel().getColumn(2).setCellRenderer(diseño);
             tabla.getColumnModel().getColumn(3).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(4).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
+            tabla.getColumnModel().getColumn(5).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(6).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(7).setCellRenderer(diseño);
             
             ArrayList<Empleado> empleados = empleadoDao.selectAll();
             int i = 1;
@@ -335,6 +343,50 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             
             if(modelo.getRowCount() < 1){
                 mostrarDatos(vistaUsuario.tablaUsuarios);
+            }else{
+                tabla.setModel(modelo);
+            }
+            
+            
+        }
+        
+          /* CONTROL DE EMPLEADOS */
+        if(principalOn.equals("Empleados")){
+            tabla.setDefaultRenderer(Object.class, new ImgTabla()); //Renderizar para poner las img
+            
+            tabla.getColumnModel().getColumn(0).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
+            tabla.getColumnModel().getColumn(1).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(2).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(3).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(4).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
+            tabla.getColumnModel().getColumn(5).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(6).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(7).setCellRenderer(diseño);
+            
+            int i = 1;
+            
+            for(Object obj : lista){
+                
+                Empleado x = (Empleado) obj;
+                
+                ImageIcon img_edit = new ImageIcon(getClass().getResource("/img/editar.png"));
+                JLabel lbImg_edit = new JLabel(new ImageIcon(img_edit.getImage()));
+
+                ImageIcon img_delete = new ImageIcon(getClass().getResource("/img/delete.png"));
+                JLabel lbImg_delete = new JLabel(new ImageIcon(img_delete.getImage()));
+
+                ImageIcon img_change = new ImageIcon(getClass().getResource("/img/key_22px.png"));
+                JLabel lbImg_change = new JLabel(new ImageIcon(img_change.getImage()));
+                
+                if(x.getEstado() > 0){
+                    modelo.addRow(new Object[]{i, x.getCargo(), x.getSalario(), x.getGenero(), x.getAfp(), x.getEmail(), x.getEstado(), x.getIsss(), x.getRenta(), x.getResponsable(), x.getSucursal(),x.getUsuario() ,lbImg_edit, lbImg_delete, lbImg_change});
+                    i++;
+                }
+
+            }
+            
+            if(modelo.getRowCount() < 1){
+                mostrarDatos(vistaEmpleado.tablaEmpleados);
             }else{
                 tabla.setModel(modelo);
             }
@@ -467,117 +519,117 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
          /* CONTROL DE EMPLEADOS */
         if(principalOn.equals("Empleados") && modalOn.equals("modalEmpleado")){
             if(btn.equals("Agregar")){
-               // if(!modalEmpleado.jtUser.getText().isEmpty()
-                 //       && modalUsuario.cbEmpleado.getSelectedIndex() > 0 
-                   //     && modalUsuario.cbRol.getSelectedIndex() > 0){
+                if(!modalEmpleado.jtCargo.getText().isEmpty()
+                        && modalEmpleado.cbResponsable.getSelectedIndex() > 0 
+                        && modalEmpleado.cbResponsable.getSelectedIndex() > 0){
                     
-                  //  if(usuarioSelected == null && !modalUsuario.jtPass.getText().isEmpty() && !modalUsuario.jtPassRepet.getText().isEmpty()){
+                  if(usuarioSelected == null && !modalUsuario.jtPass.getText().isEmpty() && !modalUsuario.jtPassRepet.getText().isEmpty()){
 
-                    //    if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
+                        if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
 
-                            //String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
-                            //String dui = "";
+                            String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
+                            String dui = "";
 
-                        //    if(modalUsuario.cbRol.getSelectedItem().toString().equals("Gerente") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
-                          //      String v[] = modalUsuario.cbEmpleado.getSelectedItem().toString().split(" / ");
+                            if(modalUsuario.cbRol.getSelectedItem().toString().equals("Gerente") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
+                                String v[] = modalUsuario.cbEmpleado.getSelectedItem().toString().split(" / ");
 
-                            //    ArrayList<Empleado> empleados = empleadoDao.buscar(v[1]);
-                                //empleado = empleados.get(0);
-                              //  dui = empleados.get(0).getDui();
-                            //}
+                                ArrayList<Empleado> empleados = empleadoDao.buscar(v[1]);
+                                empleado = empleados.get(0);
+                                dui = empleados.get(0).getDui();
+                            }
 
-                          //  ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
+                            ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
                             //ArrayList<Usuario> existeReferencia = usuarioDao.selectAllTo("referencia", dui);
 
-                         //   if(existeUser.isEmpty()){
+                            if(existeUser.isEmpty()){
   
-                           //      Usuario usuario = new Usuario(modalUsuario.jtUser.getText(), clave, modalUsuario.cbRol.getSelectedItem().toString(), 1);
+                                 Usuario usuario = new Usuario(modalUsuario.jtUser.getText(), clave, modalUsuario.cbRol.getSelectedItem().toString(), 1);
                                  
-                             //   if(usuarioDao.insert(usuario)){
+                                if(usuarioDao.insert(usuario)){
                                      //Mensaje Guardado
-                               //     DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                                 //   DesktopNotify.showDesktopMessage("Usuario guardado", "El usuario ha sido alamcenado exitosamente.", DesktopNotify.SUCCESS, 8000);
-                                //}
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                                    DesktopNotify.showDesktopMessage("Usuario guardado", "El usuario ha sido alamcenado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                }
                                 
-                                //modalOn = "";
-                                //modalUsuario.dispose();
+                                modalOn = "";
+                                modalUsuario.dispose();
                                 
-                          // }else{
-                            //    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                              //  DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
-                           // }
-                       // }else{
+                            }else{
+                                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
+                            }
+                        }else{
                             //Contraseñas diferentes
-                            //DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                            //DesktopNotify.showDesktopMessage("Contraseñas diferentes", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
-                        //}
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                            DesktopNotify.showDesktopMessage("Contraseñas diferentes", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
+                        }
                         
-                   // }else{
+                    }else{
                         
           
                         
                         //Modificar
-                        //ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
+                        ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
                         
-                        //if(existeUser.isEmpty()){
+                        if(existeUser.isEmpty()){
                             
-                           // usuarioSelected.setNickname(modalUsuario.jtUser.getText());
+                            usuarioSelected.setNickname(modalUsuario.jtUser.getText());
                             
-                         //   if(usuarioDao.update(usuarioSelected)){ //Guardado
+                            if(usuarioDao.update(usuarioSelected)){ //Guardado
                                 //Mensaje de modificado
-                                //DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                               // DesktopNotify.showDesktopMessage("Usuario actualizado", "El usuario ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
-                                //usuarioSelected = null;
-                              //  modalUsuario.dispose();
-                            //}else{ //Ocurrio un error
-                          //      DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                        //        DesktopNotify.showDesktopMessage("Error", "Usuario no actualizado", DesktopNotify.FAIL, 8000);
-                      //      }
-                    //    }else{
+                                DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                                DesktopNotify.showDesktopMessage("Usuario actualizado", "El usuario ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                usuarioSelected = null;
+                                modalUsuario.dispose();
+                            }else{ //Ocurrio un error
+                                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                DesktopNotify.showDesktopMessage("Error", "Usuario no actualizado", DesktopNotify.FAIL, 8000);
+                            }
+                        }else{
                             
-                  //          if(existeUser.get(0).getNickname().equals(usuarioSelected.getNickname())){ //Dejo mismo nombre de usuario
-                //                usuarioSelected = null;
-              //                  modalUsuario.dispose();
-            //                }else{ //Usuario ya existe
-          //                      DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-        //                        DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
-      //                      }
-    //                    }
+                            if(existeUser.get(0).getNickname().equals(usuarioSelected.getNickname())){ //Dejo mismo nombre de usuario
+                                usuarioSelected = null;
+                                modalUsuario.dispose();
+                            }else{ //Usuario ya existe
+                                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
+                            }
+                        }
     
-                   // }
+                    }
                                         
-                //}else if(usuarioSelected != null && !modalUsuario.jtPass.getText().isEmpty() && !modalUsuario.jtPassRepet.getText().isEmpty()){
+                }else if(usuarioSelected != null && !modalUsuario.jtPass.getText().isEmpty() && !modalUsuario.jtPassRepet.getText().isEmpty()){
                     //Cambiar contraseña
-                  //  if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
+                    if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
                         
-                       // String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
-                        //String dui = "";
+                        String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
+                        String dui = "";
                         
-                       // usuarioSelected.setClave(clave);
+                        usuarioSelected.setClave(clave);
                         
-                       // if(usuarioDao.update(usuarioSelected)){
+                        if(usuarioDao.update(usuarioSelected)){
                             //Mensaje de contraseña modificado
-                         //   DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                           // DesktopNotify.showDesktopMessage("Contraseña modificada", "Su contraseña ha sido modificada exitosamente.", DesktopNotify.SUCCESS, 8000);
-                           // empleadoSelected = null;
-                            //modalEmpleado.dispose();
-                      //  }else{
-                        //    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                          //  DesktopNotify.showDesktopMessage("Error", "Contraseña no modificada.", DesktopNotify.FAIL, 8000);
-                        //} 
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                            DesktopNotify.showDesktopMessage("Contraseña modificada", "Su contraseña ha sido modificada exitosamente.", DesktopNotify.SUCCESS, 8000);
+                            usuarioSelected = null;
+                            modalUsuario.dispose();
+                        }else{
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                            DesktopNotify.showDesktopMessage("Error", "Contraseña no modificada.", DesktopNotify.FAIL, 8000);
+                        } 
 
-                    //}else{
+                    }else{
                         //Contraseñas diferentes
-                    //    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                  //      DesktopNotify.showDesktopMessage("Contraseñas diferentes", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
-                //    }
-              //  }else{
+                        DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                        DesktopNotify.showDesktopMessage("Contraseñas diferentes", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
+                    }
+                }else{
                     //Campos incompletos
-                //    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-              //      DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
-            //    }
+                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                    DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
+                }
                 
-          //      mostrarDatos(vistaEmpleado.tablaEmpleados);
+                mostrarDatos(vistaUsuario.tablaUsuarios);
                 
             }
             
@@ -690,20 +742,21 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             }
         }
         //itemStateChanged EMPLEADO//
-         //  if(modalOn.equals("modalEmpleado")){
-           // modalEmpleado.cbResponsable.setEnabled(true);
-            //modalEmpleado.cbSucursal.removeAllItems();
-            //modalUsuario.cbEmpleado.addItem("Asignar empleado");
+          if(modalOn.equals("modalEmpleado")){
+            modalEmpleado.cbResponsable.setEnabled(true);
+            modalEmpleado.cbSucursal.removeAllItems();
+            modalEmpleado.cbUsuario.addItem("Asignar empleado");
             
-            //if(modalUsuario.cbRol.getSelectedItem().toString().equals("Gerente") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
+            if(modalEmpleado.cbSucursal.getSelectedItem().toString().equals("Gerente") || modalEmpleado.cbSucursal.getSelectedItem().toString().equals("Sucursal")){
                 
-             //   ArrayList<Empleado> empleados = empleadoDao.selectAll();
+                ArrayList<Empleado> empleados = empleadoDao.selectAll();
 
-               // for(Empleado x : empleados){
-                 //   modalUsuario.cbEmpleado.addItem(x.getNombre() + " / " + x.getDui());
-                //}
-            //}
+                for(Empleado x : empleados){
+                   modalEmpleado.cbResponsable.addItem(x.getCargo()+ " / " + x.getEstado());
+                }
+            }
         }
+    }
     
     
     @Override

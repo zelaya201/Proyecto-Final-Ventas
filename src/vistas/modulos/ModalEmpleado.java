@@ -434,5 +434,9 @@ public class ModalEmpleado extends javax.swing.JPanel {
     public javax.swing.JTextField jtSalario;
     // End of variables declaration//GEN-END:variables
 
+    public void dispose() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
 }
