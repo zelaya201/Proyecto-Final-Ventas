@@ -237,7 +237,7 @@ public class Login extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnEntrar;
+    public javax.swing.JLabel btnEntrar;
     private javax.swing.JLabel iconKey;
     private javax.swing.JLabel iconUser;
     private javax.swing.JLabel jLabel1;

@@ -126,19 +126,19 @@ public class VistaEmpleado extends javax.swing.JPanel {
         tablaEmpleados.setForeground(new java.awt.Color(255, 255, 255));
         tablaEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "No.", "Nombre", "Apellido", "Dui", "Cargo", "Renta", "Salario", "Pencion", "Gmail", "Edad", "AFP", "ISSS", "Estado", "Edita", "Eliminar"
+                "No.", "Dui", "Nombre", "Apellido", "Genero", "Edad", "Gmail", "Telefono", "direccion", "Salario", "Estado", "USUARIO", "Edita", "Eliminar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -169,17 +169,11 @@ public class VistaEmpleado extends javax.swing.JPanel {
         jScrollPane2.setViewportView(tablaEmpleados);
         if (tablaEmpleados.getColumnModel().getColumnCount() > 0) {
             tablaEmpleados.getColumnModel().getColumn(0).setResizable(false);
-            tablaEmpleados.getColumnModel().getColumn(0).setPreferredWidth(0);
             tablaEmpleados.getColumnModel().getColumn(1).setResizable(false);
-            tablaEmpleados.getColumnModel().getColumn(1).setPreferredWidth(300);
             tablaEmpleados.getColumnModel().getColumn(2).setResizable(false);
-            tablaEmpleados.getColumnModel().getColumn(2).setPreferredWidth(300);
             tablaEmpleados.getColumnModel().getColumn(3).setResizable(false);
-            tablaEmpleados.getColumnModel().getColumn(3).setPreferredWidth(0);
             tablaEmpleados.getColumnModel().getColumn(4).setResizable(false);
-            tablaEmpleados.getColumnModel().getColumn(4).setPreferredWidth(0);
             tablaEmpleados.getColumnModel().getColumn(5).setResizable(false);
-            tablaEmpleados.getColumnModel().getColumn(5).setPreferredWidth(0);
             tablaEmpleados.getColumnModel().getColumn(6).setResizable(false);
         }
 

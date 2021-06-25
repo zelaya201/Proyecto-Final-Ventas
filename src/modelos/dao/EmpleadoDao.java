@@ -68,22 +68,20 @@ public class EmpleadoDao {
                 obj.setDui(rs.getString("dui_empleado"));
                 obj.setNombre(rs.getString("nom_empleado"));
                 obj.setApellido(rs.getString("ape_empleado"));
-                obj.setCargo(rs.getString("cargo_empleado"));
+             
                 obj.setGenero(rs.getString("genero_empleado"));
                 obj.setEdad(rs.getInt("edad_empleado"));
                 obj.setEmail(rs.getString("email_empleado"));
                 obj.setTelefono(rs.getString("tel_empleado"));
                 obj.setDireccion(rs.getString("dir_empleado"));
                 obj.setSalario(rs.getDouble("salario_empleado"));
-                obj.setAfp(rs.getDouble("afp_empleado"));
-                obj.setIsss(rs.getDouble("isss_empleado"));
-                obj.setRenta(rs.getDouble("renta_empleado"));
+            
                 obj.setEstado(rs.getInt("estado_empleado"));
-                obj.setResponsable(new Empleado(rs.getInt("id_empleado1")));
+            
                 if (rs.getInt("id_usuario1") > 0) {
                     obj.setUsuario(new Usuario(rs.getInt("id_usuario1")));
                 }
-                obj.setSucursal(new Sucursal(rs.getInt("id_sucursal1")));
+           
 
                 lista.add(obj);
             }
@@ -110,19 +108,17 @@ public class EmpleadoDao {
             ps.setString(1, obj.getDui());
             ps.setString(2, obj.getNombre());
             ps.setString(3, obj.getApellido());
-            ps.setString(4, obj.getCargo());
+    
             ps.setString(5, obj.getGenero());
             ps.setInt(6, obj.getEdad());
             ps.setString(7, obj.getEmail());
             ps.setString(8, obj.getTelefono());
             ps.setString(9, obj.getDireccion());
             ps.setDouble(10, obj.getSalario());
-            ps.setDouble(11, obj.getAfp());
-            ps.setDouble(12, obj.getIsss());
-            ps.setDouble(13, obj.getRenta());
+        
             ps.setInt(14, obj.getEstado());
-            ps.setInt(15, obj.getResponsable().getIdPersona());
-            ps.setInt(17, obj.getSucursal().getIdSucursal());
+         
+        
             
             ps.execute();
             
@@ -148,20 +144,18 @@ public class EmpleadoDao {
             ps.setString(1, obj.getDui());
             ps.setString(2, obj.getNombre());
             ps.setString(3, obj.getApellido());
-            ps.setString(4, obj.getCargo());
+        
             ps.setString(5, obj.getGenero());
             ps.setInt(6, obj.getEdad());
             ps.setString(7, obj.getEmail());
             ps.setString(8, obj.getTelefono());
             ps.setString(9, obj.getDireccion());
             ps.setDouble(10, obj.getSalario());
-            ps.setDouble(11, obj.getAfp());
-            ps.setDouble(12, obj.getIsss());
-            ps.setDouble(13, obj.getRenta());
+          
             ps.setInt(14, obj.getEstado());
-            ps.setInt(15, obj.getResponsable().getIdPersona());
+           
             ps.setInt(16, obj.getUsuario().getIdUsuario());
-            ps.setInt(17, obj.getSucursal().getIdSucursal());
+          
             
             ps.execute();
             
