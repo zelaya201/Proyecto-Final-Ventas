@@ -79,7 +79,6 @@ public class VistaUsuario extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
         jPanel3.add(jLabel3, gridBagConstraints);
 
-        tfBusqueda.setBackground(new java.awt.Color(255, 255, 255));
         tfBusqueda.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 1)));
         tfBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -123,7 +122,6 @@ public class VistaUsuario extends javax.swing.JPanel {
         jScrollPane2.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jScrollPane2.setOpaque(false);
 
-        tablaUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         tablaUsuarios.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(249, 249, 249)));
         tablaUsuarios.setForeground(new java.awt.Color(255, 255, 255));
         tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(

@@ -219,14 +219,22 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="6">
+                  <Table columnCount="15" rowCount="6">
                     <Column editable="false" title="No." type="java.lang.Object"/>
-                    <Column editable="false" title="Usuario" type="java.lang.Object"/>
-                    <Column editable="false" title="Contrase&#xf1;a" type="java.lang.Object"/>
-                    <Column editable="false" title="Rol" type="java.lang.Object"/>
-                    <Column editable="false" title="Editar" type="java.lang.Object"/>
+                    <Column editable="false" title="Nombre" type="java.lang.Object"/>
+                    <Column editable="false" title="Apellido" type="java.lang.Object"/>
+                    <Column editable="false" title="Dui" type="java.lang.Object"/>
+                    <Column editable="false" title="Cargo" type="java.lang.Object"/>
+                    <Column editable="false" title="Renta" type="java.lang.Object"/>
+                    <Column editable="false" title="Salario" type="java.lang.Object"/>
+                    <Column editable="false" title="Pencion" type="java.lang.Object"/>
+                    <Column editable="false" title="Gmail" type="java.lang.Object"/>
+                    <Column editable="false" title="Edad" type="java.lang.Object"/>
+                    <Column editable="false" title="AFP" type="java.lang.Object"/>
+                    <Column editable="false" title="ISSS" type="java.lang.Object"/>
+                    <Column editable="false" title="Estado" type="java.lang.Object"/>
+                    <Column editable="false" title="Edita" type="java.lang.Object"/>
                     <Column editable="false" title="Eliminar" type="java.lang.Object"/>
-                    <Column editable="false" title="Cambiar contrase&#xf1;a" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="altoHead" type="int" value="30"/>

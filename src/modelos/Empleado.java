@@ -143,4 +143,8 @@ public class Empleado extends Persona{
     public void setSucursal(Sucursal sucursal) {
         this.sucursal = sucursal;
     }
+
+    public void getCargo(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

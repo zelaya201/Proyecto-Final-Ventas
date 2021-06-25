@@ -163,7 +163,18 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             modalEmpleado.setControlador(this);
             modalOn = "modalUsuario";
             
-            //modalEmpleado.form.remove(modalEmpleado.jtPass);
+            modalEmpleado.jPanel1.remove(modalEmpleado.jtCargo);
+             modalEmpleado.jPanel1.remove(modalEmpleado.jtEdad);
+              modalEmpleado.jPanel1.remove(modalEmpleado.jtEstado);
+               modalEmpleado.jPanel1.remove(modalEmpleado.jtAfp);
+                modalEmpleado.jPanel1.remove(modalEmpleado.jtGmail);
+                 modalEmpleado.jPanel1.remove(modalEmpleado.jtRenta);
+                  modalEmpleado.jPanel1.remove(modalEmpleado.jtSalario);
+                   modalEmpleado.jPanel1.remove(modalEmpleado.jtIsss);
+                    modalEmpleado.jPanel1.remove(modalEmpleado.cbResponsable);
+                     modalEmpleado.jPanel1.remove(modalEmpleado.cbSucursal);
+                      modalEmpleado.jPanel1.remove(modalEmpleado.cbUsuario);
+                    
            // modalEmpleado.form.remove(modalEmpleado.jtPassRepet);
            // modalEmpleado.form.remove(modalEmpleado.iconPass);
             
@@ -201,13 +212,10 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
            modalEmpleado.setControlador(this);
             modalOn = "modalEmpleado";
             
-          //  modalEmpleado.form.remove(modalEmpleado.cbEmpleado);
-            //modalEmpleado.form.remove(modalEmpleado.iconEmpleado);
-           // modalEmpleado.form.remove(modalEmpleado.cbRol);
-          //modalEmpleado.form.remove(modalEmpleado.iconRol);
-            
-         // modalEmpleado.header.setText("Cambiar contraseña");
-            
+           modalEmpleado.jPanel1.remove(modalEmpleado.cbResponsable);
+            modalEmpleado.jPanel1.remove(modalEmpleado.cbSucursal);
+             modalEmpleado.jPanel1.remove(modalEmpleado.cbUsuario);
+       
            modalEmpleado.jtCargo.setEnabled(false);
      modalEmpleado.jtCargo.setText(empleadoSelected.getCargo());
      modalEmpleado.jtEstado.setEnabled(false);
@@ -522,119 +530,49 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 if(!modalEmpleado.jtCargo.getText().isEmpty()
                         && modalEmpleado.cbResponsable.getSelectedIndex() > 0 
                         && modalEmpleado.cbResponsable.getSelectedIndex() > 0){
-                    
-                  if(usuarioSelected == null && !modalUsuario.jtPass.getText().isEmpty() && !modalUsuario.jtPassRepet.getText().isEmpty()){
-
-                        if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
-
-                            String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
-                            String dui = "";
-
-                            if(modalUsuario.cbRol.getSelectedItem().toString().equals("Gerente") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
-                                String v[] = modalUsuario.cbEmpleado.getSelectedItem().toString().split(" / ");
-
-                                ArrayList<Empleado> empleados = empleadoDao.buscar(v[1]);
-                                empleado = empleados.get(0);
-                                dui = empleados.get(0).getDui();
-                            }
-
-                            ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
-                            //ArrayList<Usuario> existeReferencia = usuarioDao.selectAllTo("referencia", dui);
-
-                            if(existeUser.isEmpty()){
-  
-                                 Usuario usuario = new Usuario(modalUsuario.jtUser.getText(), clave, modalUsuario.cbRol.getSelectedItem().toString(), 1);
-                                 
-                                if(usuarioDao.insert(usuario)){
-                                     //Mensaje Guardado
-                                    DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                                    DesktopNotify.showDesktopMessage("Usuario guardado", "El usuario ha sido alamcenado exitosamente.", DesktopNotify.SUCCESS, 8000);
-                                }
-                                
-                                modalOn = "";
-                                modalUsuario.dispose();
-                                
-                            }else{
-                                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                                DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
-                            }
-                        }else{
-                            //Contraseñas diferentes
-                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                            DesktopNotify.showDesktopMessage("Contraseñas diferentes", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
-                        }
-                        
-                    }else{
-                        
-          
+                }
                         
                         //Modificar
-                        ArrayList<Usuario> existeUser = usuarioDao.selectAllTo("usuario_nick", modalUsuario.jtUser.getText());
+                        ArrayList<Empleado> existeUser = empleadoDao.selectAllTo("empleado_nick", modalEmpleado.jtCargo.getText());
                         
                         if(existeUser.isEmpty()){
                             
-                            usuarioSelected.setNickname(modalUsuario.jtUser.getText());
+                            empleadoSelected.getCargo(modalEmpleado.jtCargo.getText());
                             
-                            if(usuarioDao.update(usuarioSelected)){ //Guardado
+                            if(empleadoDao.update(empleadoSelected)){ //Guardado
                                 //Mensaje de modificado
                                 DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                                DesktopNotify.showDesktopMessage("Usuario actualizado", "El usuario ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
-                                usuarioSelected = null;
-                                modalUsuario.dispose();
+                                DesktopNotify.showDesktopMessage("Empleado actualizado", "El empleado ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                empleadoSelected = null;
+                                modalEmpleado.dispose();
                             }else{ //Ocurrio un error
                                 DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                                DesktopNotify.showDesktopMessage("Error", "Usuario no actualizado", DesktopNotify.FAIL, 8000);
+                                DesktopNotify.showDesktopMessage("Error", "Empleado no actualizado", DesktopNotify.FAIL, 8000);
                             }
                         }else{
                             
-                            if(existeUser.get(0).getNickname().equals(usuarioSelected.getNickname())){ //Dejo mismo nombre de usuario
-                                usuarioSelected = null;
-                                modalUsuario.dispose();
-                            }else{ //Usuario ya existe
-                                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                                DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
-                            }
+                            if(existeUser.get(0).getCargo().equals(empleadoSelected.getCargo())){ //Dejo mismo nombre de usuario
+                                empleadoSelected = null;
+                                modalEmpleado.dispose();
+                           //Empleado ya existe
+                                 }
                         }
     
                     }
                                         
-                }else if(usuarioSelected != null && !modalUsuario.jtPass.getText().isEmpty() && !modalUsuario.jtPassRepet.getText().isEmpty()){
-                    //Cambiar contraseña
-                    if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
-                        
-                        String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
-                        String dui = "";
-                        
-                        usuarioSelected.setClave(clave);
-                        
-                        if(usuarioDao.update(usuarioSelected)){
-                            //Mensaje de contraseña modificado
-                            DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                            DesktopNotify.showDesktopMessage("Contraseña modificada", "Su contraseña ha sido modificada exitosamente.", DesktopNotify.SUCCESS, 8000);
-                            usuarioSelected = null;
-                            modalUsuario.dispose();
-                        }else{
-                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                            DesktopNotify.showDesktopMessage("Error", "Contraseña no modificada.", DesktopNotify.FAIL, 8000);
-                        } 
-
-                    }else{
-                        //Contraseñas diferentes
-                        DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                        DesktopNotify.showDesktopMessage("Contraseñas diferentes", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
-                    }
+               
                 }else{
                     //Campos incompletos
                     DesktopNotify.setDefaultTheme(NotifyTheme.Red);
                     DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
                 }
                 
-                mostrarDatos(vistaUsuario.tablaUsuarios);
+                mostrarDatos(vistaEmpleado.tablaEmpleados);
                 
             }
             
-        }
-    }
+        
+    
         
     
     public void llenarComboBox(){
