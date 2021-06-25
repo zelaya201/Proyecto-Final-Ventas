@@ -134,11 +134,11 @@ public class VistaEmpleado extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "No.", "Dui", "Nombre", "Apellido", "Genero", "Edad", "Gmail", "Telefono", "direccion", "Salario", "Estado", "USUARIO", "Edita", "Eliminar"
+                "No.", "Dui", "Nombre", "Apellido", "Genero", "Edad", "Email", "Telefono", "direccion", "Salario", "Estado", "USUARIO", "Edita", "Eliminar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, true, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

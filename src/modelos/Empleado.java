@@ -4,11 +4,11 @@ public class Empleado extends Persona{
 
     private String genero;
     private int edad;
-    private String gmail;
+    private String email;
     private double salario;
     private int estado;
-   
     private Usuario usuario;
+   
 
             
     public Empleado() {
@@ -19,22 +19,22 @@ public class Empleado extends Persona{
         super(idPersona);
     }
 
-    public Empleado( String genero, int edad, String gmail, double salario, int estado, int idPersona, String dui, String nombre, String apellido, String direccion, String telefono) {
+    public Empleado( String genero, int edad, String email, double salario, int estado, int idPersona, String dui, String nombre, String apellido, String direccion, String telefono) {
         super(idPersona, dui, nombre, apellido, direccion, telefono);
        
         this.genero = genero;
         this.edad = edad;
-        this.gmail = gmail;
+        this.email = email;
         this.salario = salario;
         this.estado = estado;
     }
 
-    public Empleado( String genero, int edad, String gmail, double salario, int estado, String dui, String nombre, String apellido, String direccion, String telefono) {
+    public Empleado( String genero, int edad, String email, double salario, int estado, String dui, String nombre, String apellido, String direccion, String telefono) {
         super(dui, nombre, apellido, direccion, telefono);
    
         this.genero = genero;
         this.edad = edad;
-        this.gmail = gmail;
+        this.email = email;
         this.salario = salario;
      
         this.estado = estado;
@@ -58,11 +58,11 @@ public class Empleado extends Persona{
     }
 
     public String getEmail() {
-        return gmail;
+        return email;
     }
 
     public void setEmail(String email) {
-        this.gmail = gmail;
+        this.email = email;
     }
 
     public double getSalario() {
@@ -74,11 +74,11 @@ public class Empleado extends Persona{
     }
 
     public String getGmail() {
-        return gmail;
+        return email;
     }
 
     public void setGmail(String gmail) {
-        this.gmail = gmail;
+        this.email = gmail;
     }
 
 
@@ -100,9 +100,6 @@ public class Empleado extends Persona{
         this.usuario = usuario;
     }
 
-    public void getDui(String text) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     
 

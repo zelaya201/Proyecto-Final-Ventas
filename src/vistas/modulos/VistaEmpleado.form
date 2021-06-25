@@ -226,12 +226,12 @@
                     <Column editable="false" title="Apellido" type="java.lang.Object"/>
                     <Column editable="false" title="Genero" type="java.lang.Object"/>
                     <Column editable="false" title="Edad" type="java.lang.Object"/>
-                    <Column editable="false" title="Gmail" type="java.lang.Object"/>
+                    <Column editable="false" title="Email" type="java.lang.Object"/>
                     <Column editable="false" title="Telefono" type="java.lang.Object"/>
                     <Column editable="false" title="direccion" type="java.lang.Object"/>
                     <Column editable="false" title="Salario" type="java.lang.Object"/>
                     <Column editable="false" title="Estado" type="java.lang.Object"/>
-                    <Column editable="true" title="USUARIO" type="java.lang.Object"/>
+                    <Column editable="false" title="USUARIO" type="java.lang.Object"/>
                     <Column editable="false" title="Edita" type="java.lang.Object"/>
                     <Column editable="false" title="Eliminar" type="java.lang.Object"/>
                   </Table>

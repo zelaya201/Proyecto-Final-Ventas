@@ -616,7 +616,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 for(Usuario x : usuarios){
                     modalEmpleado.cbUsuario.addItem(x.getNickname() + " / " + x.getRol());
                     if(x.getNickname().equals(empleadoSelected.getUsuario())){
-                        dato = x.getNickname() + " / " + x.getRol();
+                        dato = x.getNickname() + " / " + x.getNickname();
                     }
                 }
                 

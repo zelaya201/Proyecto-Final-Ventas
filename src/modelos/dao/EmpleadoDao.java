@@ -45,12 +45,12 @@ public class EmpleadoDao {
     }
     
     public void update(Empleado obj) {
-        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, cargo_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?, afp_empleado =?, isss_empleado =?, renta_empleado =?, estado_empleado =?, id_empleado1 =?, id_sucursal1 =? where id_empleado=" + obj.getIdPersona();
+        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?,  renta_empleado =?, estado_empleado =?,  id_usuario1 =? where id_empleado=" + obj.getIdPersona();
         alterarRegistro(sql, obj);
     }
     
     public void updateUsuario(Empleado obj) {
-        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, cargo_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?, afp_empleado =?, isss_empleado =?, renta_empleado =?, estado_empleado =?, id_empleado1 =?, id_usuario1 =?, id_sucursal1 =? where id_empleado=" + obj.getIdPersona();
+        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?, estado_empleado =?, id_usuario1 =? where id_empleado=" + obj.getIdPersona();
         alterarRegistroUsuario(sql, obj);
     }
 
