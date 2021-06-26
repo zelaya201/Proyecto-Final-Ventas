@@ -2,9 +2,9 @@ package modelos;
 
 public class Cliente extends Persona{
     private String email;
-    
+
     public Cliente(){
-        
+
     }
 
     public Cliente(int idPersona) {
@@ -20,6 +20,11 @@ public class Cliente extends Persona{
         super(dui, nombre, apellido, direccion, telefono);
         this.email = email;
     }
+
+    public Cliente(int idPersona, String nombre, String apellido) {
+        super(idPersona, nombre, apellido);
+    }
+
 
     public String getEmail() {
         return email;

@@ -21,6 +21,8 @@ public class Menu extends javax.swing.JFrame {
     public void setControlador(Controlador control){
         this.btnUsuarios.addMouseListener(control);
         this.btnDashboard.addMouseListener(control);
+        this.btnProveedores.addMouseListener(control);
+        this.btnFacturas.addMouseListener(control);
     }
     
     public void iniciar(){
@@ -141,6 +143,9 @@ public class Menu extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnProveedoresMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnProveedoresMousePressed(evt);
+            }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -165,6 +170,9 @@ public class Menu extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnFacturasMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnFacturasMousePressed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -428,6 +436,18 @@ public class Menu extends javax.swing.JFrame {
         efectoPressed(btnUsuarios);
     }//GEN-LAST:event_btnUsuariosMousePressed
 
+    private void btnProveedoresMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedoresMousePressed
+        efectoReset(clicked);
+        clicked = 3;
+        efectoPressed(btnProveedores);
+    }//GEN-LAST:event_btnProveedoresMousePressed
+
+    private void btnFacturasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacturasMousePressed
+        efectoReset(clicked);
+        clicked = 4;
+        efectoPressed(btnFacturas);
+    }//GEN-LAST:event_btnFacturasMousePressed
+
     public void efectoEntered(JLabel label){
          label.setBackground(new java.awt.Color(37, 46, 57));
     }
@@ -512,10 +532,10 @@ public class Menu extends javax.swing.JFrame {
     public javax.swing.JPanel body;
     public javax.swing.JLabel btnDashboard;
     private javax.swing.JLabel btnEmpleados;
-    private javax.swing.JLabel btnFacturas;
+    public javax.swing.JLabel btnFacturas;
     private javax.swing.JLabel btnPlanilla;
     private javax.swing.JLabel btnProductos;
-    private javax.swing.JLabel btnProveedores;
+    public javax.swing.JLabel btnProveedores;
     private javax.swing.JLabel btnSucursales;
     public javax.swing.JLabel btnUsuarios;
     private javax.swing.JPanel header;

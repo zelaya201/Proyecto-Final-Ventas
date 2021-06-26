@@ -47,6 +47,10 @@ public class Empleado extends Persona{
         this.estado = estado;
     }
 
+    public Empleado(int idPersona, String nombre, String apellido) {
+        super(idPersona, nombre, apellido);
+    }
+
     public String getCargo() {
         return cargo;
     }

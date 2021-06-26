@@ -20,8 +20,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelos.Empleado;
+import modelos.Factura;
+import modelos.Proveedor;
 import modelos.Usuario;
 import modelos.dao.EmpleadoDao;
+import modelos.dao.FacturaDao;
+import modelos.dao.ProveedorDao;
 import modelos.dao.UsuarioDao;
 import utilidades.CambiaPanel;
 import utilidades.ImgTabla;
@@ -29,7 +33,9 @@ import vistas.main.Login;
 import vistas.main.Menu;
 import vistas.modulos.Dashboard;
 import vistas.modulos.ModalUsuario;
+import vistas.modulos.VistaFactura;
 import vistas.modulos.VistaUsuario;
+import vistas.modulos.VistasProveedores;
 
 public class Controlador extends MouseAdapter implements MouseListener, KeyListener, ItemListener{
     DefaultTableModel modelo;
@@ -45,6 +51,18 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     UsuarioDao usuarioDao = new UsuarioDao();
     VistaUsuario vistaUsuario;
     ModalUsuario modalUsuario;
+    
+    /* FACTURA */
+    Factura factura = new Factura();
+    Factura facturaSelected = null;
+    FacturaDao facturaDao = new FacturaDao();
+    VistaFactura vistaFactura;
+    
+    /* PROVEEDOR */
+    Proveedor proveedor = new Proveedor();
+    Proveedor proveedorSelected = null;
+    ProveedorDao proveedorDao = new ProveedorDao();
+    VistasProveedores vistaProveedor;
     
     /* EMPLEADOS */
     Empleado empleado = new Empleado();
@@ -73,6 +91,18 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             principalOn = "Usuarios";
             new CambiaPanel(menu.body, vistaUsuario);
             mostrarDatos(vistaUsuario.tablaUsuarios);
+        }else if(vista.equals("Proveedor")){
+            vistaProveedor = new VistasProveedores();
+            vistaProveedor.setControlador(this);
+            principalOn = "Proveedor";
+            new CambiaPanel(menu.body, vistaProveedor);
+            mostrarDatos(vistaProveedor.tablaProveedor);    
+        }else if(vista.equals("Factura")){
+            vistaFactura = new VistaFactura();
+            vistaFactura.setControlador(this);
+            principalOn = "Factura";
+            new CambiaPanel(menu.body, vistaFactura);
+            mostrarDatos(vistaFactura.tablaFactura);  
         }
     }
     
@@ -179,6 +209,41 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             
             tabla.setModel(modelo);
         }
+        
+       /* PROVEEDORES */
+        if(principalOn.equals("Proveedor")){
+          
+            ArrayList<Proveedor> proveedor = proveedorDao.selectAll();
+     
+            for(Proveedor x : proveedor){
+
+            modelo.addRow(new Object[]{x.getCodProveedor(), x.getNombre(), x.getTelefono(), x.getDireccion()});
+            }
+            
+            if(modelo.getRowCount() < 1){
+                modelo.addRow(new Object[]{"", "", "Ningún resultado encontrado"});
+            }
+            
+            tabla.setModel(modelo);
+            
+        }
+        
+        /* FACTURA */
+        if(principalOn.equals("Factura")){
+          
+            ArrayList<Factura> factura = facturaDao.selectAll();
+     
+            for(Factura x : factura){
+            modelo.addRow(new Object[]{x.getNoFactura(), x.getCliente().getNombre(), x.getFecha(), x.getVendedor().getNombre(), x.getIva(), x.getTotal()});
+            }
+            
+            if(modelo.getRowCount() < 1){
+                modelo.addRow(new Object[]{"", "", "Ningún resultado encontrado"});
+            }
+            
+            tabla.setModel(modelo);
+        }
+        
     }
     
     public void mostrarBusqueda(ArrayList lista, JTable tabla){
@@ -225,6 +290,43 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             }
             
             
+        }
+        
+        /* PROVEEDORES */
+        if(principalOn.equals("Proveedor")){
+           
+            for(Object obj : lista){
+                
+                Proveedor x = (Proveedor) obj;
+              
+                if(x.getEstado() > 0){
+                    modelo.addRow(new Object[]{x.getCodProveedor(), x.getNombre(), x.getTelefono(), x.getDireccion()});
+                }
+            }
+            
+            if(modelo.getRowCount() < 1){
+                mostrarDatos(vistaProveedor.tablaProveedor);
+            }else{
+                tabla.setModel(modelo);
+            } 
+        }
+        
+         /* FACTURAS */
+        if(principalOn.equals("Factura")){
+           
+            for(Object obj : lista){
+                
+                Factura x = (Factura) obj;
+             
+                modelo.addRow(new Object[]{x.getNoFactura(), x.getCliente().getNombre(), x.getFecha(), x.getVendedor().getNombre(), x.getIva(), x.getTotal()});
+               
+            }
+            
+            if(modelo.getRowCount() < 1){
+                mostrarDatos(vistaFactura.tablaFactura);
+            }else{
+                tabla.setModel(modelo);
+            } 
         }
           
     }
@@ -391,6 +493,10 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 /* - - - BOTONES DEL MENU Y MODULOS - - - -*/
             if(e.getSource().equals(menu.btnDashboard)){
                 mostrarModulos("Menu");
+            }else if(e.getSource().equals(menu.btnFacturas)){
+                mostrarModulos("Factura");
+            }else if(e.getSource().equals(menu.btnProveedores)){
+                mostrarModulos("Proveedor");
             }else if(e.getSource().equals(menu.btnUsuarios)){
                 mostrarModulos("Usuarios");
             }else if(e.getSource().equals(vistaUsuario.btnNuevo)){
@@ -415,6 +521,24 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 mostrarDatos(vistaUsuario.tablaUsuarios);
             }else{
                 mostrarBusqueda(lista, vistaUsuario.tablaUsuarios);
+            }
+        }
+        
+        if(principalOn.equals("Proveedor")){
+            ArrayList<Proveedor> lista = proveedorDao.buscar(vistaProveedor.tfBusqueda.getText() + e.getKeyChar());
+            if(lista.isEmpty()){
+                mostrarDatos(vistaProveedor.tablaProveedor);
+            }else{
+                mostrarBusqueda(lista, vistaProveedor.tablaProveedor);
+            }
+        }
+        
+        if(principalOn.equals("Factura")){
+            ArrayList<Factura> lista = facturaDao.buscar(vistaFactura.tfBusqueda.getText() + e.getKeyChar());
+            if(lista.isEmpty()){
+                mostrarDatos(vistaFactura.tablaFactura);
+            }else{
+                mostrarBusqueda(lista, vistaFactura.tablaFactura);
             }
         }
     }

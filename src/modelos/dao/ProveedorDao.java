@@ -27,10 +27,10 @@ public class ProveedorDao {
         return select(sql);
     }
     
-    /*public ArrayList<Proveedor> buscar(String dato) {
-        String sql = "select * from proveedor where carnet like '" + dato + "%' or  nombre like '" + dato + "%' or apellido like '" + dato + "%'";
+    public ArrayList<Proveedor> buscar(String dato) {
+        String sql = "select * from proveedor where cod_proveedor like '" + dato + "%' or  nom_proveedor like '" + dato + "%'";
         return select(sql);
-    }*/
+    }
     
     public ArrayList<Proveedor> selectId(int id) {
         String sql = "select * from proveedor where cod_proveedor=" + id;

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ComponentListener;
 import utilidades.MyComboBoxUI;
 import utilidades.TextPrompt;
+import vistas.modulos.VistaUsuario;
 
 public class ModalUsuario extends javax.swing.JDialog {
 
@@ -217,7 +218,6 @@ public class ModalUsuario extends javax.swing.JDialog {
         cbEmpleado.setEnabled(false);
         cbEmpleado.setFocusable(false);
         cbEmpleado.setLightWeightPopupEnabled(false);
-        cbEmpleado.setOpaque(true);
         cbEmpleado.setRequestFocusEnabled(false);
         cbEmpleado.setVerifyInputWhenFocusTarget(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
