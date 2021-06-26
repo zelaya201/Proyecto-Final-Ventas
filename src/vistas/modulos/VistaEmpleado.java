@@ -181,6 +181,13 @@ public class VistaEmpleado extends javax.swing.JPanel {
             tablaEmpleados.getColumnModel().getColumn(4).setResizable(false);
             tablaEmpleados.getColumnModel().getColumn(5).setResizable(false);
             tablaEmpleados.getColumnModel().getColumn(6).setResizable(false);
+            tablaEmpleados.getColumnModel().getColumn(7).setResizable(false);
+            tablaEmpleados.getColumnModel().getColumn(8).setResizable(false);
+            tablaEmpleados.getColumnModel().getColumn(9).setResizable(false);
+            tablaEmpleados.getColumnModel().getColumn(10).setResizable(false);
+            tablaEmpleados.getColumnModel().getColumn(11).setResizable(false);
+            tablaEmpleados.getColumnModel().getColumn(12).setResizable(false);
+            tablaEmpleados.getColumnModel().getColumn(13).setResizable(false);
         }
 
         jPanel1.add(jScrollPane2, "card2");

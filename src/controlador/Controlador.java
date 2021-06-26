@@ -60,6 +60,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     EmpleadoDao empleadoDao = new EmpleadoDao();  
     VistaEmpleado vistaEmpleado; 
     ModalEmpleado modalEmpleado;
+    private String nickname;
 
     public Controlador(Menu menu) {
         this.menu = menu;
@@ -186,16 +187,14 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             modalEmpleado.cbUsuario.setSelectedItem(empleadoSelected.getUsuario());
             
             //modalEmpleado.cbEmpleado.addItem("Adonay / 01234567-8");
-            //modalEmpleado.cbEmpleado.setSelectedItem("Adonay / 01234567-8");
-                        
-          
-            modalEmpleado.cbUsuario.setEnabled(false);
-        
+            //modalEmpleado.cbEmpleado.setSelectedItem("Adonay / 01234567-8");        
+            modalEmpleado.cbUsuario.setEnabled(false);        
             modalEmpleado.jtDui.setText(empleadoSelected.getDui()); 
             
             modalEmpleado.setSize(482, 346); //Width - Height
             llenarComboBox();
             modalEmpleado.iniciar();
+            
         }else if(modal.equals("eliminarEmpleado") && principalOn.equals("Empleados")){
             if(empleadoSelected != null){
                 empleadoSelected.setEstado(0);
@@ -271,7 +270,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             tabla.setModel(modelo);
         }
           /* CONTROL DE Empleados */
-        if(principalOn.equals("Empleados")){
+        else if(principalOn.equals("Empleados")){
             tabla.setDefaultRenderer(Object.class, new ImgTabla()); //Renderizar para poner las img
             
             tabla.getColumnModel().getColumn(0).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
@@ -531,42 +530,135 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             
         }
          /* CONTROL DE EMPLEADOS */
-        if(principalOn.equals("Empleados") && modalOn.equals("modalEmpleado")){
+         if(principalOn.equals("Empleados") && modalOn.equals("modalEmpleado")){
             if(btn.equals("Agregar")){
-                if(!modalEmpleado.jtTelefono.getText().isEmpty()
-                        && modalEmpleado.cbUsuario.getSelectedIndex() > 0 
-                        && modalEmpleado.cbUsuario.getSelectedIndex() > 0){
-                }
-                        
-                        //Modificar
-                        ArrayList<Empleado> existeUser = empleadoDao.selectAllTo("empleado_nick", modalEmpleado.jtTelefono.getText());
-                        
-                        if(existeUser.isEmpty()){
-                            
-                            empleadoSelected.getDui(modalEmpleado.jtDui.getText());
-                            
-                            if(empleadoDao.update(empleadoSelected)){ //Guardado
-                                //Mensaje de modificado
-                                DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                                DesktopNotify.showDesktopMessage("Empleado actualizado", "El empleado ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
-                                empleadoSelected = null;
+                if(!modalEmpleado.jtDui.getText().isEmpty()
+                        && modalEmpleado.cbUsuario.getSelectedIndex() > 0 ){
+                    
+                    if(empleadoSelected == null && !modalEmpleado.jtDui.getText().isEmpty()){
+
+                        if(modalEmpleado.jtDui.getText().equals(modalEmpleado.jtDui.getText())){
+
+                            String clave = Encriptacion.getStringMessageDigest(modalEmpleado.jtDui.getText(), Encriptacion.SHA256); //Encriptamos la clave
+                            String dui = "";
+
+                            if(modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Administrador") || modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Usuario")){
+                                String v[] = modalEmpleado.cbUsuario.getSelectedItem().toString().split(" / ");
+
+                                ArrayList<Usuario> usuarios = usuarioDao.buscar(v[1]);
+                                usuario = usuarios.get(0);
+                                nickname = usuarios.get(0).getNickname();
+                                
+                            }
+
+                            ArrayList<Empleado> existeUser = empleadoDao.selectAllTo("empleado_nombre", modalEmpleado.jtNombre.getText());
+                            ArrayList<Empleado> existeReferencia = empleadoDao.selectAllTo("empleado_dui", dui);
+
+                            if(existeUser.isEmpty() && existeReferencia.isEmpty()){
+
+                                 Empleado empleado = new Empleado(modalEmpleado.jtNombre.getText(), nickname , modalEmpleado.cbUsuario.getSelectedItem().toString(), 1, nickname);
+                                 
+                                if(empleadoDao.insert(empleado)){
+                                     
+                                    ArrayList<Empleado> empleados = empleadoDao.selectAllTo("empleado_nombre", empleado.getNombre());
+                                    Empleado empleadoRecuperado = empleados.get(0); 
+                                     
+                                    if(empleadoRecuperado.getUsuario().equals("Usuario") || empleadoRecuperado.getUsuario().equals("Administrador")){
+                                        usuario.setEmpleado(empleadoRecuperado);
+                                        usuarioDao.update(usuario);
+                                        
+                                        //Mensaje de guardado
+                                        DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                                        DesktopNotify.showDesktopMessage("Empleado guardado", "El empleado ha sido alamcenado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                    }
+                                    
+                                }
+                                
+                                modalOn = "";
                                 modalEmpleado.dispose();
-                            }else{ //Ocurrio un error
-                                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                                DesktopNotify.showDesktopMessage("Error", "Empleado no actualizado", DesktopNotify.FAIL, 8000);
+                                
+                            }else{
+                                
+                                if(!existeUser.isEmpty()){
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                    DesktopNotify.showDesktopMessage("Empleado " + modalEmpleado.jtNombre.getText() +  " ya existe", "El nuevo nombre de empleado debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
+                                }else{
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                    DesktopNotify.showDesktopMessage("Usuario ya asignado", "El usuario ya tiene asignada una cuenta de empleado.", DesktopNotify.WARNING, 10000);
+                                }
+                                                                
                             }
                         }else{
-                            
-                            if(existeUser.get(0).getDui().equals(empleadoSelected.getDui())){ //Dejo mismo nombre de usuario
-                                empleadoSelected = null;
-                                modalEmpleado.dispose();
-                           //Empleado ya existe
-                                 }
+                            //Contraseñas diferentes
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                            DesktopNotify.showDesktopMessage("Dui diferentes", "el dui tienen que ser igual.", DesktopNotify.WARNING, 8000);
+                        }
+                        
+                    }else{
+                        
+                        if(empleadoSelected != null){
+                            //Modificar
+                            ArrayList<Empleado> existeUser = empleadoDao.selectAllTo("empleado_nombre", modalEmpleado.jtNombre.getText());
+
+                            if(existeUser.isEmpty()){
+
+                                empleadoSelected.setNombre(modalEmpleado.jtNombre.getText());
+
+                                if(empleadoDao.update(empleadoSelected)){ //Guardado
+                                    //Mensaje de modificado
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                                    DesktopNotify.showDesktopMessage("Empleado actualizado", "El empleado ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                    empleadoSelected = null;
+                                    modalEmpleado.dispose();
+                                }else{ //Ocurrio un error
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                    DesktopNotify.showDesktopMessage("Error", "Empleado no actualizado", DesktopNotify.FAIL, 8000);
+                                }
+                            }else{
+
+                                if(existeUser.get(0).getNombre().equals(empleadoSelected.getNombre())){ //Dejo mismo nombre de usuario
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                                    DesktopNotify.showDesktopMessage("Empleado actualizado", "El empleado ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                    empleadoSelected = null;
+                                    modalEmpleado.dispose();
+                                }else{ //empleado ya existe
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                    DesktopNotify.showDesktopMessage("Empleado " + modalEmpleado.jtNombre.getText() +  " ya existe", "El nuevo nombre de empleado debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
+                                }
+                            }
+                        }else{
+                            //Campos incompletos
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                            DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
                         }
     
                     }
                                         
-               
+                }else if(empleadoSelected != null && !modalEmpleado.jtDui.getText().isEmpty() && !modalEmpleado.jtDui.getText().isEmpty()){
+                    //Cambiar dui
+                    if(modalEmpleado.jtDui.getText().equals(modalEmpleado.jtDui.getText())){
+                        
+                        String clave = Encriptacion.getStringMessageDigest(modalEmpleado.jtDui.getText(), Encriptacion.SHA256); //Encriptamos la clave
+                        String dui = "";
+                        
+                        empleadoSelected.getDui(dui);
+                        
+                        if(empleadoDao.update(empleadoSelected)){
+                            //Mensaje de dui modificado
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                            DesktopNotify.showDesktopMessage("Dui modificada", "Su Dui ha sido modificada exitosamente.", DesktopNotify.SUCCESS, 8000);
+                            empleadoSelected = null;
+                            modalEmpleado.dispose();
+                        }else{
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                            DesktopNotify.showDesktopMessage("Error", "Dui no modificada.", DesktopNotify.FAIL, 8000);
+                        } 
+
+                    }else{
+                        //Contraseñas diferentes
+                        DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                        DesktopNotify.showDesktopMessage("Dui diferentes", "el dui tienen que ser igual.", DesktopNotify.WARNING, 8000);
+                    }
                 }else{
                     //Campos incompletos
                     DesktopNotify.setDefaultTheme(NotifyTheme.Red);
@@ -574,6 +666,12 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 }
                 
                 mostrarDatos(vistaEmpleado.tablaEmpleados);
+                
+            }
+            
+        }
+                
+              
                 
             }
             
@@ -614,7 +712,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 ArrayList<Usuario> usuarios = usuarioDao.selectAll();
                 
                 for(Usuario x : usuarios){
-                    modalEmpleado.cbUsuario.addItem(x.getNickname() + " / " + x.getRol());
+                    modalEmpleado.cbUsuario.addItem(x.getNickname() + " / " + x.getIdUsuario());
                     if(x.getNickname().equals(empleadoSelected.getUsuario())){
                         dato = x.getNickname() + " / " + x.getNickname();
                     }
@@ -753,20 +851,20 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             }
         }
         //itemStateChanged EMPLEADO//
-          if(modalOn.equals("modalEmpleado")){
-
-            modalEmpleado.cbUsuario.addItem("Asignar empleado");
+         if(modalOn.equals("modalEmpleado")){
+            modalEmpleado.cbUsuario.setEnabled(true);
+            modalEmpleado.cbUsuario.removeAllItems();
+            modalEmpleado.cbUsuario.addItem("Asignar usuario");
             
-            if(modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Usuario") ){
+            if(modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Usuario") || modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Usuario")){
                 
-                ArrayList<Empleado> empleados = empleadoDao.selectAll();
+                ArrayList<Usuario> usuarios = usuarioDao.selectAll();
 
-                for(Empleado x : empleados){
-                   modalEmpleado.cbUsuario.addItem(x.getUsuario()+ " / " + x.getEstado());
+                for(Usuario x : usuarios){
+                    modalEmpleado.cbUsuario.addItem(x.getNickname() + " / " + x.getIdUsuario());
                 }
-            
+            }
         }
-          }
     }
     
     

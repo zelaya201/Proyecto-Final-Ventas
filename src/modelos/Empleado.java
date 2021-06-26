@@ -40,6 +40,11 @@ public class Empleado extends Persona{
         this.estado = estado;
     }
 
+    public Empleado(String text, String nickname, String toString, int i, String nickname0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+ 
 
     public String getGenero() {
         return genero;
@@ -100,9 +105,11 @@ public class Empleado extends Persona{
         this.usuario = usuario;
     }
 
-    public void getDui(String text) {
+    public void getDui(String dui) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+   
 
 
     
