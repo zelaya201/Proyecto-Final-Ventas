@@ -100,6 +100,10 @@ public class Empleado extends Persona{
         this.usuario = usuario;
     }
 
+    public void getDui(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
     
 

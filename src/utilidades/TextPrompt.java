@@ -14,6 +14,10 @@ public class TextPrompt extends JLabel implements FocusListener, DocumentListene
 	 */
 	private static final long serialVersionUID = 1L;
 
+    public TextPrompt(String usuario, JComboBox<String> cbUsuario) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 	public enum Show {
 		ALWAYS, FOCUS_GAINED, FOCUS_LOST;
 	}

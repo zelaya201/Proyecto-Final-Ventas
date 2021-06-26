@@ -1,6 +1,7 @@
 package vistas.modulos;
 
 import controlador.Controlador;
+import static java.awt.SystemColor.control;
 import java.awt.event.KeyListener;
 import utilidades.TextPrompt;
 
@@ -56,6 +57,11 @@ public class VistaEmpleado extends javax.swing.JPanel {
         btnNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnNuevo.setIconTextGap(1);
         btnNuevo.setOpaque(true);
+        btnNuevo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNuevoMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -189,6 +195,10 @@ public class VistaEmpleado extends javax.swing.JPanel {
     private void tfBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfBusquedaKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_tfBusquedaKeyTyped
+
+    private void btnNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNuevoMouseClicked
+       // TODO add your handling code here:
+    }//GEN-LAST:event_btnNuevoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

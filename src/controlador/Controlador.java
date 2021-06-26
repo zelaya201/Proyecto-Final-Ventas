@@ -172,7 +172,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
              modalEmpleado.jPanel1.remove(modalEmpleado.jtEdad);
               modalEmpleado.jPanel1.remove(modalEmpleado.jtEstado);
              
-                modalEmpleado.jPanel1.remove(modalEmpleado.jtGmail);
+                modalEmpleado.jPanel1.remove(modalEmpleado.jtEmail);
                  modalEmpleado.jPanel1.remove(modalEmpleado.jtDireccion);
                   modalEmpleado.jPanel1.remove(modalEmpleado.jtSalario);
                    

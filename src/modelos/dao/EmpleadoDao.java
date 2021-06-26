@@ -40,18 +40,18 @@ public class EmpleadoDao {
     } 
     
     public boolean insert(Empleado obj){
-        String sql = "insert into empleado(dui_empleado,nom_empleado,ape_empleado,cargo_empleado,genero_empleado,edad_empleado,email_empleado,tel_empleado,dir_empleado,salario_empleado,afp_empleado,isss_empleado,renta_empleado,estado_empleado,id_empleado1,id_sucursal1)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into empleado(dui_empleado,nom_empleado,genero_empleado,edad_empleado,email_empleado,tel_empleado,dir_empleado,renta_empleado,estado_empleado,id_empleado1,id_usuario1)VALUES(?,?,?,?,?,?,?,?,?,?,?)";
         return alterarRegistro(sql, obj);
     }
     
-    public void update(Empleado obj) {
+    public boolean update(Empleado obj) {
         String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?,  renta_empleado =?, estado_empleado =?,  id_usuario1 =? where id_empleado=" + obj.getIdPersona();
-        alterarRegistro(sql, obj);
+      return  alterarRegistro(sql, obj);
     }
     
-    public void updateUsuario(Empleado obj) {
+    public boolean updateEmpleado(Empleado obj) {
         String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?, estado_empleado =?, id_usuario1 =? where id_empleado=" + obj.getIdPersona();
-        alterarRegistroUsuario(sql, obj);
+        return alterarRegistroUsuario(sql, obj);
     }
 
     private ArrayList<Empleado> select(String sql){
