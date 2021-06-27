@@ -4,17 +4,18 @@ import controlador.Controlador;
 import java.awt.event.KeyListener;
 import utilidades.TextPrompt;
 
-public class VistaFactura extends javax.swing.JPanel {
+public class VistasProveedores extends javax.swing.JPanel {
 
-    public VistaFactura() {
+    public VistasProveedores() {
         initComponents();
-        new TextPrompt("Buscar factura", tfBusqueda);        
+        new TextPrompt("Buscar Proveedor", tfBusqueda);
+        
     }
     
     public void setControlador(Controlador control){
         this.btnNuevo.addMouseListener(control);
         this.tfBusqueda.addKeyListener(control);
-        this.tablaFactura.addMouseListener(control);
+        this.tablaProveedor.addMouseListener(control);
     }
     
 
@@ -35,7 +36,7 @@ public class VistaFactura extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tablaFactura = new rojerusan.RSTableMetro();
+        tablaProveedor = new rojerusan.RSTableMetro();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setOpaque(false);
@@ -44,13 +45,11 @@ public class VistaFactura extends javax.swing.JPanel {
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        btnNuevo.setBackground(new java.awt.Color(8, 89, 165));
+        btnNuevo.setBackground(new java.awt.Color(236, 240, 245));
         btnNuevo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        btnNuevo.setForeground(new java.awt.Color(255, 255, 255));
+        btnNuevo.setForeground(new java.awt.Color(236, 240, 245));
         btnNuevo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add_22px.png"))); // NOI18N
-        btnNuevo.setText("Nueva factura");
-        btnNuevo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(8, 89, 165), 1, true));
+        btnNuevo.setText("Nuevo Proveedor");
         btnNuevo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnNuevo.setIconTextGap(1);
@@ -68,8 +67,8 @@ public class VistaFactura extends javax.swing.JPanel {
         jLabel3.setBackground(new java.awt.Color(51, 51, 51));
         jLabel3.setFont(new java.awt.Font("Bahnschrift", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(42, 53, 66));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user_group_22px.png"))); // NOI18N
-        jLabel3.setText("Facturas / historial de facturas");
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/truckb_22px.png"))); // NOI18N
+        jLabel3.setText("Proveedor / lista de proveedores");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -79,6 +78,7 @@ public class VistaFactura extends javax.swing.JPanel {
         jPanel3.add(jLabel3, gridBagConstraints);
 
         tfBusqueda.setBackground(new java.awt.Color(255, 255, 255));
+        tfBusqueda.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         tfBusqueda.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 1)));
         tfBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -99,7 +99,7 @@ public class VistaFactura extends javax.swing.JPanel {
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/find_user_male_25px.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search_contacts_25px.png"))); // NOI18N
         jLabel1.setLabelFor(tfBusqueda);
         jLabel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         jLabel1.setOpaque(true);
@@ -122,59 +122,61 @@ public class VistaFactura extends javax.swing.JPanel {
         jScrollPane2.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jScrollPane2.setOpaque(false);
 
-        tablaFactura.setBackground(new java.awt.Color(255, 255, 255));
-        tablaFactura.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(249, 249, 249)));
-        tablaFactura.setForeground(new java.awt.Color(255, 255, 255));
-        tablaFactura.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProveedor.setBackground(new java.awt.Color(255, 255, 255));
+        tablaProveedor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(249, 249, 249)));
+        tablaProveedor.setForeground(new java.awt.Color(255, 255, 255));
+        tablaProveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "No. de Factura", "Cliente", "Fecha", "Vendedor", "Total"
+                "Cod. Proveedor", "Nom. Proveedor", "Tel. Proveedor", "Dir. Proveedor"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tablaFactura.setAltoHead(30);
-        tablaFactura.setColorBackgoundHead(new java.awt.Color(249, 249, 249));
-        tablaFactura.setColorBordeFilas(new java.awt.Color(255, 255, 255));
-        tablaFactura.setColorBordeHead(new java.awt.Color(255, 255, 255));
-        tablaFactura.setColorFilasBackgound2(new java.awt.Color(249, 249, 249));
-        tablaFactura.setColorFilasForeground1(new java.awt.Color(51, 51, 51));
-        tablaFactura.setColorFilasForeground2(new java.awt.Color(51, 51, 51));
-        tablaFactura.setColorForegroundHead(new java.awt.Color(0, 0, 0));
-        tablaFactura.setColorSelBackgound(new java.awt.Color(240, 240, 240));
-        tablaFactura.setColorSelForeground(new java.awt.Color(51, 51, 51));
-        tablaFactura.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
-        tablaFactura.setFuenteFilas(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
-        tablaFactura.setFuenteFilasSelect(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
-        tablaFactura.setFuenteHead(new java.awt.Font("Calibri", 1, 14)); // NOI18N
-        tablaFactura.setGridColor(new java.awt.Color(255, 255, 255));
-        tablaFactura.setGrosorBordeFilas(0);
-        tablaFactura.setGrosorBordeHead(0);
-        tablaFactura.setMultipleSeleccion(false);
-        tablaFactura.setRowHeight(40);
-        tablaFactura.getTableHeader().setResizingAllowed(false);
-        tablaFactura.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(tablaFactura);
-        if (tablaFactura.getColumnModel().getColumnCount() > 0) {
-            tablaFactura.getColumnModel().getColumn(0).setResizable(false);
-            tablaFactura.getColumnModel().getColumn(0).setPreferredWidth(0);
-            tablaFactura.getColumnModel().getColumn(1).setResizable(false);
-            tablaFactura.getColumnModel().getColumn(2).setResizable(false);
-            tablaFactura.getColumnModel().getColumn(3).setResizable(false);
-            tablaFactura.getColumnModel().getColumn(4).setResizable(false);
+        tablaProveedor.setAltoHead(30);
+        tablaProveedor.setColorBackgoundHead(new java.awt.Color(249, 249, 249));
+        tablaProveedor.setColorBordeFilas(new java.awt.Color(255, 255, 255));
+        tablaProveedor.setColorBordeHead(new java.awt.Color(255, 255, 255));
+        tablaProveedor.setColorFilasBackgound2(new java.awt.Color(249, 249, 249));
+        tablaProveedor.setColorFilasForeground1(new java.awt.Color(51, 51, 51));
+        tablaProveedor.setColorFilasForeground2(new java.awt.Color(51, 51, 51));
+        tablaProveedor.setColorForegroundHead(new java.awt.Color(0, 0, 0));
+        tablaProveedor.setColorSelBackgound(new java.awt.Color(240, 240, 240));
+        tablaProveedor.setColorSelForeground(new java.awt.Color(51, 51, 51));
+        tablaProveedor.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        tablaProveedor.setFuenteFilas(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        tablaProveedor.setFuenteFilasSelect(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        tablaProveedor.setFuenteHead(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        tablaProveedor.setGridColor(new java.awt.Color(255, 255, 255));
+        tablaProveedor.setGrosorBordeFilas(0);
+        tablaProveedor.setGrosorBordeHead(0);
+        tablaProveedor.setMultipleSeleccion(false);
+        tablaProveedor.setRowHeight(40);
+        tablaProveedor.getTableHeader().setResizingAllowed(false);
+        tablaProveedor.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tablaProveedor);
+        if (tablaProveedor.getColumnModel().getColumnCount() > 0) {
+            tablaProveedor.getColumnModel().getColumn(0).setResizable(false);
+            tablaProveedor.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tablaProveedor.getColumnModel().getColumn(1).setResizable(false);
+            tablaProveedor.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tablaProveedor.getColumnModel().getColumn(2).setResizable(false);
+            tablaProveedor.getColumnModel().getColumn(2).setPreferredWidth(40);
+            tablaProveedor.getColumnModel().getColumn(3).setResizable(false);
+            tablaProveedor.getColumnModel().getColumn(3).setPreferredWidth(200);
         }
 
         jPanel1.add(jScrollPane2, "card2");
@@ -198,7 +200,7 @@ public class VistaFactura extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    public rojerusan.RSTableMetro tablaFactura;
+    public rojerusan.RSTableMetro tablaProveedor;
     public javax.swing.JTextField tfBusqueda;
     // End of variables declaration//GEN-END:variables
 }

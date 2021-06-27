@@ -96,5 +96,3 @@ public abstract class Persona {
         this.telefono = telefono;
     }
 }
-
-

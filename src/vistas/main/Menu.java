@@ -19,6 +19,8 @@ public class Menu extends javax.swing.JFrame {
     public void setControlador(Controlador control){
         this.btnUsuarios.addMouseListener(control);
         this.btnDashboard.addMouseListener(control);
+        this.btnProveedores.addMouseListener(control);
+        this.btnFacturas.addMouseListener(control);
         this.btnSalir.addMouseListener(control);
     }
     
@@ -140,6 +142,9 @@ public class Menu extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnProveedoresMouseExited(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnProveedoresMousePressed(evt);
+            }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -164,6 +169,9 @@ public class Menu extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnFacturasMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnFacturasMousePressed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -392,6 +400,18 @@ public class Menu extends javax.swing.JFrame {
     private void btnSalirMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseReleased
         
     }//GEN-LAST:event_btnSalirMouseReleased
+
+    private void btnProveedoresMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedoresMousePressed
+        efectoReset(clicked);
+        clicked = 3;
+        efectoPressed(btnProveedores);
+    }//GEN-LAST:event_btnProveedoresMousePressed
+
+    private void btnFacturasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacturasMousePressed
+        efectoReset(clicked);
+        clicked = 4;
+        efectoPressed(btnFacturas);
+    }//GEN-LAST:event_btnFacturasMousePressed
 
     public void efectoEntered(JLabel label){
          label.setBackground(new java.awt.Color(37, 46, 57));

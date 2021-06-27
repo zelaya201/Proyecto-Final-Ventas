@@ -20,7 +20,7 @@ public class FacturaDao {
     }
     
     public ArrayList<Factura> selectAll() {
-        String sql = "select * from factura inner join cliente on id_cliente = id_cliente1 inner join empleado on id_empleado = id_empleado2";
+        String sql = "select * from factura inner join cliente on id_cliente = id_cliente1 inner join empleado on id_empleado = id_empleado2 order by no_factura asc";
         return select(sql);
     }
     
@@ -30,7 +30,7 @@ public class FacturaDao {
     }
         
     public ArrayList<Factura> buscar(String dato) {
-        String sql = "select * from cliente where carnet like '" + dato + "%' or  nombre like '" + dato + "%' or apellido like '" + dato + "%'";
+        String sql = "select * from factura inner join cliente on id_cliente = id_cliente1 inner join empleado on id_empleado = id_empleado2 where cliente.nom_cliente like '" + dato + "%' or  empleado.nom_empleado like '" + dato + "%' or no_factura like '" + dato + "%'or fecha_factura like '" + dato + "%'";
         return select(sql);
     }
     
