@@ -39,7 +39,6 @@ public class ModalEmpleado extends javax.swing.JDialog {
         new TextPrompt("Apellido", jtApellido);
         new TextPrompt("Dui", jtDui);
         new TextPrompt("Telefono", jtTelefono);
-      
         new TextPrompt("Direccion", jtDireccion);
         new TextPrompt("Edad", jtEdad); 
          new TextPrompt("Salario", jtSalario);

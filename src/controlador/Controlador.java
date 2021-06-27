@@ -686,13 +686,13 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
         
             if(!principalOn.equals("Login")){
                     /* - - - BOTONES DEL MENU Y MODULOS - - - -*/
-                if(e.getSource().equals(menu.btnDashboard)){
-                    mostrarModulos("Menu");
-              //  }else if(e.getSource().equals(menu.btnUsuarios)){
-                //    mostrarModulos("Usuarios");
-                //}else if(e.getSource().equals(vistaUsuario.btnNuevo)){
+               if(e.getSource().equals(menu.btnDashboard)){
+                  mostrarModulos("Menu");
+               // }else if(e.getSource().equals(menu.btnUsuarios)){
+                 //   mostrarModulos("Usuarios");
+               // }else if(e.getSource().equals(vistaUsuario.btnNuevo)){
                   //  mostrarModals("nuevoUsuario");
-                //}else if(e.getSource().equals(modalUsuario.btnGuardar)){
+               // }else if(e.getSource().equals(modalUsuario.btnGuardar)){
                   //  eventosBotones("Agregar");
                    //empleados
             }else if(e.getSource().equals(menu.btnEmpleados)){
