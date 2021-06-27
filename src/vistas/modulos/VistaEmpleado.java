@@ -1,7 +1,6 @@
 package vistas.modulos;
 
 import controlador.Controlador;
-import static java.awt.SystemColor.control;
 import java.awt.event.KeyListener;
 import utilidades.TextPrompt;
 
@@ -9,7 +8,7 @@ public class VistaEmpleado extends javax.swing.JPanel {
 
     public VistaEmpleado() {
         initComponents();
-        new TextPrompt("Buscar usuario", tfBusqueda);
+        new TextPrompt("Buscar empleados", tfBusqueda);
         
     }
     
@@ -132,19 +131,19 @@ public class VistaEmpleado extends javax.swing.JPanel {
         tablaEmpleados.setForeground(new java.awt.Color(255, 255, 255));
         tablaEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "No.", "Dui", "Nombre", "Apellido", "Genero", "Edad", "Email", "Telefono", "direccion", "Salario", "Estado", "USUARIO", "Edita", "Eliminar"
+                "No.", "Dui", "Nombre", "Apellido", "Genero", "Edad", "Email", "Telefono", "direccion", "Salario", "Edita", "Eliminar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -186,8 +185,6 @@ public class VistaEmpleado extends javax.swing.JPanel {
             tablaEmpleados.getColumnModel().getColumn(9).setResizable(false);
             tablaEmpleados.getColumnModel().getColumn(10).setResizable(false);
             tablaEmpleados.getColumnModel().getColumn(11).setResizable(false);
-            tablaEmpleados.getColumnModel().getColumn(12).setResizable(false);
-            tablaEmpleados.getColumnModel().getColumn(13).setResizable(false);
         }
 
         jPanel1.add(jScrollPane2, "card2");

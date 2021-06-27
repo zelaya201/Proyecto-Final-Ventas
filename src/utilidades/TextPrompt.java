@@ -3,6 +3,7 @@ package utilidades;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import javax.swing.event.*;
 import javax.swing.text.*;
@@ -14,9 +15,7 @@ public class TextPrompt extends JLabel implements FocusListener, DocumentListene
 	 */
 	private static final long serialVersionUID = 1L;
 
-    public TextPrompt(String usuario, JComboBox<String> cbUsuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 
 	public enum Show {
 		ALWAYS, FOCUS_GAINED, FOCUS_LOST;
@@ -41,9 +40,9 @@ public class TextPrompt extends JLabel implements FocusListener, DocumentListene
 		setText(text);
 		setFont(component.getFont());
                 
-//		setForeground(component.getForeground());
+		setForeground(component.getForeground());
 		setForeground(Color.gray);
-//		setBorder(new EmptyBorder(component.getInsets()));
+		setBorder(new EmptyBorder(component.getInsets()));
 		setHorizontalAlignment(JLabel.LEADING);
 
 		component.addFocusListener(this);

@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Sarai/Desktop/proyecto%20final/Proyecto-Final-Ventas/src/modelos/Usuario.java</file>
             <file>file:/C:/Users/Sarai/Desktop/proyecto%20final/Proyecto-Final-Ventas/src/vistas/modulos/VistaUsuario.java</file>
             <file>file:/C:/Users/Sarai/Desktop/proyecto%20final/Proyecto-Final-Ventas/src/vistas/modulos/VistaEmpleado.java</file>
-            <file>file:/C:/Users/Sarai/Desktop/proyecto%20final/Proyecto-Final-Ventas/src/vistas/main/Menu.java</file>
-            <file>file:/C:/Users/Sarai/Desktop/proyecto%20final/Proyecto-Final-Ventas/src/vistas/modulos/ModalUsuario.java</file>
-            <file>file:/C:/Users/Sarai/Desktop/proyecto%20final/Proyecto-Final-Ventas/src/utilidades/TextPrompt.java</file>
             <file>file:/C:/Users/Sarai/Desktop/proyecto%20final/Proyecto-Final-Ventas/src/vistas/modulos/ModalEmpleado.java</file>
-            <file>file:/C:/Users/Sarai/Desktop/proyecto%20final/Proyecto-Final-Ventas/src/modelos/Empleado.java</file>
+            <file>file:/C:/Users/Sarai/Desktop/proyecto%20final/Proyecto-Final-Ventas/src/modelos/dao/UsuarioDao.java</file>
             <file>file:/C:/Users/Sarai/Desktop/proyecto%20final/Proyecto-Final-Ventas/src/controlador/Controlador.java</file>
         </group>
     </open-files>

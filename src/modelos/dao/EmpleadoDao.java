@@ -116,7 +116,7 @@ public class EmpleadoDao {
             ps.setString(9, obj.getDireccion());
             ps.setDouble(10, obj.getSalario());
         
-            ps.setInt(14, obj.getEstado());
+         
          
         
             
@@ -152,10 +152,7 @@ public class EmpleadoDao {
             ps.setString(9, obj.getDireccion());
             ps.setDouble(10, obj.getSalario());
           
-            ps.setInt(14, obj.getEstado());
-           
-            ps.setInt(16, obj.getUsuario().getIdUsuario());
-          
+       
             
             ps.execute();
             

@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -95,7 +96,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     
     private void mostrarModals(String modal){
         /* - - - - MOSTRAR MODALS - - - - */
-        
+        modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
         /* CONTROL DE USUARIOS */
         if(modal.equals("nuevoUsuario") && principalOn.equals("Usuarios")){
             usuarioSelected = null;
@@ -158,7 +159,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
         
         
           /* CONTROL DE EMPLEADOS */
-        if(modal.equals("nuevoEmpleado") && principalOn.equals("Empleados")){
+        else if(modal.equals("nuevoEmpleado") && principalOn.equals("Empleados")){
             empleadoSelected = null;
             modalEmpleado = new ModalEmpleado(new JFrame(), true, vistaEmpleado);
             modalEmpleado.setControlador(this);
@@ -169,30 +170,29 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             modalEmpleado.setControlador(this);
             modalOn = "modalEmpleado";
             
+              modalEmpleado.jPanel1.remove(modalEmpleado.jtDui);
+                modalEmpleado.jPanel1.remove(modalEmpleado.jtNombre);
+                  modalEmpleado.jPanel1.remove(modalEmpleado.jtApellido);
             modalEmpleado.jPanel1.remove(modalEmpleado.jtTelefono);
-             modalEmpleado.jPanel1.remove(modalEmpleado.jtEdad);
-              modalEmpleado.jPanel1.remove(modalEmpleado.jtEstado);
+            modalEmpleado.jPanel1.remove(modalEmpleado.jtEdad);
+             // modalEmpleado.jPanel1.remove(modalEmpleado.jtEstado);
              
-                modalEmpleado.jPanel1.remove(modalEmpleado.jtEmail);
-                 modalEmpleado.jPanel1.remove(modalEmpleado.jtDireccion);
+               modalEmpleado.jPanel1.remove(modalEmpleado.jtEmail);
+                modalEmpleado.jPanel1.remove(modalEmpleado.jtDireccion);
                   modalEmpleado.jPanel1.remove(modalEmpleado.jtSalario);
                    
-                      modalEmpleado.jPanel1.remove(modalEmpleado.cbUsuario);
+                      //modalEmpleado.jPanel1.remove(modalEmpleado.cbUsuario);
                     
            // modalEmpleado.form.remove(modalEmpleado.jtPassRepet);
            // modalEmpleado.form.remove(modalEmpleado.iconPass);
             
            modalEmpleado.header.setText("Editar Empleado");
       
-            modalEmpleado.cbUsuario.setSelectedItem(empleadoSelected.getUsuario());
-            
-            //modalEmpleado.cbEmpleado.addItem("Adonay / 01234567-8");
-            //modalEmpleado.cbEmpleado.setSelectedItem("Adonay / 01234567-8");        
-            modalEmpleado.cbUsuario.setEnabled(false);        
+                 
             modalEmpleado.jtDui.setText(empleadoSelected.getDui()); 
             
             modalEmpleado.setSize(482, 346); //Width - Height
-            llenarComboBox();
+          // llenarComboBox();
             modalEmpleado.iniciar();
             
         }else if(modal.equals("eliminarEmpleado") && principalOn.equals("Empleados")){
@@ -207,23 +207,6 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 empleadoSelected = null;
                 
             }
-        }else if(modal.equals("changePassEmpleado") && principalOn.equals("Empleados")){
-          modalEmpleado = new ModalEmpleado(new JFrame(), true, vistaEmpleado);
-           modalEmpleado.setControlador(this);
-            modalOn = "modalEmpleado";
-            
-         
-             modalEmpleado.jPanel1.remove(modalEmpleado.cbUsuario);
-       
-           modalEmpleado.jtTelefono.setEnabled(false);
-     modalEmpleado.jtDui.setText(empleadoSelected.getDui());
-     modalEmpleado.jtEstado.setEnabled(false);
-
-     
-            
-     
-            modalEmpleado.setSize(482, 285); //Width - Height
-            modalEmpleado.iniciar();
         }
     }
     
@@ -283,8 +266,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
              tabla.getColumnModel().getColumn(7).setCellRenderer(diseño);
             tabla.getColumnModel().getColumn(8).setCellRenderer(diseño);
              tabla.getColumnModel().getColumn(9).setCellRenderer(diseño);
-              tabla.getColumnModel().getColumn(10).setCellRenderer(diseño);
-               tabla.getColumnModel().getColumn(11).setCellRenderer(diseño);
+       
             
             ArrayList<Empleado> empleados = empleadoDao.selectAll();
             int i = 1;
@@ -300,7 +282,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
               
                 
                 if(x.getEstado() > 0){
-                    modelo.addRow(new Object[]{i,x.getDui(),x.getNombre(), x.getApellido(), x.getGenero(),x.getEdad(), x.getEmail(), x.getTelefono(), x.getDireccion(), x.getSalario(), x.getEstado(),x.getUsuario() ,lbImg_edit, lbImg_delete});
+                    modelo.addRow(new Object[]{i,x.getDui(),x.getNombre(), x.getApellido(), x.getGenero(),x.getEdad(), x.getEmail(), x.getTelefono(), x.getDireccion(), x.getSalario() ,lbImg_edit, lbImg_delete});
                     i++;
                 }
                
@@ -374,8 +356,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             tabla.getColumnModel().getColumn(7).setCellRenderer(diseño);
             tabla.getColumnModel().getColumn(8).setCellRenderer(diseño);
             tabla.getColumnModel().getColumn(9).setCellRenderer(diseño);
-            tabla.getColumnModel().getColumn(10).setCellRenderer(diseño);
-            tabla.getColumnModel().getColumn(11).setCellRenderer(diseño);
+          
             
             int i = 1;
             
@@ -392,7 +373,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
               
                 
                 if(x.getEstado() > 0){
-                     modelo.addRow(new Object[]{i,x.getDui(),x.getNombre(), x.getApellido(), x.getGenero(),x.getEdad(), x.getEmail(), x.getTelefono(), x.getDireccion(), x.getSalario(), x.getEstado(),x.getUsuario() ,lbImg_edit, lbImg_delete});
+                     modelo.addRow(new Object[]{i,x.getDui(),x.getNombre(), x.getApellido(), x.getGenero(),x.getEdad(), x.getEmail(), x.getTelefono(), x.getDireccion(), x.getSalario() ,lbImg_edit, lbImg_delete});
                     i++;
                 }
 
@@ -531,74 +512,78 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
         }
          /* CONTROL DE EMPLEADOS */
          if(principalOn.equals("Empleados") && modalOn.equals("modalEmpleado")){
-            if(btn.equals("Agregar")){
-                if(!modalEmpleado.jtDui.getText().isEmpty()
-                        && modalEmpleado.cbUsuario.getSelectedIndex() > 0 ){
+                   if(btn.equals("Agregar")){
+                if(!modalEmpleado.jtDui.getText().isEmpty()&& !modalEmpleado.jtNombre.getText().isEmpty()&&!modalEmpleado.jtApellido.getText().isEmpty()&&!modalEmpleado.jtEdad.getText().isEmpty()&&!modalEmpleado.jtEmail.getText().isEmpty()&&!modalEmpleado.jtTelefono.getText().isEmpty()&&!modalEmpleado.jtDireccion.getText().isEmpty()&&!modalEmpleado.jtSalario.getText().isEmpty()){
                     
-                    if(empleadoSelected == null && !modalEmpleado.jtDui.getText().isEmpty()){
+                   if(empleadoSelected == null && !modalEmpleado.jtDui.getText().isEmpty()&& !modalEmpleado.jtNombre.getText().isEmpty()&& !modalEmpleado.jtApellido.getText().isEmpty()&& !modalEmpleado.jtEdad.getText().isEmpty()&& !modalEmpleado.jtEmail.getText().isEmpty()&& !modalEmpleado.jtTelefono.getText().isEmpty()&& !modalEmpleado.jtDireccion.getText().isEmpty()&& !modalEmpleado.jtSalario.getText().isEmpty()){
 
-                        if(modalEmpleado.jtDui.getText().equals(modalEmpleado.jtDui.getText())){
+                        //if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
 
-                            String clave = Encriptacion.getStringMessageDigest(modalEmpleado.jtDui.getText(), Encriptacion.SHA256); //Encriptamos la clave
-                            String dui = "";
+                         //   String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
+                       //     String dui = "";
 
-                            if(modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Administrador") || modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Usuario")){
-                                String v[] = modalEmpleado.cbUsuario.getSelectedItem().toString().split(" / ");
+                           // if(modalUsuario.cbRol.getSelectedItem().toString().equals("Administrador") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
+                               // String v[] = modalUsuario.cbEmpleado.getSelectedItem().toString().split(" / ");
 
-                                ArrayList<Usuario> usuarios = usuarioDao.buscar(v[1]);
-                                usuario = usuarios.get(0);
-                                nickname = usuarios.get(0).getNickname();
+                               // ArrayList<Empleado> empleados = empleadoDao.buscar(v[1]);
+                               // empleado = empleados.get(0);
+                              //  dui = empleados.get(0).getDui();
                                 
-                            }
+                            //}
+                             Empleado empleado = new Empleado(modalEmpleado.jtDui.getText(), modalEmpleado.jtNombre.getText(),modalEmpleado.jtApellido.getText(),modalEmpleado.jtEdad.getText(),modalEmpleado.jtEmail.getText(),modalEmpleado.jtTelefono.getText(),modalEmpleado.jtDireccion.getText(),modalEmpleado.jtSalario.getText());
+                                
+                           ArrayList<Empleado> existeUser = empleadoDao.selectAllTo("dui_empleado", modalEmpleado.jtDui.getText());
+                          //  ArrayList<Usuario> existeReferencia = usuarioDao.selectAllTo("usuario_referencia", dui);
 
-                            ArrayList<Empleado> existeUser = empleadoDao.selectAllTo("empleado_nombre", modalEmpleado.jtNombre.getText());
-                            ArrayList<Empleado> existeReferencia = empleadoDao.selectAllTo("empleado_dui", dui);
+                           if(existeUser.isEmpty() ){
 
-                            if(existeUser.isEmpty() && existeReferencia.isEmpty()){
-
-                                 Empleado empleado = new Empleado(modalEmpleado.jtNombre.getText(), nickname , modalEmpleado.cbUsuario.getSelectedItem().toString(), 1, nickname);
+                               
                                  
-                                if(empleadoDao.insert(empleado)){
+                               if(empleadoDao.insert(empleado)){
                                      
-                                    ArrayList<Empleado> empleados = empleadoDao.selectAllTo("empleado_nombre", empleado.getNombre());
-                                    Empleado empleadoRecuperado = empleados.get(0); 
+                                   // ArrayList<Empleado> empleados = empleadoDao.selectAllTo("dui_empleado", empleado.getDui());
+                                  // Empleado empleadoRecuperado = empleados.get(0); 
                                      
-                                    if(empleadoRecuperado.getUsuario().equals("Usuario") || empleadoRecuperado.getUsuario().equals("Administrador")){
-                                        usuario.setEmpleado(empleadoRecuperado);
-                                        usuarioDao.update(usuario);
+                                   // if(usuarioRecuperado.getRol().equals("Empleado") || usuarioRecuperado.getRol().equals("Administrador")){
+                                       // empleado.setUsuario(usuarioRecuperado);
+                                      //  empleadoDao.updateUsuario(empleado);
                                         
                                         //Mensaje de guardado
                                         DesktopNotify.setDefaultTheme(NotifyTheme.Green);
                                         DesktopNotify.showDesktopMessage("Empleado guardado", "El empleado ha sido alamcenado exitosamente.", DesktopNotify.SUCCESS, 8000);
-                                    }
+                                //    }
                                     
-                                }
+                               }
                                 
-                                modalOn = "";
-                                modalEmpleado.dispose();
+                               modalOn = "";
+                              modalEmpleado.dispose();
                                 
-                            }else{
-                                
-                                if(!existeUser.isEmpty()){
-                                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                                    DesktopNotify.showDesktopMessage("Empleado " + modalEmpleado.jtNombre.getText() +  " ya existe", "El nuevo nombre de empleado debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
-                                }else{
-                                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                                    DesktopNotify.showDesktopMessage("Usuario ya asignado", "El usuario ya tiene asignada una cuenta de empleado.", DesktopNotify.WARNING, 10000);
-                                }
-                                                                
                             }
-                        }else{
+                          
+                          //else{
+                                
+                                //if(!existeUser.isEmpty()){
+                                   // DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                                 //   DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
+                               // }else{
+                                //    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                              //      DesktopNotify.showDesktopMessage("Empleado ya asignado", "El empleado ya tiene asignada una cuenta de usuario.", DesktopNotify.WARNING, 10000);
+                            //    }
+                                                                
+                          //  }
+                        //}else{
                             //Contraseñas diferentes
-                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                            DesktopNotify.showDesktopMessage("Dui diferentes", "el dui tienen que ser igual.", DesktopNotify.WARNING, 8000);
-                        }
+                          //  DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                        //    DesktopNotify.showDesktopMessage("Contraseñas diferentes", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
+                      //  }
+                      
                         
-                    }else{
+                   }else{
                         
                         if(empleadoSelected != null){
                             //Modificar
-                            ArrayList<Empleado> existeUser = empleadoDao.selectAllTo("empleado_nombre", modalEmpleado.jtNombre.getText());
+                              //Empleado empleado= new Empleado(modalEmpleado.jtDui.getText(),modalEmpleado.jtNombre.getText());                       
+                                 ArrayList<Empleado> existeUser = empleadoDao.selectAllTo("nom_empleado", modalEmpleado.jtNombre.getText());
 
                             if(existeUser.isEmpty()){
 
@@ -621,44 +606,45 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                                     DesktopNotify.showDesktopMessage("Empleado actualizado", "El empleado ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
                                     empleadoSelected = null;
                                     modalEmpleado.dispose();
-                                }else{ //empleado ya existe
+                                }else{ //Usuario ya existe
                                     DesktopNotify.setDefaultTheme(NotifyTheme.Red);
                                     DesktopNotify.showDesktopMessage("Empleado " + modalEmpleado.jtNombre.getText() +  " ya existe", "El nuevo nombre de empleado debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
                                 }
                             }
-                        }else{
+                        }
+                        else{
                             //Campos incompletos
                             DesktopNotify.setDefaultTheme(NotifyTheme.Red);
                             DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
                         }
     
-                    }
+                   }
                                         
-                }else if(empleadoSelected != null && !modalEmpleado.jtDui.getText().isEmpty() && !modalEmpleado.jtDui.getText().isEmpty()){
-                    //Cambiar dui
-                    if(modalEmpleado.jtDui.getText().equals(modalEmpleado.jtDui.getText())){
+               // }//else if(usuarioSelected != null && !modalUsuario.jtPass.getText().isEmpty() && !modalUsuario.jtPassRepet.getText().isEmpty()){
+                    //Cambiar contraseña
+                   // if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
                         
-                        String clave = Encriptacion.getStringMessageDigest(modalEmpleado.jtDui.getText(), Encriptacion.SHA256); //Encriptamos la clave
-                        String dui = "";
+                     //   String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
+                       // String dui = "";
                         
-                        empleadoSelected.getDui(dui);
+                    //    usuarioSelected.setClave(clave);
                         
-                        if(empleadoDao.update(empleadoSelected)){
-                            //Mensaje de dui modificado
-                            DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                            DesktopNotify.showDesktopMessage("Dui modificada", "Su Dui ha sido modificada exitosamente.", DesktopNotify.SUCCESS, 8000);
-                            empleadoSelected = null;
-                            modalEmpleado.dispose();
-                        }else{
-                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                            DesktopNotify.showDesktopMessage("Error", "Dui no modificada.", DesktopNotify.FAIL, 8000);
-                        } 
+                      //  if(usuarioDao.update(usuarioSelected)){
+                            //Mensaje de contraseña modificado
+                          //  DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                           //DesktopNotify.showDesktopMessage("Contraseña modificada", "Su contraseña ha sido modificada exitosamente.", DesktopNotify.SUCCESS, 8000);
+                         //   usuarioSelected = null;
+                         //   modalUsuario.dispose();
+                     //   }else{
+                           // DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                         //   DesktopNotify.showDesktopMessage("Error", "Contraseña no modificada.", DesktopNotify.FAIL, 8000);
+                        //} 
 
-                    }else{
+                   // }else{
                         //Contraseñas diferentes
-                        DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                        DesktopNotify.showDesktopMessage("Dui diferentes", "el dui tienen que ser igual.", DesktopNotify.WARNING, 8000);
-                    }
+                      //  DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                     //   DesktopNotify.showDesktopMessage("Contraseñas diferentes", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
+                   // }
                 }else{
                     //Campos incompletos
                     DesktopNotify.setDefaultTheme(NotifyTheme.Red);
@@ -670,9 +656,6 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             }
             
         }
-                
-              
-                
             }
             
         
@@ -702,26 +685,26 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
         //}
         
         //EMPLEADO BOX
-               if(modalOn.equals("modalEmpleado")){
-            modalEmpleado.cbUsuario.removeAllItems();
-            modalEmpleado.cbUsuario.addItem("Seleccione");
-            String dato = "";
+             //  if(modalOn.equals("modalEmpleado")){
+           // modalEmpleado.cbUsuario.removeAllItems();
+            //modalEmpleado.cbUsuario.addItem("Seleccione");
+            //String dato = "";
             
-            if(modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Administrador") || modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Empleado")){
+            //if(modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Administrador") || modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Empleado")){
                 
-                ArrayList<Usuario> usuarios = usuarioDao.selectAll();
+              //  ArrayList<Usuario> usuarios = usuarioDao.selectAll();
                 
-                for(Usuario x : usuarios){
-                    modalEmpleado.cbUsuario.addItem(x.getNickname() + " / " + x.getIdUsuario());
-                    if(x.getNickname().equals(empleadoSelected.getUsuario())){
-                        dato = x.getNickname() + " / " + x.getNickname();
-                    }
-                }
+                //for(Usuario x : usuarios){
+                  //  modalEmpleado.cbUsuario.addItem(x.getNickname() + " / " + x.getIdUsuario());
+                    //if(x.getNickname().equals(empleadoSelected.getUsuario())){
+                      //  dato = x.getNickname() + " / " + x.getNickname();
+                   // }
+                //}
                 
-                modalEmpleado.cbUsuario.setSelectedItem(dato);
+              //  modalEmpleado.cbUsuario.setSelectedItem(dato);
                 
-            }
-        }
+           // }
+       // }
        
     }
 
@@ -778,17 +761,17 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
       @Override
     public void mousePressed(MouseEvent e) {
         
-        try{
+        
             if(!principalOn.equals("Login")){
                     /* - - - BOTONES DEL MENU Y MODULOS - - - -*/
                 if(e.getSource().equals(menu.btnDashboard)){
                     mostrarModulos("Menu");
-                }else if(e.getSource().equals(menu.btnUsuarios)){
-                    mostrarModulos("Usuarios");
-                }else if(e.getSource().equals(vistaUsuario.btnNuevo)){
-                    mostrarModals("nuevoUsuario");
-                }else if(e.getSource().equals(modalUsuario.btnGuardar)){
-                    eventosBotones("Agregar");
+              //  }else if(e.getSource().equals(menu.btnUsuarios)){
+                //    mostrarModulos("Usuarios");
+                //}else if(e.getSource().equals(vistaUsuario.btnNuevo)){
+                  //  mostrarModals("nuevoUsuario");
+                //}else if(e.getSource().equals(modalUsuario.btnGuardar)){
+                  //  eventosBotones("Agregar");
                    //empleados
             }else if(e.getSource().equals(menu.btnEmpleados)){
                 mostrarModulos("Empleados");
@@ -803,9 +786,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                    // verificarCredenciales(); 
                 }
             }
-        }catch(Exception ex){
-            
-        } 
+       
         
     }
     
@@ -851,20 +832,20 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             }
         }
         //itemStateChanged EMPLEADO//
-         if(modalOn.equals("modalEmpleado")){
-            modalEmpleado.cbUsuario.setEnabled(true);
-            modalEmpleado.cbUsuario.removeAllItems();
-            modalEmpleado.cbUsuario.addItem("Asignar usuario");
+       //  if(modalOn.equals("modalEmpleado")){
+         //   modalEmpleado.cbUsuario.setEnabled(true);
+           // modalEmpleado.cbUsuario.removeAllItems();
+           // modalEmpleado.cbUsuario.addItem("Asignar usuario");
             
-            if(modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Usuario") || modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Usuario")){
+           // if(modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Usuario") || modalEmpleado.cbUsuario.getSelectedItem().toString().equals("Usuario")){
                 
-                ArrayList<Usuario> usuarios = usuarioDao.selectAll();
+             //   ArrayList<Usuario> usuarios = usuarioDao.selectAll();
 
-                for(Usuario x : usuarios){
-                    modalEmpleado.cbUsuario.addItem(x.getNickname() + " / " + x.getIdUsuario());
-                }
-            }
-        }
+               // for(Usuario x : usuarios){
+                 //   modalEmpleado.cbUsuario.addItem(x.getNickname() + " / " + x.getIdUsuario());
+               // }
+          //  }
+        //}
     }
     
     
@@ -887,7 +868,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                     usuarioSelected = lista.get(0);
                     mostrarModals("eliminarUsuario");
                 }else if(columna == 6){
-                    int fila = vistaUsuario.tablaUsuarios.getSelectedRow();
+                     int fila = vistaUsuario.tablaUsuarios.getSelectedRow();
                     String nick = vistaUsuario.tablaUsuarios.getValueAt(fila, 1).toString();
                     ArrayList<Usuario> lista = usuarioDao.selectAllTo("usuario_nick", nick);
                     usuarioSelected = lista.get(0);
@@ -901,21 +882,21 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
         
         //MOUSECLICKED EMPLEADO//
         
-        if(principalOn.equals("Empleados") && e.getSource() == vistaEmpleado.tablaEmpleados){
+       else if(principalOn.equals("Empleados") && e.getSource() == vistaEmpleado.tablaEmpleados){
 
             int columna =vistaEmpleado.tablaEmpleados.getSelectedColumn();
             try{
                 if(columna == 12){
-                    int fila = vistaEmpleado.tablaEmpleados.getSelectedRow();
-                    String nick = vistaEmpleado.tablaEmpleados.getValueAt(fila, 1).toString();
-                    ArrayList<Empleado> lista = empleadoDao.selectAllTo("empleado_nick", nick);
-                    empleadoSelected = lista.get(0);
+                    int fila = vistaUsuario.tablaUsuarios.getSelectedRow();
+                    String dui = vistaUsuario.tablaUsuarios.getValueAt(fila, 1).toString();
+                    ArrayList<Usuario> lista = usuarioDao.selectAllTo("dui_empleado", dui);
+                    usuarioSelected = lista.get(0);
                     mostrarModals("editarEmpleado");
                 }else if(columna == 13){
-                    int fila = vistaEmpleado.tablaEmpleados.getSelectedRow();
-                    String nick =vistaEmpleado.tablaEmpleados.getValueAt(fila, 1).toString();
-                    ArrayList<Empleado> lista = empleadoDao.selectAllTo("empleado_nick", nick);
-                    empleadoSelected = lista.get(0);
+                  int fila = vistaUsuario.tablaUsuarios.getSelectedRow();
+                    String dui = vistaUsuario.tablaUsuarios.getValueAt(fila, 1).toString();
+                    ArrayList<Usuario> lista = usuarioDao.selectAllTo("dui_empleado", dui);
+                    usuarioSelected = lista.get(0);
                     mostrarModals("eliminarEmpleado");
                 }
             }catch(Exception ex){
