@@ -19,6 +19,7 @@ public class Menu extends javax.swing.JFrame {
     public void setControlador(Controlador control){
         this.btnUsuarios.addMouseListener(control);
         this.btnDashboard.addMouseListener(control);
+        this.btnProductos.addMouseListener(control);
         this.btnProveedores.addMouseListener(control);
         this.btnFacturas.addMouseListener(control);
         this.btnSalir.addMouseListener(control);

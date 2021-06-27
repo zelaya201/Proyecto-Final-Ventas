@@ -21,7 +21,6 @@ public class MyComboBoxUI extends BasicComboBoxUI{
     protected void installDefaults() {
         super.installDefaults();
         LookAndFeel.uninstallBorder(comboBox);
-        
     }
 
 //    @Override

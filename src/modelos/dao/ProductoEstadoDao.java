@@ -29,11 +29,6 @@ public class ProductoEstadoDao {
         String sql = "select * from producto_estado where " + atributo + "='" + condicion + "'";
         return select(sql);
     }
-    
-    /*public ArrayList<ProductoEstado> buscar(String dato) {
-        String sql = "select * from producto_estado where carnet like '" + dato + "%' or  nombre like '" + dato + "%' or apellido like '" + dato + "%'";
-        return select(sql);
-    }*/
 
     public boolean insert(ProductoEstado obj){
         String sql = "insert into producto_estado(precio_compra_producto, precio_venta_producto, stock_producto, estado_producto, ganancia_producto, cod_producto2) values (?,?,?,?,?,?)";
@@ -42,6 +37,16 @@ public class ProductoEstadoDao {
     
     public boolean update(ProductoEstado obj) {
         String sql = "update producto_estado set precio_compra_producto =?, precio_venta_producto =?, stock_producto =?, estado_producto =?, ganancia_producto =?, cod_producto2 =? where cod_producto2=" + obj.getProducto().getCodProducto();
+        return alterarRegistro(sql, obj);
+    }
+    
+    public boolean updateEspecifico(ProductoEstado obj) {
+        String sql = "update producto_estado set precio_compra_producto =?, precio_venta_producto =?, stock_producto =?, estado_producto =?, ganancia_producto =?, cod_producto2 =? where cod_producto2=" + obj.getProducto().getCodProducto() + " and estado_producto=" + obj.getEstado();
+        return alterarRegistro(sql, obj);
+    }
+    
+    public boolean updatePorEstadoAnterior(ProductoEstado obj, int estado) {
+        String sql = "update producto_estado set precio_compra_producto =?, precio_venta_producto =?, stock_producto =?, estado_producto =?, ganancia_producto =?, cod_producto2 =? where cod_producto2=" + obj.getProducto().getCodProducto() + " and estado_producto=" + estado;
         return alterarRegistro(sql, obj);
     }
 

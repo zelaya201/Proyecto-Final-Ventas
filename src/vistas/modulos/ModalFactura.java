@@ -10,26 +10,20 @@ import vistas.modulos.VistaUsuario;
 
 public class ModalFactura extends javax.swing.JDialog {
 
-    VistaUsuario vistaUsuario;
+    VistaFactura vistaFactura;
     
-    public ModalFactura(java.awt.Frame parent, boolean modal) {
+    public ModalFactura(java.awt.Frame parent, boolean modal, VistaFactura vistaFactura) {
         super(parent, modal);
         initComponents();
         comboBoxInit();
         setLocationRelativeTo(null);
-        this.vistaUsuario = vistaUsuario;
+        this.vistaFactura = vistaFactura;
         new TextPrompt("Email", jtImail);
         new TextPrompt("Nombre", jtNomClien);
         new TextPrompt("DUI", jFDui);
         new TextPrompt("Dirección", jtDirec);
         new TextPrompt("Telefono", jFTelef);
         new TextPrompt("Apellido", jtApeClien);
-       
-  
-      
-        
-        
-
     }
     
     public void setControlador(Controlador control){
@@ -542,42 +536,7 @@ public class ModalFactura extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ModalUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ModalUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ModalUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ModalUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        
-        
-        
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ModalFactura dialog = new ModalFactura(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel SeparadorW;

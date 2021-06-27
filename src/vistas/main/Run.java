@@ -1,7 +1,7 @@
 package vistas.main;
 
 import controlador.Controlador;
-import vistas.main.Menu;
+import javax.swing.UIManager;
 
 public class Run {
     public static void main(String[] args) {

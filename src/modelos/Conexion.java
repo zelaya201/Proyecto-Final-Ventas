@@ -1,5 +1,7 @@
 package modelos;
 
+import ds.desktop.notify.DesktopNotify;
+import ds.desktop.notify.NotifyTheme;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -19,7 +21,8 @@ public class Conexion {
             Class.forName(driver);
             cn = DriverManager.getConnection(url, user, password);
         } catch (Exception ex) {
-            System.out.println("No conexion" + " " + ex);
+            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+            DesktopNotify.showDesktopMessage("Error en la conexion", "No se ha podido establecer conexion con la base de datos", DesktopNotify.FAIL, 8000);
         }
         return cn;
     }
@@ -30,7 +33,8 @@ public class Conexion {
                 conn.close();
             }
         } catch (SQLException sql) {
-            
+            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+            DesktopNotify.showDesktopMessage("Error en la conexion", "No se ha podido establecer conexion con la base de datos", DesktopNotify.FAIL, 8000);
         }
     }
 }

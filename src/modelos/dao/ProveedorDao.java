@@ -36,6 +36,16 @@ public class ProveedorDao {
         String sql = "select * from proveedor where cod_proveedor=" + id;
         return select(sql);
     } 
+    
+    public boolean insert(Proveedor obj){
+        String sql = "insert into proveedor(nom_proveedor,tel_proveedor,dir_proveedor,estado_proveedor)VALUES(?,?,?,?)";
+        return alterarRegistro(sql, obj);
+    }
+    
+    /*public void update(Proveedor obj) {
+        String sql = "update factura set iva_factura =?, fecha_factura =?, total_factura =? where idProveedor=" + obj.getNoProveedor();
+        alterarRegistro(sql, obj);
+    }*/
    
     private ArrayList<Proveedor> select(String sql){
         ArrayList<Proveedor> lista = new ArrayList();
@@ -70,4 +80,50 @@ public class ProveedorDao {
         return lista;
     }
     
+    private boolean alterarRegistro(String sql, Proveedor obj){
+        try {
+            con = conectar.getConexion();
+            ps = con.prepareStatement(sql);
+            
+            ps.setString(1, obj.getNombre());
+            ps.setString(2, obj.getTelefono());
+            ps.setString(3, obj.getDireccion());
+            ps.setInt(4, obj.getEstado());
+ 
+            ps.execute();
+            
+            return true;
+        }catch(Exception e) {
+            
+        }finally{
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                
+            }
+            conectar.closeConexion(con);
+        }
+        return false; 
+    }
+    
+    public boolean delete(Proveedor obj) {
+        String sql = "delete from proveedor where cod_proveedor='" + obj.getCodProveedor()+ "'";
+        
+        try {
+            con = conectar.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.execute();
+            return true;
+        }catch(Exception e) {
+            
+        }finally{
+            try {
+                ps.close();
+                conectar.closeConexion(con);
+            } catch (Exception ex) {
+            }
+        }
+
+        return false;
+    }
 }
