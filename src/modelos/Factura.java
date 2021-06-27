@@ -2,6 +2,7 @@ package modelos;
 
 import java.util.ArrayList;
 import java.util.Date;
+import modelos.dao.FacturaDao;
 
 public class Factura {
     private int noFactura;
@@ -82,6 +83,10 @@ public class Factura {
     }
 
     public ArrayList<DetalleFactura> getDetalles() {
+        
+        FacturaDao facturaDao = new FacturaDao();
+//        this.detalles = facturaDao.selectAllTo()
+        
         return detalles;
     }
 

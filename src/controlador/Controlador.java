@@ -194,7 +194,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 modalOn = "modalDialog";
 
                 confirmDialog.header.setText("Eliminar usuario");
-                confirmDialog.textDialog.setText("<html>¿Esta seguro que quiere eliminar el usuario <b>" + usuarioSelected.getNickname() + "</b>? </html>");
+                confirmDialog.textDialog.setText("<html>¿Estás seguro que quieres eliminar el usuario <b>" + usuarioSelected.getNickname() + "</b>? </html>");
                 confirmDialog.btnEliminar.setText("Eliminar");
                 confirmDialog.iniciar();
 
