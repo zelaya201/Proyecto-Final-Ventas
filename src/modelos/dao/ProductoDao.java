@@ -125,17 +125,17 @@ public class ProductoDao {
         try {
             con = conectar.getConexion();
             ps = con.prepareStatement(sql);
-            BufferedImage img;
+            //BufferedImage img;
             FileInputStream fis = null;
             
             File file = new File(obj.getRutaFoto());
-            img = ImageIO.read(file);
-            
-            int alto = img.getHeight();
-            int ancho = img.getWidth();
-            
-            img = resizeImg(img, 100, (100*alto)/ancho);
-            ImageIO.write(img, "jpg", file);
+//            img = ImageIO.read(file);
+//            
+//            int alto = img.getHeight();
+//            int ancho = img.getWidth();
+//            
+//            img = resizeImg(img, , (100*alto)/ancho);
+//            ImageIO.write(img, "jpg", file);
             
             fis = new FileInputStream(file);
             

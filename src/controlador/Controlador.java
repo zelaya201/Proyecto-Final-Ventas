@@ -131,6 +131,8 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             llenarComboBox();
             int index = productoDao.getNextId();
             modalProducto.tfCodigo.setText(String.valueOf(id.format(index)));
+            modalProducto.cbEstado.setSelectedIndex(1);
+            modalProducto.cbEstado.setEnabled(false);
             modalProducto.iniciar();
             productoSelected = null;
         } else if (modal.equals("editarProducto") && principalOn.equals("Productos")) {
@@ -144,7 +146,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
 
                 if (lista.size() > 1) {
                     for (ProductoEstado x: lista) {
-                        if (itemSeleccionado == x.getEstado()) {
+                        if (x.getEstado() == itemSeleccionado) {
                             estado = x;
                         }
                     }
@@ -155,16 +157,19 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                 modalProducto.header.setText("Editar Producto");
                 modalProducto.tfCodigo.setText(String.valueOf(id.format(productoSelected.getCodProducto())));
                 modalProducto.tfCodigo.setEnabled(false);
-
-                if (estado.getEstado() == 0) {
-                    modalProducto.cbEstado.setSelectedItem("Inactivo");
-                } else if (estado.getEstado() == 1) {
-                    modalProducto.cbEstado.setSelectedItem("Activo");
-                } else if (estado.getEstado() == 1) {
-                    modalProducto.cbEstado.setSelectedItem("Almacen");
-                }
+                
                 llenarComboBox();
 
+                if (estado.getEstado() == 0) {
+                    modalProducto.cbEstado.setSelectedIndex(2);
+                } else if (estado.getEstado() == 1) {
+                    modalProducto.cbEstado.setSelectedIndex(1);
+                } else if (estado.getEstado() == 2) {
+                    modalProducto.cbEstado.setSelectedIndex(3);
+                }
+                
+                modalProducto.cbEstado.setEnabled(false);
+                
                 modalProducto.cbProveedor.setSelectedItem(productoSelected.getProveedor().getNombre());
                 modalProducto.cbCategoria.setSelectedItem(productoSelected.getCategoria().getNombre());
                 modalProducto.taDescripcion1.setText(productoSelected.getDescripcion());
@@ -608,7 +613,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
 
     }
 
-    public void eventosBotones(String btn) {
+    public void eventosBotones(String btn){
         /* Agregar Producto */
         if (principalOn.equals("Productos") && modalOn.equals("modalProducto")) {
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagenes", "jpg", "png", "jpeg");
@@ -736,7 +741,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                                     productoSelected.setBdFoto(blob);
                                     if (productoDao.updateBlob(productoSelected)) {
                                         if (estados.getEstado() != itemSeleccionado) {
-                                            if (productoEstadoDao.update(estados)) {
+                                            if (productoEstadoDao.updatePorEstadoAnterior(estados, itemSeleccionado)) {
                                                 //Mensaje de modificado
                                                 DesktopNotify.setDefaultTheme(NotifyTheme.Green);
                                                 DesktopNotify.showDesktopMessage("Producto actualizado", "El producto ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
@@ -851,6 +856,39 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
         }
     }
 
+    public void cambiarEstadoProducto() {
+        ArrayList<Producto> productos = productoDao.selectAll();
+        ArrayList<ProductoEstado> estadosProductos = productoEstadoDao.selectAll();
+        int estadoAnteriorActivo = 0;
+        int estadoAnteriorAlmacen = 0;
+        ProductoEstado estadoActivo = new ProductoEstado();
+        ProductoEstado estadoAlmacen = new ProductoEstado();
+        
+        for (Producto x: productos) {
+            for (ProductoEstado y: estadosProductos) {
+                if (x.getCodProducto() == y.getProducto().getCodProducto()) {
+                    if (y.getEstado() == 1 && y.getStock() == 0) {
+                        estadoActivo = y;
+                        estadoAnteriorActivo = y.getEstado();
+                    }
+                    
+                    if (y.getEstado() == 2 && y.getStock() > 0) {
+                        estadoAlmacen = y;
+                        estadoAnteriorAlmacen = y.getEstado();
+                    }
+                }
+            }
+        }
+        
+        estadoActivo.setEstado(0);
+
+        estadoAlmacen.setEstado(1);
+        
+        productoEstadoDao.updatePorEstadoAnterior(estadoActivo, estadoAnteriorActivo);
+        productoEstadoDao.updatePorEstadoAnterior(estadoAlmacen, estadoAnteriorAlmacen);
+        
+        mostrarDatos(vistaProducto.tbProductos);
+    }
     public void llenarComboBox() {
         if (modalOn.equals("modalProducto")) {
             ArrayList<Categoria> categorias = categoriaDao.selectAll();
