@@ -5,6 +5,7 @@ package controlador;
 import ds.desktop.notify.DesktopNotify;
 import ds.desktop.notify.NotifyTheme;
 import ejemplocompleto.utilidades.Encriptacion;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -46,8 +47,10 @@ import utilidades.ImgTabla;
 import utilidades.JFreeCharts;
 import vistas.main.Login;
 import vistas.main.Menu;
+import vistas.modulos.ConfirmDialog;
 import vistas.modulos.Dashboard;
 import vistas.modulos.ModalUsuario;
+import vistas.modulos.VistaFactura;
 import vistas.modulos.VistaUsuario;
 
 public class Controlador extends MouseAdapter implements MouseListener, KeyListener, ItemListener{
@@ -56,7 +59,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     private Login login;
     private String principalOn = "";
     private String modalOn = "";
-    
+    ConfirmDialog confirmDialog;
     
     /* DASHBOARD */
     JFreeCharts barChart = new JFreeCharts();
@@ -68,6 +71,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     UsuarioDao usuarioDao = new UsuarioDao();
     VistaUsuario vistaUsuario;
     ModalUsuario modalUsuario;
+    
     
     /* PRODUCTOS */
     Producto producto = null;
@@ -89,9 +93,13 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     Factura factura = new Factura();
     Factura facturaSelected = null;
     FacturaDao facturaDao = new FacturaDao();
+    VistaFactura vistaFactura;
+   //ModalFactura modalFactura;
     
     /* CLIENTES */
     ClienteDao clienteDao = new ClienteDao();
+    
+    
 
     public Controlador(Menu menu) {
         this.menu = menu;
@@ -106,15 +114,15 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     private void mostrarModulos(String vista){
         /* - - - - MOSTRAR MODULOS - - - - */
         if(vista.equals("Login")){
+            login = new Login();
             login.setControlador(this);
             login.iniciar();
             principalOn = "Login";
         }else if(vista.equals("Menu")){
             dashboard = new Dashboard();
-            menu.setControlador(this);
+//            menu.setControlador(this);
             menu.iniciar();
             principalOn = "Menu";
-            
             new CambiaPanel(menu.body, dashboard);
             mostrarChart();
         }else if(vista.equals("Usuarios")){
@@ -128,19 +136,23 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     
     private void mostrarModals(String modal){
         /* - - - - MOSTRAR MODALS - - - - */
-        
+ 
+        modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
+        confirmDialog = new ConfirmDialog(new JFrame(), true);
+       
+
         /* CONTROL DE USUARIOS */
-        if(modal.equals("nuevoUsuario") && principalOn.equals("Usuarios")){
+        if(modal.equals("nuevoUsuario")){
             usuarioSelected = null;
-            modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
+            
             modalUsuario.setControlador(this);
             modalOn = "modalUsuario";
             modalUsuario.iniciar();
-        }else if(modal.equals("editarUsuario") && principalOn.equals("Usuarios")){
+        }else if(modal.equals("editarUsuario")){
             modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
             modalUsuario.setControlador(this);
             modalOn = "modalUsuario";
-            
+   
             modalUsuario.form.remove(modalUsuario.jtPass);
             modalUsuario.form.remove(modalUsuario.jtPassRepet);
             modalUsuario.form.remove(modalUsuario.iconPass);
@@ -155,23 +167,22 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             modalUsuario.setSize(482, 346); //Width - Height
             llenarComboBox();
             modalUsuario.iniciar();
-        }else if(modal.equals("eliminarUsuario") && principalOn.equals("Usuarios")){
-            if(usuarioSelected != null){
-                usuarioSelected.setEstado(0);
-                if(usuarioDao.update(usuarioSelected)){
-                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                    DesktopNotify.showDesktopMessage("Usuario eliminado", "El usuario ha sido eliminado exitosamente.", DesktopNotify.INFORMATION, 8000);
-                    mostrarDatos(vistaUsuario.tablaUsuarios);
-                }
-                
-                 usuarioSelected = null;
-                
-            }
-        }else if(modal.equals("changePassUsuario") && principalOn.equals("Usuarios")){
+        }else if(modal.equals("eliminarUsuario")){
+
+                confirmDialog = new ConfirmDialog(new JFrame(), true);
+                confirmDialog.setControlador(this);
+                modalOn = "modalDialog";
+
+                confirmDialog.header.setText("Eliminar usuario");
+                confirmDialog.textDialog.setText("<html>¿Esta seguro que quiere eliminar el usuario <b>" + usuarioSelected.getNickname() + "</b>? </html>");
+                confirmDialog.btnEliminar.setText("Eliminar");
+                confirmDialog.iniciar();
+
+        }else if(modal.equals("changePassUsuario")){
             modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
             modalUsuario.setControlador(this);
             modalOn = "modalUsuario";
-            
+       
             modalUsuario.form.remove(modalUsuario.cbEmpleado);
             modalUsuario.form.remove(modalUsuario.iconEmpleado);
             modalUsuario.form.remove(modalUsuario.cbRol);
@@ -230,6 +241,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             tabla.setModel(modelo);
         }
         
+        /* DASHBOARD */
         if(principalOn.equals("Menu")){
             
             /* Tabla ultimos productos */
@@ -274,6 +286,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                                 Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
+                        
                     }
                     
                 }
@@ -282,30 +295,25 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             modelo = (DefaultTableModel)dashboard.tablaUltimasVentas.getModel();
             modelo.setRowCount(0);
             
-            /* Tabla ultimas ventas */
-            dashboard.tablaUltimasVentas.getColumnModel().getColumn(0).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
-            dashboard.tablaUltimasVentas.getColumnModel().getColumn(1).setCellRenderer(diseño);
-            dashboard.tablaUltimasVentas.getColumnModel().getColumn(2).setCellRenderer(diseño);
-            dashboard.tablaUltimasVentas.getColumnModel().getColumn(3).setCellRenderer(diseño);
-            
+            /* Tabla ultimas ventas */           
             ArrayList<Factura> facturas = facturaDao.selectAllOrderBy();
-            ArrayList<Cliente> clientes = clienteDao.selectAll();
             i = 0;
             
             for(Factura x : facturas){
-                
-                for(Cliente k : clientes){
-                    if(x.getCliente().getIdPersona() == k.getIdPersona() && i < 10){
-                        modelo.addRow(new Object[]{id.format(x.getNoFactura()), k.getNombre() + " " + k.getApellido(), x.getFecha(), x.getTotal()});
-                        i++;
-                    }
+         
+                if(i < 10){
+                    modelo.addRow(new Object[]{id.format(x.getNoFactura()), x.getCliente().getNombre() + " " + x.getCliente().getApellido(), x.getFecha(), x.getFecha()});
+                    i++;
                 }
-                
+
                 
             }
             
             dashboard.tablaUltimasVentas.setModel(modelo);
+          
         }
+        
+        
     }
     
     public void mostrarBusqueda(ArrayList lista, JTable tabla){
@@ -356,13 +364,13 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
           
     }
     
-    public void verificarCredenciales(){
+    public void verificarCredenciales(MouseEvent e){
         
         if(principalOn.equals("Login")){
             
             if(!login.jtUser.getText().isEmpty() && !login.jtPassword.getText().isEmpty()){
                 
-                ArrayList<Usuario> usuarios = usuarioDao.buscar(login.jtUser.getText());
+                ArrayList<Usuario> usuarios = usuarioDao.selectAllTo("usuario_nick", login.jtUser.getText());
                 
                 if(!usuarios.isEmpty() && usuarios.get(0).getEstado() == 1){
                     String clave = Encriptacion.getStringMessageDigest(login.jtPassword.getText(), Encriptacion.SHA256);
@@ -399,7 +407,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                             menu.modulos.remove(menu.btnUsuarios);
                             menu.modulos.remove(menu.btnEmpleados);
                             menu.modulos.remove(menu.btnProveedores);
-
+                            principalOn = "Productos";
                         }
 
                         menu.iniciar();
@@ -420,6 +428,15 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 DesktopNotify.setDefaultTheme(NotifyTheme.Red);
                 DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
             }
+        }
+        
+        if(e.getSource() == menu.btnSalir){
+            usuarioSelected = null; //Por si esta seleccionado un usuario
+            usuario = null; //Igualamos a null usuario logueado
+            menu.dispose(); //Cerramos el menu
+            DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+            DesktopNotify.showDesktopMessage("Sesión cerrada", "Se ha cerrado sesión con exito.", DesktopNotify.SUCCESS, 8000); //8 seg
+            mostrarModulos("Login"); //Iniciamos el login
         }
     }
     
@@ -567,6 +584,23 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             }
             
         }
+
+        //Eliminar
+        if(btn.equals("Eliminar") && modalOn.equals("modalDialog") && principalOn.equals("Usuarios")){
+
+            usuarioSelected.setEstado(0);
+            if(usuarioDao.update(usuarioSelected)){
+                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                DesktopNotify.showDesktopMessage("Usuario eliminado", "El usuario ha sido eliminado exitosamente.", DesktopNotify.INFORMATION, 8000);
+                mostrarDatos(vistaUsuario.tablaUsuarios);
+                confirmDialog.dispose();
+            }
+
+            usuarioSelected = null;
+        }
+        
+        
+        
     }
     
     public void llenarComboBox(){
@@ -597,15 +631,14 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     public void mostrarChart(){
         
         int cant[] = new int[12];
-        int j = 0;
-        int u = 0;
-        int e = 0;
+        int j = 0, u = 0, e = 0, s = 0, p = 0, a = 0;
         
         ArrayList<Factura> facturas = facturaDao.selectAll();
         ArrayList<Producto> productos = productoDao.selectAll();
         ArrayList<Usuario> usuarios = usuarioDao.selectAll();
         ArrayList<Empleado> empleados = empleadoDao.selectAll();
-        
+        ArrayList<ProductoEstado> productoEstados = productoEstadoDao.selectAll();
+ 
         for(int i = 0; i < 12; i++){
             for(Factura x : facturas){
                 String f[] = x.getFecha().toString().split("-");
@@ -642,32 +675,53 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
         dashboard.totalEmp.setText(String.valueOf(e));
         
         mostrarDatos(dashboard.tablaUltimosProductos);
+        
+        /* ALERTAS */
+        for (Producto x : productos) {
+            for (ProductoEstado y : productoEstados) {
+                if (x.getCodProducto() == y.getProducto().getCodProducto() && y.getEstado() == 1 && y.getStock() < 1) {
+                        s++;
+                }
+                
+                if(x.getCodProducto() == y.getProducto().getCodProducto() && y.getEstado() == 1 && y.getStock() <= 1 && y.getStock() > 0){
+                    p++;
+                }
+                
+                if(x.getCodProducto() == y.getProducto().getCodProducto() && y.getEstado() == 2){
+                    a++;
+                }
+            }
+        }
+        
+        dashboard.sinStock.setText(String.valueOf(s));
+        dashboard.porAcabarse.setText(String.valueOf(p));
+        dashboard.enEspera.setText(String.valueOf(a));
     }
     
     @Override
     public void mousePressed(MouseEvent e) {
-        
-        try{
-            if(!principalOn.equals("Login")){
-                    /* - - - BOTONES DEL MENU Y MODULOS - - - -*/
-                if(e.getSource().equals(menu.btnDashboard)){
-                    mostrarModulos("Menu");
-                }else if(e.getSource().equals(menu.btnUsuarios)){
-                    mostrarModulos("Usuarios");
-                }else if(e.getSource().equals(vistaUsuario.btnNuevo)){
-                    mostrarModals("nuevoUsuario");
-                }else if(e.getSource().equals(modalUsuario.btnGuardar)){
-                    eventosBotones("Agregar");
-                }
-            }else{
-                /* LOGIN */
-                if(e.getSource().equals(login.btnEntrar)){
-                    verificarCredenciales(); 
-                }
+
+        if(!principalOn.equals("Login")){
+                /* - - - BOTONES DEL MENU Y MODULOS - - - -*/
+            if(e.getSource().equals(menu.btnDashboard)){
+                mostrarModulos("Menu");
+            }else if(e.getSource().equals(menu.btnSalir)){
+                verificarCredenciales(e);
+            }else if(e.getSource().equals(menu.btnUsuarios)){
+                mostrarModulos("Usuarios");
+            }else if(e.getSource().equals(vistaUsuario.btnNuevo)){
+                mostrarModals("nuevoUsuario");
+            }else if(e.getSource().equals(confirmDialog.btnEliminar)){
+                eventosBotones("Eliminar");
+            }else if(e.getSource().equals(modalUsuario.btnGuardar)){
+                eventosBotones("Agregar");
             }
-        }catch(Exception ex){
-            
-        } 
+        }else{
+            /* LOGIN */
+            if(e.getSource().equals(login.btnEntrar)){
+                verificarCredenciales(e); 
+            }
+        }
         
     }
     
@@ -699,12 +753,10 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 ArrayList<Empleado> empleados = empleadoDao.selectAll();
 
                 for(Empleado x : empleados){
+
                     modalUsuario.cbEmpleado.addItem(x.getNombre() + " / " + x.getDui());
+
                 }
-                
-//                if(modalUsuario.cbEmpleado.getItemCount() < 0){
-//                    modalUsuario.cbEmpleado.addItem("No se encontro empleado");
-//                }
                 
             }else{
                 modalUsuario.cbEmpleado.setEnabled(false);
@@ -714,6 +766,8 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
     
     @Override
     public void mouseClicked(MouseEvent e) {
+
+        
         if(principalOn.equals("Usuarios") && e.getSource() == vistaUsuario.tablaUsuarios){
 
             int columna = vistaUsuario.tablaUsuarios.getSelectedColumn();
@@ -742,6 +796,8 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             }
        
         }
+        
+       
     }
 
     @Override

@@ -34,11 +34,6 @@ public class UsuarioDao {
         return select(sql);
     }
     
-    public ArrayList<Usuario> selectId(int id) {
-        String sql = "select * from usuario where id_usuario=" + id;
-        return select(sql);
-    } 
-    
     public boolean insert(Usuario obj){
         String sql = "insert into usuario(usuario_nick, usuario_clave, usuario_rol, usuario_estado, usuario_referencia)VALUES(?,?,?,?,?)";
         return alterarRegistro(sql, obj);

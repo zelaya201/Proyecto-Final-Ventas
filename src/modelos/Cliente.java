@@ -21,6 +21,11 @@ public class Cliente extends Persona{
         this.email = email;
     }
 
+    public Cliente(int idPersona, String nombre, String apellido) {
+        super(idPersona, nombre, apellido);
+    }
+
+    
     public String getEmail() {
         return email;
     }

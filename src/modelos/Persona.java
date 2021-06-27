@@ -42,6 +42,12 @@ public abstract class Persona {
         this.telefono = telefono;
     }
 
+    public Persona(int idPersona, String nombre, String apellido) {
+        this.idPersona = idPersona;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
     public int getIdPersona() {
         return idPersona;
     }

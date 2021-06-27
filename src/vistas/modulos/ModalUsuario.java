@@ -18,10 +18,7 @@ public class ModalUsuario extends javax.swing.JDialog {
         this.vistaUsuario = vistaUsuario;
         new TextPrompt("Usuario", jtUser);
         new TextPrompt("Contraseña", jtPass);
-        new TextPrompt("Repetir contraseña", jtPassRepet);
-      
-        
-        
+        new TextPrompt("Repetir contraseña", jtPassRepet);   
 
     }
     
@@ -99,6 +96,11 @@ public class ModalUsuario extends javax.swing.JDialog {
         btnGuardar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 204), 1, true));
         btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGuardar.setOpaque(true);
+        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnGuardarMousePressed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -282,6 +284,10 @@ public class ModalUsuario extends javax.swing.JDialog {
         
         if((val<'a' || val>'z') && (val<'A' || val>'Z') && (val < '0' || val > '9')) evt.consume();
     }//GEN-LAST:event_jtUserKeyTyped
+
+    private void btnGuardarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarMousePressed
 
     public void comboBoxInit(){
         this.cbEmpleado.setUI(new MyComboBoxUI());

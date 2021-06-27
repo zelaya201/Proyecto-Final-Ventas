@@ -3,14 +3,12 @@ package vistas.main;
 import controlador.Controlador;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import vistas.modulos.MenuDesplegable;
 import vistas.modulos.VistaUsuario;
 
 public class Menu extends javax.swing.JFrame {
 
     VistaUsuario vistaUsuario;
     int clicked = 1;
-    MenuDesplegable obj = new MenuDesplegable();
    
     public Menu() {
         initComponents();
@@ -21,6 +19,7 @@ public class Menu extends javax.swing.JFrame {
     public void setControlador(Controlador control){
         this.btnUsuarios.addMouseListener(control);
         this.btnDashboard.addMouseListener(control);
+        this.btnSalir.addMouseListener(control);
     }
     
     public void iniciar(){
@@ -50,7 +49,7 @@ public class Menu extends javax.swing.JFrame {
         lbUserName = new javax.swing.JLabel();
         header = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        btnSalir = new javax.swing.JLabel();
         body = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -275,24 +274,29 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.weightx = 10.0;
         header.add(jLabel10, gridBagConstraints);
 
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/squared_menu_22px.png"))); // NOI18N
-        jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnSalir.setBackground(new java.awt.Color(221, 75, 57));
+        btnSalir.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btnSalir.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/shutdown_22px.png"))); // NOI18N
+        btnSalir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSalir.setOpaque(true);
+        btnSalir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel12MouseEntered(evt);
+                btnSalirMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel12MouseExited(evt);
+                btnSalirMouseExited(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jLabel12MouseReleased(evt);
+                btnSalirMouseReleased(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.ipadx = 21;
         gridBagConstraints.ipady = 14;
-        header.add(jLabel12, gridBagConstraints);
+        header.add(btnSalir, gridBagConstraints);
 
         getContentPane().add(header, java.awt.BorderLayout.PAGE_START);
 
@@ -377,17 +381,17 @@ public class Menu extends javax.swing.JFrame {
         efectoExited(btnProveedores, 3);
     }//GEN-LAST:event_btnProveedoresMouseExited
 
-    private void jLabel12MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseEntered
+    private void btnSalirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseEntered
         //obj.setVisible(true);
-    }//GEN-LAST:event_jLabel12MouseEntered
+    }//GEN-LAST:event_btnSalirMouseEntered
 
-    private void jLabel12MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseExited
+    private void btnSalirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseExited
         //obj.dispose();
-    }//GEN-LAST:event_jLabel12MouseExited
+    }//GEN-LAST:event_btnSalirMouseExited
 
-    private void jLabel12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseReleased
+    private void btnSalirMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseReleased
         
-    }//GEN-LAST:event_jLabel12MouseReleased
+    }//GEN-LAST:event_btnSalirMouseReleased
 
     public void efectoEntered(JLabel label){
          label.setBackground(new java.awt.Color(37, 46, 57));
@@ -470,10 +474,10 @@ public class Menu extends javax.swing.JFrame {
     public javax.swing.JLabel btnFacturas;
     public javax.swing.JLabel btnProductos;
     public javax.swing.JLabel btnProveedores;
+    public javax.swing.JLabel btnSalir;
     public javax.swing.JLabel btnUsuarios;
     private javax.swing.JPanel header;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel9;
     public javax.swing.JLabel lbUserName;
