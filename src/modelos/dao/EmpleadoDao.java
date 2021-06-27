@@ -40,20 +40,16 @@ public class EmpleadoDao {
     } 
     
     public boolean insert(Empleado obj){
-        String sql = "insert into empleado(dui_empleado,nom_empleado,genero_empleado,edad_empleado,email_empleado,tel_empleado,dir_empleado,renta_empleado,estado_empleado,id_empleado1,id_usuario1)VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into empleado(dui_empleado,nom_empleado,ape_empleado,genero_empleado,edad_empleado,email_empleado,tel_empleado,dir_empleado,estado_empleado)VALUES(?,?,?,?,?,?,?,?,?,?)";
         return alterarRegistro(sql, obj);
     }
     
     public boolean update(Empleado obj) {
-        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?,  renta_empleado =?, estado_empleado =?,  id_usuario1 =? where id_empleado=" + obj.getIdPersona();
+        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?, estado_empleado =? where id_empleado=" + obj.getIdPersona();
       return  alterarRegistro(sql, obj);
     }
     
-    public boolean updateEmpleado(Empleado obj) {
-        String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?, estado_empleado =?, id_usuario1 =? where id_empleado=" + obj.getIdPersona();
-        return alterarRegistroUsuario(sql, obj);
-    }
-
+   
     private ArrayList<Empleado> select(String sql){
         ArrayList<Empleado> lista = new ArrayList();
         Empleado obj = null;
@@ -68,14 +64,12 @@ public class EmpleadoDao {
                 obj.setDui(rs.getString("dui_empleado"));
                 obj.setNombre(rs.getString("nom_empleado"));
                 obj.setApellido(rs.getString("ape_empleado"));
-             
                 obj.setGenero(rs.getString("genero_empleado"));
                 obj.setEdad(rs.getInt("edad_empleado"));
                 obj.setEmail(rs.getString("email_empleado"));
                 obj.setTelefono(rs.getString("tel_empleado"));
                 obj.setDireccion(rs.getString("dir_empleado"));
                 obj.setSalario(rs.getDouble("salario_empleado"));
-            
                 obj.setEstado(rs.getInt("estado_empleado"));
             
                 if (rs.getInt("id_usuario1") > 0) {
@@ -108,14 +102,13 @@ public class EmpleadoDao {
             ps.setString(1, obj.getDui());
             ps.setString(2, obj.getNombre());
             ps.setString(3, obj.getApellido());
-    
-            ps.setString(5, obj.getGenero());
-            ps.setInt(6, obj.getEdad());
-            ps.setString(7, obj.getEmail());
-            ps.setString(8, obj.getTelefono());
-            ps.setString(9, obj.getDireccion());
-            ps.setDouble(10, obj.getSalario());
-        
+            ps.setString(4, obj.getGenero());
+            ps.setInt(5, obj.getEdad());
+            ps.setString(6, obj.getEmail());
+            ps.setString(7, obj.getTelefono());
+            ps.setString(8, obj.getDireccion());
+            ps.setDouble(9, obj.getSalario());
+            ps.setInt(10, obj.getEstado());       
          
          
         
@@ -124,7 +117,7 @@ public class EmpleadoDao {
             
             return true;
         }catch(Exception e) {
-            
+            System.out.println(e);
         }finally{
             try {
                 ps.close();
@@ -136,40 +129,7 @@ public class EmpleadoDao {
         return false; 
     }
     
-    private boolean alterarRegistroUsuario(String sql, Empleado obj){
-        try {
-            con = conectar.getConexion();
-            ps = con.prepareStatement(sql);
-            
-            ps.setString(1, obj.getDui());
-            ps.setString(2, obj.getNombre());
-            ps.setString(3, obj.getApellido());
-        
-            ps.setString(5, obj.getGenero());
-            ps.setInt(6, obj.getEdad());
-            ps.setString(7, obj.getEmail());
-            ps.setString(8, obj.getTelefono());
-            ps.setString(9, obj.getDireccion());
-            ps.setDouble(10, obj.getSalario());
-          
-       
-            
-            ps.execute();
-            
-            return true;
-        }catch(Exception e) {
-           
-        }finally{
-            try {
-                ps.close();
-            } catch (Exception ex) {
-                
-            }
-            conectar.closeConexion(con);
-        }
-        return false; 
-    }
-    
+
     public boolean delete(Empleado obj) {
         String sql = "delete from empleado where id_empleado='" + obj.getIdPersona() + "'";
         

@@ -513,9 +513,18 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
          /* CONTROL DE EMPLEADOS */
          if(principalOn.equals("Empleados") && modalOn.equals("modalEmpleado")){
                    if(btn.equals("Agregar")){
-                if(!modalEmpleado.jtDui.getText().isEmpty()&& !modalEmpleado.jtNombre.getText().isEmpty()&&!modalEmpleado.jtApellido.getText().isEmpty()&&!modalEmpleado.jtEdad.getText().isEmpty()&&!modalEmpleado.jtEmail.getText().isEmpty()&&!modalEmpleado.jtTelefono.getText().isEmpty()&&!modalEmpleado.jtDireccion.getText().isEmpty()&&!modalEmpleado.jtSalario.getText().isEmpty()){
-                    
-                   if(empleadoSelected == null && !modalEmpleado.jtDui.getText().isEmpty()&& !modalEmpleado.jtNombre.getText().isEmpty()&& !modalEmpleado.jtApellido.getText().isEmpty()&& !modalEmpleado.jtEdad.getText().isEmpty()&& !modalEmpleado.jtEmail.getText().isEmpty()&& !modalEmpleado.jtTelefono.getText().isEmpty()&& !modalEmpleado.jtDireccion.getText().isEmpty()&& !modalEmpleado.jtSalario.getText().isEmpty()){
+                if(!modalEmpleado.jtDui.getText().isEmpty()&& 
+                        !modalEmpleado.jtNombre.getText().isEmpty()&&
+                        !modalEmpleado.jtApellido.getText().isEmpty() && 
+                         modalEmpleado.jcGenero.getSelectedIndex()> 0 &&
+                        !modalEmpleado.jtEdad.getText().isEmpty()&&
+                        !modalEmpleado.jtEmail.getText().isEmpty()&&
+                        !modalEmpleado.jtTelefono.getText().isEmpty()&&
+                        !modalEmpleado.jtDireccion.getText().isEmpty()&&
+                        !modalEmpleado.jtSalario.getText().isEmpty()){
+                      
+                          
+                   if(empleadoSelected == null ){
 
                         //if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
 
@@ -530,18 +539,28 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                               //  dui = empleados.get(0).getDui();
                                 
                             //}
-                             Empleado empleado = new Empleado(modalEmpleado.jtDui.getText(), modalEmpleado.jtNombre.getText(),modalEmpleado.jtApellido.getText(),modalEmpleado.jtEdad.getText(),modalEmpleado.jtEmail.getText(),modalEmpleado.jtTelefono.getText(),modalEmpleado.jtDireccion.getText(),modalEmpleado.jtSalario.getText());
+                             Empleado empleado = new Empleado(
+                                      modalEmpleado.jcGenero.getSelectedItem().toString(),
+                                     Integer.parseInt(modalEmpleado.jtEdad.getText()),
+                                     modalEmpleado.jtEmail.getText(),
+                                     Double.parseDouble(modalEmpleado.jtSalario.getText()),1,
+                                     modalEmpleado.jtDui.getText(),
+                                     modalEmpleado.jtNombre.getText(), 
+                                     modalEmpleado.jtApellido.getText(),
+                                      modalEmpleado.jtDireccion.getText(),
+                                      modalEmpleado.jtTelefono.getText());
                                 
                            ArrayList<Empleado> existeUser = empleadoDao.selectAllTo("dui_empleado", modalEmpleado.jtDui.getText());
                           //  ArrayList<Usuario> existeReferencia = usuarioDao.selectAllTo("usuario_referencia", dui);
-
+       
+                        
                            if(existeUser.isEmpty() ){
 
-                               
+                         
                                  
-                               if(empleadoDao.insert(empleado)){
+                               if(empleadoDao.insert(new Empleado("Masculino",13,"jo@seeeee",238,1,"23-3","jose","Perez","santa bususu","222-333" ))){
                                      
-                                   // ArrayList<Empleado> empleados = empleadoDao.selectAllTo("dui_empleado", empleado.getDui());
+                                   //ArrayList<Empleado> empleados = empleadoDao.selectAllTo("dui_empleado", empleado.getDui());
                                   // Empleado empleadoRecuperado = empleados.get(0); 
                                      
                                    // if(usuarioRecuperado.getRol().equals("Empleado") || usuarioRecuperado.getRol().equals("Administrador")){
@@ -558,7 +577,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                                modalOn = "";
                               modalEmpleado.dispose();
                                 
-                            }
+                            
                           
                           //else{
                                 
@@ -571,12 +590,14 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                             //    }
                                                                 
                           //  }
-                        //}else{
+                          
+                         
+                       }else{
                             //Contraseñas diferentes
-                          //  DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                        //    DesktopNotify.showDesktopMessage("Contraseñas diferentes", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
-                      //  }
-                      
+                           DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                           DesktopNotify.showDesktopMessage("no guardo ", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
+                       }
+                
                         
                    }else{
                         

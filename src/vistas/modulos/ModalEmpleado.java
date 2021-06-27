@@ -44,11 +44,6 @@ public class ModalEmpleado extends javax.swing.JDialog {
          new TextPrompt("Salario", jtSalario);
           new TextPrompt("Email", jtEmail);
        
-           botones.add(jrM);
-          botones.add(jrF);  
-        
-        if(jrM.isSelected()){getGenero= "Masculino";}
-        if(jrF.isSelected()){getGenero= "Femenino";}
        
     }
 
@@ -77,8 +72,6 @@ public class ModalEmpleado extends javax.swing.JDialog {
         jtTelefono = new javax.swing.JTextField();
         jtSalario = new javax.swing.JTextField();
         jtEmail = new javax.swing.JTextField();
-        jrM = new javax.swing.JRadioButton();
-        jrF = new javax.swing.JRadioButton();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -91,6 +84,7 @@ public class ModalEmpleado extends javax.swing.JDialog {
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
+        jcGenero = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -115,15 +109,6 @@ public class ModalEmpleado extends javax.swing.JDialog {
         jtTelefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtTelefonoActionPerformed(evt);
-            }
-        });
-
-        jrM.setText("Masculino");
-
-        jrF.setText("Femenino");
-        jrF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrFActionPerformed(evt);
             }
         });
 
@@ -182,6 +167,8 @@ public class ModalEmpleado extends javax.swing.JDialog {
         jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8_nas_30px.png"))); // NOI18N
         jLabel25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
+        jcGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Genero", "Masculino", "Femenino" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -219,7 +206,7 @@ public class ModalEmpleado extends javax.swing.JDialog {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -234,10 +221,8 @@ public class ModalEmpleado extends javax.swing.JDialog {
                                         .addComponent(jtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jrM)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jrF)))))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jcGenero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -272,11 +257,9 @@ public class ModalEmpleado extends javax.swing.JDialog {
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jrM, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jrF, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                    .addComponent(jcGenero))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
@@ -347,10 +330,6 @@ public class ModalEmpleado extends javax.swing.JDialog {
     private void jtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtTelefonoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtTelefonoActionPerformed
-
-    private void jrFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jrFActionPerformed
 
     private void jtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtNombreActionPerformed
         // TODO add your handling code here:
@@ -438,8 +417,7 @@ public class ModalEmpleado extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel25;
     public javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    public javax.swing.JRadioButton jrF;
-    public javax.swing.JRadioButton jrM;
+    public javax.swing.JComboBox<String> jcGenero;
     public javax.swing.JTextField jtApellido;
     public javax.swing.JTextField jtDireccion;
     public javax.swing.JTextField jtDui;
