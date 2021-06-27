@@ -139,7 +139,7 @@ public class VistaEmpleado extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "No.", "Dui", "Nombre", "Apellido", "Genero", "Edad", "Email", "Telefono", "direccion", "Salario", "Edita", "Eliminar"
+                "No.", "DUI", "Nombre", "Apellido", "Género", "Edad", "Email", "Teléfono", "Direccion", "Salario", "Editar", "Eliminar"
             }
         ) {
             boolean[] canEdit = new boolean [] {

@@ -169,29 +169,20 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
            modalEmpleado = new ModalEmpleado(new JFrame(), true, vistaEmpleado);
             modalEmpleado.setControlador(this);
             modalOn = "modalEmpleado";
-            
-              modalEmpleado.jPanel1.remove(modalEmpleado.jtDui);
-                modalEmpleado.jPanel1.remove(modalEmpleado.jtNombre);
-                  modalEmpleado.jPanel1.remove(modalEmpleado.jtApellido);
-            modalEmpleado.jPanel1.remove(modalEmpleado.jtTelefono);
-            modalEmpleado.jPanel1.remove(modalEmpleado.jtEdad);
-             // modalEmpleado.jPanel1.remove(modalEmpleado.jtEstado);
-             
-               modalEmpleado.jPanel1.remove(modalEmpleado.jtEmail);
-                modalEmpleado.jPanel1.remove(modalEmpleado.jtDireccion);
-                  modalEmpleado.jPanel1.remove(modalEmpleado.jtSalario);
-                   
-                      //modalEmpleado.jPanel1.remove(modalEmpleado.cbUsuario);
-                    
-           // modalEmpleado.form.remove(modalEmpleado.jtPassRepet);
-           // modalEmpleado.form.remove(modalEmpleado.iconPass);
-            
-           modalEmpleado.header.setText("Editar Empleado");
+       
+             modalEmpleado.header.setText("Editar Empleado");
       
                  
-            modalEmpleado.jtDui.setText(empleadoSelected.getDui()); 
-            
-            modalEmpleado.setSize(482, 346); //Width - Height
+         modalEmpleado.jtDui.setText(empleadoSelected.getDui()); 
+            modalEmpleado.jtNombre.setText(empleadoSelected.getNombre());
+            modalEmpleado.jtApellido.setText(empleadoSelected.getApellido());
+            modalEmpleado.jcGenero.setSelectedItem(empleadoSelected.getGenero());
+            modalEmpleado.jtEdad.setText(String.valueOf(empleadoSelected.getEdad()));
+            modalEmpleado.jtEmail.setText(empleadoSelected.getGmail());
+              modalEmpleado.jtTelefono.setText(empleadoSelected.getTelefono());
+                modalEmpleado.jtDireccion.setText(empleadoSelected.getDireccion());
+                    modalEmpleado.jtSalario.setText(String.valueOf(empleadoSelected.getSalario()));
+          //  modalEmpleado.setSize(482, 346); //Width - Height
           // llenarComboBox();
             modalEmpleado.iniciar();
             
@@ -199,13 +190,14 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
             if(empleadoSelected != null){
                 empleadoSelected.setEstado(0);
                 if(empleadoDao.update(empleadoSelected)){
+                    empleadoSelected=null;
                 DesktopNotify.setDefaultTheme(NotifyTheme.Red);
                     DesktopNotify.showDesktopMessage("Empleado eliminado", "El Empleado ha sido eliminado exitosamente.", DesktopNotify.INFORMATION, 8000);
                     mostrarDatos(vistaEmpleado.tablaEmpleados);
                 }
                  
                 empleadoSelected = null;
-                
+               modalEmpleado.dispose(); 
             }
         }
     }
@@ -282,7 +274,7 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
               
                 
                 if(x.getEstado() > 0){
-                    modelo.addRow(new Object[]{i,x.getDui(),x.getNombre(), x.getApellido(), x.getGenero(),x.getEdad(), x.getEmail(), x.getTelefono(), x.getDireccion(), x.getSalario() ,lbImg_edit, lbImg_delete});
+                    modelo.addRow(new Object[]{i,x.getDui(),x.getNombre(), x.getApellido(), x.getGenero(),x.getEdad(), x.getEmail(), x.getTelefono(), x.getDireccion(), "$ "+x.getSalario() ,lbImg_edit, lbImg_delete});
                     i++;
                 }
                
@@ -542,18 +534,38 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                                  
                                 if(empleadoDao.insert(empleado)){
                                     DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                                    DesktopNotify.showDesktopMessage("Empleado guardado", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
+                                    DesktopNotify.showDesktopMessage("Empleado guardado", "El  empleado se guardo correctamente.", DesktopNotify.WARNING, 8000);
                                 }
+                                modalEmpleado.dispose();
 
-
-                        }else{
-                             //Contraseñas diferentes
-                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                            DesktopNotify.showDesktopMessage("no guardo ", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
-                        }
+                        }else
+                         if(empleadoSelected != null ){
+                             
+                              empleadoSelected.setDui(modalEmpleado.jtDui.getText());
+                                empleadoSelected.setNombre(modalEmpleado.jtNombre.getText());
+                               empleadoSelected.setApellido(modalEmpleado.jtApellido.getText());
+                                   empleadoSelected.setGenero(modalEmpleado.jcGenero.getSelectedItem().toString());
+                                    empleadoSelected.setEdad(Integer.parseInt(modalEmpleado.jtEdad.getText()));
+                                     empleadoSelected.setEmail(modalEmpleado.jtEmail.getText());
+                                     empleadoSelected.setTelefono(modalEmpleado.jtTelefono.getText());
+                                       empleadoSelected.setDireccion(modalEmpleado.jtDireccion.getText());
+                                    empleadoSelected.setSalario(Double.parseDouble(modalEmpleado.jtSalario.getText()));
+                                   
+                             if(empleadoDao.update(empleadoSelected)){
+                                 empleadoSelected=null;
+                                 DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                               DesktopNotify.showDesktopMessage("Actualizado correctamente", "Se actualizo el empleado.", DesktopNotify.WARNING, 8000); //8 seg
+            
+                             }
+                            
+                                  modalEmpleado.dispose();                             
+//Contraseñas diferentes
+                                   }
 
                     }else{
-
+                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                    DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
+             
                     }
                                         
                 }else{
@@ -796,17 +808,17 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
 
             int columna =vistaEmpleado.tablaEmpleados.getSelectedColumn();
             try{
-                if(columna == 12){
-                    int fila = vistaUsuario.tablaUsuarios.getSelectedRow();
-                    String dui = vistaUsuario.tablaUsuarios.getValueAt(fila, 1).toString();
-                    ArrayList<Usuario> lista = usuarioDao.selectAllTo("dui_empleado", dui);
-                    usuarioSelected = lista.get(0);
+                if(columna == 10){
+                    int fila = vistaEmpleado.tablaEmpleados.getSelectedRow();
+                    String dui = vistaEmpleado.tablaEmpleados.getValueAt(fila, 1).toString();
+                    ArrayList<Empleado> lista = empleadoDao.selectAllTo("dui_empleado", dui);
+                    empleadoSelected = lista.get(0);
                     mostrarModals("editarEmpleado");
-                }else if(columna == 13){
-                  int fila = vistaUsuario.tablaUsuarios.getSelectedRow();
-                    String dui = vistaUsuario.tablaUsuarios.getValueAt(fila, 1).toString();
-                    ArrayList<Usuario> lista = usuarioDao.selectAllTo("dui_empleado", dui);
-                    usuarioSelected = lista.get(0);
+                }else if(columna == 11){
+                  int fila = vistaEmpleado.tablaEmpleados.getSelectedRow();
+                    String dui = vistaEmpleado.tablaEmpleados.getValueAt(fila, 1).toString();
+                    ArrayList<Empleado> lista = empleadoDao.selectAllTo("dui_empleado", dui);
+                    empleadoSelected = lista.get(0);
                     mostrarModals("eliminarEmpleado");
                 }
             }catch(Exception ex){
