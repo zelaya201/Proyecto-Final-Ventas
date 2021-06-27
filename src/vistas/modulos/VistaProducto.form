@@ -91,7 +91,7 @@
               <Color blue="42" green="35" red="2a" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/caja.png"/>
+              <Image iconType="3" name="/img/empty_box_22px.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Productos"/>
           </Properties>

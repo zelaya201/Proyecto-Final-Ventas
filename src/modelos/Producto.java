@@ -3,6 +3,7 @@ package modelos;
 import java.sql.Blob;
 import java.util.ArrayList;
 import modelos.dao.CategoriaDao;
+import modelos.dao.ProductoEstadoDao;
 import modelos.dao.ProveedorDao;
 
 public class Producto {

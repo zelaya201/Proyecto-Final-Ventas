@@ -1,13 +1,19 @@
 package modelos.dao;
 
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import modelos.Categoria;
 import modelos.Conexion;
 import modelos.Producto;
@@ -34,7 +40,7 @@ public class ProductoDao {
     }
     
     public ArrayList<Producto> buscar(String dato) {
-        String sql = "select * from producto where  cod_producto like '" + dato + "%' or  descripcion_producto like '" + dato + "%'";
+        String sql = "select * from producto where cod_producto like '" + dato + "%' or  descripcion_producto like '" + dato + "%'";
         return select(sql);
     }
     
@@ -51,6 +57,35 @@ public class ProductoDao {
     public boolean update(Producto obj) {
         String sql = "update producto set foto_producto =?, descripcion_producto =?, cod_proveedor1 =?, id_categoria1 =? where cod_producto=" + obj.getCodProducto();
         return alterarRegistro(sql, obj);
+    }
+    
+    public boolean updateBlob(Producto obj) {
+        String sql = "update producto set foto_producto =?, descripcion_producto =?, cod_proveedor1 =?, id_categoria1 =? where cod_producto=" + obj.getCodProducto();
+        return alterarRegistroBlob(sql, obj);
+    }
+    
+    public int getNextId() {
+        int id = 0;
+        try {
+            con = conectar.getConexion();
+            String sql = "select `AUTO_INCREMENT` from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'db_proyecto_ventas' and TABLE_NAME = 'producto'";
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            while(rs.next()) {
+                id = rs.getInt("AUTO_INCREMENT");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                
+            }
+            conectar.closeConexion(con);
+        }
+        return id;
     }
 
     private ArrayList<Producto> select(String sql){
@@ -90,9 +125,18 @@ public class ProductoDao {
         try {
             con = conectar.getConexion();
             ps = con.prepareStatement(sql);
+            BufferedImage img;
             FileInputStream fis = null;
             
             File file = new File(obj.getRutaFoto());
+            img = ImageIO.read(file);
+            
+            int alto = img.getHeight();
+            int ancho = img.getWidth();
+            
+            img = resizeImg(img, 100, (100*alto)/ancho);
+            ImageIO.write(img, "jpg", file);
+            
             fis = new FileInputStream(file);
             
             ps.setBlob(1, fis, (int)file.length());
@@ -103,9 +147,35 @@ public class ProductoDao {
             ps.execute();
             
             return true;
-        }catch(Exception e) {
-//            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-//            DesktopNotify.showDesktopMessage("Error en SQL", "Un error ha ocurrido en la consulta sql.", DesktopNotify.WARNING, 10000);       
+        }catch(Exception e) {      
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, e);
+        }finally{
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                
+            }
+            conectar.closeConexion(con);
+        }
+        return false; 
+    }
+    
+    private boolean alterarRegistroBlob(String sql, Producto obj){
+        try {
+            con = conectar.getConexion();
+            ps = con.prepareStatement(sql);
+            
+            InputStream in = obj.getBdFoto().getBinaryStream();
+            
+            ps.setBlob(1, in);
+            ps.setString(2, obj.getDescripcion());
+            ps.setInt(3, obj.getProveedor().getCodProveedor());
+            ps.setInt(4, obj.getCategoria().getIdCategoria());
+            
+            ps.execute();
+            
+            return true;
+        }catch(Exception e) {      
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, e);
         }finally{
             try {
@@ -137,5 +207,16 @@ public class ProductoDao {
         }
 
         return false;
+    }
+    
+    private static BufferedImage resizeImg(BufferedImage bufferedImage, int newW, int newH) {
+        int w = bufferedImage.getWidth();
+        int h = bufferedImage.getHeight();
+        BufferedImage bufim = new BufferedImage(newW, newH, bufferedImage.getType());
+        Graphics2D g = bufim.createGraphics();
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.drawImage(bufferedImage, 0, 0, newW, newH, 0, 0, w, h, null);
+        g.dispose();
+        return bufim;
     }
 }

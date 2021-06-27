@@ -17,10 +17,11 @@ public class VistaProducto extends javax.swing.JPanel {
     }
 
     public void setControlador(Controlador control){
+        this.tfBusqueda.addKeyListener(control);
+        this.tfBusqueda.addFocusListener(control);
         this.tbProductos.addMouseListener(control);
         this.btnNuevoProducto.addMouseListener(control);
-        this.cbMostrar.addItemListener(control);
-        this.tfBusqueda.addKeyListener(control);
+        this.cbMostrar.addItemListener(control);  
     }
 
     /**
@@ -79,7 +80,7 @@ public class VistaProducto extends javax.swing.JPanel {
         jLabel3.setBackground(new java.awt.Color(51, 51, 51));
         jLabel3.setFont(new java.awt.Font("Bahnschrift", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(42, 53, 66));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/caja.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/empty_box_22px.png"))); // NOI18N
         jLabel3.setText("Productos");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

@@ -1,6 +1,7 @@
 package vistas.modulos;
 
 import controlador.Controlador;
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JTextArea;
 import utilidades.MyComboBoxUI;
@@ -15,10 +16,6 @@ public class ModalProducto extends javax.swing.JDialog {
         initComponents();
         comboBoxInit();
         setLocationRelativeTo(null);
-//        ImageIcon imagen = new ImageIcon("src/img/stock_product.png");
-//        Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(lbFoto.getWidth(), lbFoto.getHeight(), Image.SCALE_DEFAULT));
-//        lbFoto.setIcon(icono);
-        //rsscalelabel.RSScaleLabel.setScaleLabel(lbFoto, "src/img/stock_product.png");
         this.vistaProducto = vistaProducto;
         new TextPrompt("Código de producto", tfCodigo);
         new TextPrompt("Descripcion del producto", (JTextArea)taDescripcion.getViewport().getView());
@@ -26,6 +23,10 @@ public class ModalProducto extends javax.swing.JDialog {
         new TextPrompt("Porcentaje de ganancia", tfPorcentaje);
         new TextPrompt("Precio de venta", tfPrecioVenta);
         new TextPrompt("Stock", tfStock);
+        tfCodigo.setEnabled(false);
+        tfCodigo.setDisabledTextColor(Color.BLACK);
+        tfPrecioVenta.setEnabled(false);
+        tfPrecioVenta.setDisabledTextColor(Color.BLACK);
         this.tfPorcentaje.setEnabled(false);
     }
     
@@ -42,10 +43,14 @@ public class ModalProducto extends javax.swing.JDialog {
     
     
     public void setControlador(Controlador control){
-        this.tfPrecioCompra.addFocusListener(control);
-        this.tfPorcentaje.addKeyListener(control);
         this.btnImg.addMouseListener(control);
         this.btnGuardar.addMouseListener(control);
+        this.tfPrecioCompra.addFocusListener(control);
+        this.tfPorcentaje.addFocusListener(control);
+        this.tfPrecioCompra.addKeyListener(control);
+        this.tfPorcentaje.addKeyListener(control);
+        this.tfStock.addKeyListener(control);
+        this.tfStock.addFocusListener(control);
         this.cbCategoria.addItemListener(control);
         this.cbProveedor.addItemListener(control);
     }
