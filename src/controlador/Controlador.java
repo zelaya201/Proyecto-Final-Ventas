@@ -512,160 +512,50 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
         }
          /* CONTROL DE EMPLEADOS */
          if(principalOn.equals("Empleados") && modalOn.equals("modalEmpleado")){
-                   if(btn.equals("Agregar")){
-                if(!modalEmpleado.jtDui.getText().isEmpty()&& 
-                        !modalEmpleado.jtNombre.getText().isEmpty()&&
-                        !modalEmpleado.jtApellido.getText().isEmpty() && 
-                         modalEmpleado.jcGenero.getSelectedIndex()> 0 &&
-                        !modalEmpleado.jtEdad.getText().isEmpty()&&
-                        !modalEmpleado.jtEmail.getText().isEmpty()&&
-                        !modalEmpleado.jtTelefono.getText().isEmpty()&&
-                        !modalEmpleado.jtDireccion.getText().isEmpty()&&
-                        !modalEmpleado.jtSalario.getText().isEmpty()){
+             
+                if(btn.equals("Agregar")){
+                    
+                    if(!modalEmpleado.jtDui.getText().isEmpty()&& 
+                            !modalEmpleado.jtNombre.getText().isEmpty()&&
+                            !modalEmpleado.jtApellido.getText().isEmpty() && 
+                             modalEmpleado.jcGenero.getSelectedIndex()> 0 &&
+                            !modalEmpleado.jtEdad.getText().isEmpty()&&
+                            !modalEmpleado.jtEmail.getText().isEmpty()&&
+                            !modalEmpleado.jtTelefono.getText().isEmpty()&&
+                            !modalEmpleado.jtDireccion.getText().isEmpty()&&
+                            !modalEmpleado.jtSalario.getText().isEmpty()){
                       
                           
-                   if(empleadoSelected == null ){
-
-                        //if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
-
-                         //   String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
-                       //     String dui = "";
-
-                           // if(modalUsuario.cbRol.getSelectedItem().toString().equals("Administrador") || modalUsuario.cbRol.getSelectedItem().toString().equals("Empleado")){
-                               // String v[] = modalUsuario.cbEmpleado.getSelectedItem().toString().split(" / ");
-
-                               // ArrayList<Empleado> empleados = empleadoDao.buscar(v[1]);
-                               // empleado = empleados.get(0);
-                              //  dui = empleados.get(0).getDui();
-                                
-                            //}
-                             Empleado empleado = new Empleado(
-                                      modalEmpleado.jcGenero.getSelectedItem().toString(),
-                                     Integer.parseInt(modalEmpleado.jtEdad.getText()),
-                                     modalEmpleado.jtEmail.getText(),
-                                     Double.parseDouble(modalEmpleado.jtSalario.getText()),1,
-                                     modalEmpleado.jtDui.getText(),
-                                     modalEmpleado.jtNombre.getText(), 
-                                     modalEmpleado.jtApellido.getText(),
-                                      modalEmpleado.jtDireccion.getText(),
-                                      modalEmpleado.jtTelefono.getText());
-                                
-                           ArrayList<Empleado> existeUser = empleadoDao.selectAllTo("dui_empleado", modalEmpleado.jtDui.getText());
-                          //  ArrayList<Usuario> existeReferencia = usuarioDao.selectAllTo("usuario_referencia", dui);
-       
-                        
-                           if(existeUser.isEmpty() ){
-
-                         
+                        if(empleadoSelected == null ){
+                    //String genero, int edad, String email, double salario, int estado, String dui, String nombre, String apellido, String direccion, String telefono
+                                Empleado empleado = new Empleado(
+                                        modalEmpleado.jcGenero.getSelectedItem().toString(),
+                                        Integer.parseInt(modalEmpleado.jtEdad.getText()),
+                                        modalEmpleado.jtEmail.getText(),
+                                        Double.parseDouble(modalEmpleado.jtSalario.getText()),
+                                        1,
+                                        modalEmpleado.jtDui.getText(),
+                                        modalEmpleado.jtNombre.getText(), 
+                                        modalEmpleado.jtApellido.getText(),
+                                        modalEmpleado.jtDireccion.getText(),
+                                        modalEmpleado.jtTelefono.getText());
                                  
-                               if(empleadoDao.insert(new Empleado("Masculino",13,"jo@seeeee",238,1,"23-3","jose","Perez","santa bususu","222-333" ))){
-                                     
-                                   //ArrayList<Empleado> empleados = empleadoDao.selectAllTo("dui_empleado", empleado.getDui());
-                                  // Empleado empleadoRecuperado = empleados.get(0); 
-                                     
-                                   // if(usuarioRecuperado.getRol().equals("Empleado") || usuarioRecuperado.getRol().equals("Administrador")){
-                                       // empleado.setUsuario(usuarioRecuperado);
-                                      //  empleadoDao.updateUsuario(empleado);
-                                        
-                                        //Mensaje de guardado
-                                        DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                                        DesktopNotify.showDesktopMessage("Empleado guardado", "El empleado ha sido alamcenado exitosamente.", DesktopNotify.SUCCESS, 8000);
-                                //    }
-                                    
-                               }
-                                
-                               modalOn = "";
-                              modalEmpleado.dispose();
-                                
-                            
-                          
-                          //else{
-                                
-                                //if(!existeUser.isEmpty()){
-                                   // DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                                 //   DesktopNotify.showDesktopMessage("Usuario " + modalUsuario.jtUser.getText() +  " ya existe", "El nuevo nombre de usuario debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
-                               // }else{
-                                //    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                              //      DesktopNotify.showDesktopMessage("Empleado ya asignado", "El empleado ya tiene asignada una cuenta de usuario.", DesktopNotify.WARNING, 10000);
-                            //    }
-                                                                
-                          //  }
-                          
-                         
-                       }else{
-                            //Contraseñas diferentes
-                           DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                           DesktopNotify.showDesktopMessage("no guardo ", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
-                       }
-                
-                        
-                   }else{
-                        
-                        if(empleadoSelected != null){
-                            //Modificar
-                              //Empleado empleado= new Empleado(modalEmpleado.jtDui.getText(),modalEmpleado.jtNombre.getText());                       
-                                 ArrayList<Empleado> existeUser = empleadoDao.selectAllTo("nom_empleado", modalEmpleado.jtNombre.getText());
-
-                            if(existeUser.isEmpty()){
-
-                                empleadoSelected.setNombre(modalEmpleado.jtNombre.getText());
-
-                                if(empleadoDao.update(empleadoSelected)){ //Guardado
-                                    //Mensaje de modificado
+                                if(empleadoDao.insert(empleado)){
                                     DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                                    DesktopNotify.showDesktopMessage("Empleado actualizado", "El empleado ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
-                                    empleadoSelected = null;
-                                    modalEmpleado.dispose();
-                                }else{ //Ocurrio un error
-                                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                                    DesktopNotify.showDesktopMessage("Error", "Empleado no actualizado", DesktopNotify.FAIL, 8000);
+                                    DesktopNotify.showDesktopMessage("Empleado guardado", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
                                 }
-                            }else{
 
-                                if(existeUser.get(0).getNombre().equals(empleadoSelected.getNombre())){ //Dejo mismo nombre de usuario
-                                    DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                                    DesktopNotify.showDesktopMessage("Empleado actualizado", "El empleado ha sido modificado exitosamente.", DesktopNotify.SUCCESS, 8000);
-                                    empleadoSelected = null;
-                                    modalEmpleado.dispose();
-                                }else{ //Usuario ya existe
-                                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                                    DesktopNotify.showDesktopMessage("Empleado " + modalEmpleado.jtNombre.getText() +  " ya existe", "El nuevo nombre de empleado debe ser diferente a los demás.", DesktopNotify.WARNING, 10000);
-                                }
-                            }
-                        }
-                        else{
-                            //Campos incompletos
+
+                        }else{
+                             //Contraseñas diferentes
                             DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                            DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
+                            DesktopNotify.showDesktopMessage("no guardo ", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
                         }
-    
-                   }
-                                        
-               // }//else if(usuarioSelected != null && !modalUsuario.jtPass.getText().isEmpty() && !modalUsuario.jtPassRepet.getText().isEmpty()){
-                    //Cambiar contraseña
-                   // if(modalUsuario.jtPass.getText().equals(modalUsuario.jtPassRepet.getText())){
-                        
-                     //   String clave = Encriptacion.getStringMessageDigest(modalUsuario.jtPass.getText(), Encriptacion.SHA256); //Encriptamos la clave
-                       // String dui = "";
-                        
-                    //    usuarioSelected.setClave(clave);
-                        
-                      //  if(usuarioDao.update(usuarioSelected)){
-                            //Mensaje de contraseña modificado
-                          //  DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                           //DesktopNotify.showDesktopMessage("Contraseña modificada", "Su contraseña ha sido modificada exitosamente.", DesktopNotify.SUCCESS, 8000);
-                         //   usuarioSelected = null;
-                         //   modalUsuario.dispose();
-                     //   }else{
-                           // DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                         //   DesktopNotify.showDesktopMessage("Error", "Contraseña no modificada.", DesktopNotify.FAIL, 8000);
-                        //} 
 
-                   // }else{
-                        //Contraseñas diferentes
-                      //  DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                     //   DesktopNotify.showDesktopMessage("Contraseñas diferentes", "Las contraseñas tienen que ser iguales.", DesktopNotify.WARNING, 8000);
-                   // }
+                    }else{
+
+                    }
+                                        
                 }else{
                     //Campos incompletos
                     DesktopNotify.setDefaultTheme(NotifyTheme.Red);
@@ -675,9 +565,8 @@ public class Controlador extends MouseAdapter implements MouseListener, KeyListe
                 mostrarDatos(vistaEmpleado.tablaEmpleados);
                 
             }
-            
-        }
-            }
+     
+    }
             
         
     

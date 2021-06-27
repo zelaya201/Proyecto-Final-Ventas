@@ -29,14 +29,13 @@ public class Empleado extends Persona{
         this.estado = estado;
     }
 
-    public Empleado( String genero, int edad, String email, double salario, int estado, String dui, String nombre, String apellido, String direccion, String telefono) {
+    public Empleado(String genero, int edad, String email, double salario, int estado, String dui, String nombre, String apellido, String direccion, String telefono) {
         super(dui, nombre, apellido, direccion, telefono);
    
         this.genero = genero;
         this.edad = edad;
         this.email = email;
         this.salario = salario;
-     
         this.estado = estado;
     }
 
