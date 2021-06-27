@@ -10,6 +10,7 @@ import java.awt.LayoutManager;
 import java.awt.event.ComponentListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -386,28 +387,40 @@ public class ModalEmpleado extends javax.swing.JDialog {
 
     private void jtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreKeyTyped
      char c= evt.getKeyChar();
-     if((c< 'a' || c> 'z')&&(c< 'A' || c> 'Z'))evt.consume();
+     if((c< 'a' || c> 'z')&&(c< 'A' || c> 'Z')){evt.consume();
+        
+                JOptionPane.showMessageDialog(rootPane, "Ingresar solo letras ");
+     }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jtNombreKeyTyped
 
     private void jtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtApellidoKeyTyped
       char c= evt.getKeyChar();
-     if((c< 'a' || c> 'z')&&(c< 'A' || c> 'Z'))evt.consume();
+     if((c< 'a' || c> 'z')&&(c< 'A' || c> 'Z')){evt.consume();
+        
+                JOptionPane.showMessageDialog(rootPane, "Ingresar solo letras ");
+     }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jtApellidoKeyTyped
 
     private void jtDuiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDuiKeyTyped
         char c= evt.getKeyChar();
-     if(c< '0' || c> '9')evt.consume();
+     if(c< '0' || c> '9'){evt.consume();
+        
+                JOptionPane.showMessageDialog(rootPane, "Ingresar solo numeros ");
+     }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jtDuiKeyTyped
 
     private void jtEdadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtEdadKeyTyped
            char c= evt.getKeyChar();
-     if(c< '0' || c> '9')evt.consume();
+     if(c< '0' || c> '9'){evt.consume();
+        
+                JOptionPane.showMessageDialog(rootPane, "Ingresar solo numeros ");
+     }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jtEdadKeyTyped
@@ -415,16 +428,20 @@ public class ModalEmpleado extends javax.swing.JDialog {
     private void jtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtTelefonoKeyTyped
 
            char c= evt.getKeyChar();
-     if(c< '0' || c> '9')evt.consume();
+     if(c< '0' || c> '9'){evt.consume();
+        
+                JOptionPane.showMessageDialog(rootPane, "Ingresar solo numeros ");
+     }
         // TODO add your handling code here:
     }//GEN-LAST:event_jtTelefonoKeyTyped
 
     private void jtSalarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtSalarioKeyTyped
 
         char c= evt.getKeyChar();
-     if(c< '0' || c> '9')evt.consume();
-
-        // TODO add your handling code here:
+     if(c< '0' || c> '9'){evt.consume();
+        
+                JOptionPane.showMessageDialog(rootPane, "Ingresar solo numeros ");
+     }// TODO add your handling code here:
     }//GEN-LAST:event_jtSalarioKeyTyped
 
     public void comboBoxInit(){
