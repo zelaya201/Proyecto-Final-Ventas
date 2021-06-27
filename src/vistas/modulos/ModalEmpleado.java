@@ -95,6 +95,12 @@ public class ModalEmpleado extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        jtEdad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtEdadKeyTyped(evt);
+            }
+        });
+
         header.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         header.setForeground(new java.awt.Color(51, 51, 51));
         header.setText("Nuevo Empleado");
@@ -103,6 +109,12 @@ public class ModalEmpleado extends javax.swing.JDialog {
         jtDireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtDireccionActionPerformed(evt);
+            }
+        });
+
+        jtSalario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtSalarioKeyTyped(evt);
             }
         });
 
@@ -135,10 +147,20 @@ public class ModalEmpleado extends javax.swing.JDialog {
                 jtNombreActionPerformed(evt);
             }
         });
+        jtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtNombreKeyTyped(evt);
+            }
+        });
 
         jtApellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtApellidoActionPerformed(evt);
+            }
+        });
+        jtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtApellidoKeyTyped(evt);
             }
         });
 
@@ -162,12 +184,22 @@ public class ModalEmpleado extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jtDui.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtDuiKeyTyped(evt);
+            }
+        });
 
         try {
             jtTelefono.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtTelefonoKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -351,6 +383,49 @@ public class ModalEmpleado extends javax.swing.JDialog {
  
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarMousePressed
+
+    private void jtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreKeyTyped
+     char c= evt.getKeyChar();
+     if((c< 'a' || c> 'z')&&(c< 'A' || c> 'Z'))evt.consume();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtNombreKeyTyped
+
+    private void jtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtApellidoKeyTyped
+      char c= evt.getKeyChar();
+     if((c< 'a' || c> 'z')&&(c< 'A' || c> 'Z'))evt.consume();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtApellidoKeyTyped
+
+    private void jtDuiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDuiKeyTyped
+        char c= evt.getKeyChar();
+     if(c< '0' || c> '9')evt.consume();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtDuiKeyTyped
+
+    private void jtEdadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtEdadKeyTyped
+           char c= evt.getKeyChar();
+     if(c< '0' || c> '9')evt.consume();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtEdadKeyTyped
+
+    private void jtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtTelefonoKeyTyped
+
+           char c= evt.getKeyChar();
+     if(c< '0' || c> '9')evt.consume();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtTelefonoKeyTyped
+
+    private void jtSalarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtSalarioKeyTyped
+
+        char c= evt.getKeyChar();
+     if(c< '0' || c> '9')evt.consume();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtSalarioKeyTyped
 
     public void comboBoxInit(){
       
