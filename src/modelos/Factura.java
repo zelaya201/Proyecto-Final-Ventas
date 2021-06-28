@@ -1,13 +1,14 @@
 package modelos;
 
 import java.util.ArrayList;
-import java.util.Date;
-import modelos.dao.FacturaDao;
+import modelos.dao.ClienteDao;
+import modelos.dao.DetalleFacturaDao;
+import modelos.dao.EmpleadoDao;
 
 public class Factura {
     private int noFactura;
     private double iva;
-    private Date fecha;
+    private String fecha;
     private double total;
     private Empleado vendedor;
     private Cliente cliente;
@@ -21,18 +22,28 @@ public class Factura {
         this.noFactura = noFactura;
     }
 
-    public Factura(int noFactura, double iva, Date fecha, double total) {
+    public Factura(int noFactura, double iva, String fecha, double total) {
         this.noFactura = noFactura;
         this.iva = iva;
         this.fecha = fecha;
         this.total = total;
     }
 
-    public Factura(double iva, Date fecha, double total) {
+    public Factura(double iva, String fecha, double total) {
         this.iva = iva;
         this.fecha = fecha;
         this.total = total;
     }
+
+    public Factura(double iva, String fecha, double total, Empleado vendedor, Cliente cliente) {
+        this.iva = iva;
+        this.fecha = fecha;
+        this.total = total;
+        this.vendedor = vendedor;
+        this.cliente = cliente;
+    }
+    
+    
 
     public int getNoFactura() {
         return noFactura;
@@ -50,11 +61,11 @@ public class Factura {
         this.iva = iva;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -67,6 +78,10 @@ public class Factura {
     }
 
     public Empleado getVendedor() {
+        EmpleadoDao empleadoDao = new EmpleadoDao();
+        
+        vendedor = empleadoDao.selectAllTo("id_empleado2", String.valueOf(vendedor.getIdPersona())).get(0);
+
         return vendedor;
     }
 
@@ -75,6 +90,10 @@ public class Factura {
     }
 
     public Cliente getCliente() {
+        ClienteDao clienteDao = new ClienteDao();
+        
+        cliente = clienteDao.selectAllTo("id_cliente1", String.valueOf(cliente.getIdPersona())).get(0);
+        
         return cliente;
     }
 
@@ -83,9 +102,9 @@ public class Factura {
     }
 
     public ArrayList<DetalleFactura> getDetalles() {
+        DetalleFacturaDao detalleFacturaDao = new DetalleFacturaDao();
         
-        FacturaDao facturaDao = new FacturaDao();
-//        this.detalles = facturaDao.selectAllTo()
+        detalles = detalleFacturaDao.selectAllTo("no_factura1", String.valueOf(this.getNoFactura()));
         
         return detalles;
     }

@@ -1,5 +1,7 @@
 package modelos;
 
+import modelos.dao.ProductoDao;
+
 public class DetalleFactura {
     private int cantidadProducto;
     private double subtotal;
@@ -21,6 +23,13 @@ public class DetalleFactura {
         this.producto = producto;
         this.factura = factura;
     }
+    
+    public DetalleFactura(int cantidadProducto, double subtotal, Producto producto, int indexFactura) {
+        this.cantidadProducto = cantidadProducto;
+        this.subtotal = subtotal;
+        this.producto = producto;
+        this.factura.setNoFactura(indexFactura);
+    }
 
     public int getCantidadProducto() {
         return cantidadProducto;
@@ -39,6 +48,9 @@ public class DetalleFactura {
     }
 
     public Producto getProducto() {
+        ProductoDao productoDao = new ProductoDao();
+        producto = productoDao.selectAllTo("cod_producto", String.valueOf(producto.getCodProducto())).get(0);
+
         return producto;
     }
 

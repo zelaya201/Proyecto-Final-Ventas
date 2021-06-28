@@ -19,7 +19,9 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -27,12 +29,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import modelos.Categoria;
+import modelos.Cliente;
+import modelos.DetalleFactura;
 import modelos.Empleado;
 import modelos.Factura;
 import modelos.Producto;
@@ -40,6 +45,8 @@ import modelos.ProductoEstado;
 import modelos.Proveedor;
 import modelos.Usuario;
 import modelos.dao.CategoriaDao;
+import modelos.dao.ClienteDao;
+import modelos.dao.DetalleFacturaDao;
 import modelos.dao.EmpleadoDao;
 import modelos.dao.FacturaDao;
 import modelos.dao.ProductoDao;
@@ -54,6 +61,7 @@ import vistas.main.Menu;
 import vistas.modulos.ConfirmDialog;
 import vistas.modulos.Dashboard;
 import vistas.modulos.ModalFactura;
+import vistas.modulos.ModalFacturaProducto;
 import vistas.modulos.ModalProducto;
 import vistas.modulos.ModalUsuario;
 import vistas.modulos.VistaFactura;
@@ -109,11 +117,20 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
     FacturaDao facturaDao = new FacturaDao();
     VistaFactura vistaFactura;
     ModalFactura modalFactura;
+    ModalFacturaProducto modalFacturaProducto;
+    ArrayList<DetalleFactura> detalles = new ArrayList();
+    int cantidadProducto = 0;
+    
+    /* DETALLE FACTURA */
+    DetalleFacturaDao detalleFacturaDao = new DetalleFacturaDao();
     
      /* EMPLEADOS */
     Empleado empleado = new Empleado();
     Empleado empleadoSelected = null;
     EmpleadoDao empleadoDao = new EmpleadoDao();
+    
+    /* CLIENTE */
+    ClienteDao clienteDao = new ClienteDao();
 
     public Controlador(Menu menu) {
         this.menu = menu;
@@ -184,6 +201,8 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             llenarComboBox();
             int index = productoDao.getNextId();
             modalProducto.tfCodigo.setText(String.valueOf(id.format(index)));
+            modalProducto.cbEstado.setSelectedIndex(1);
+            modalProducto.cbEstado.setEnabled(false);
             modalProducto.iniciar();
         } else if (modal.equals("editarProducto") && principalOn.equals("Productos")) {
             try {
@@ -216,7 +235,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                     modalProducto.cbEstado.setSelectedItem("Almacen");
                 }
                 llenarComboBox();
-
+                modalProducto.cbEstado.setEnabled(false);
                 modalProducto.cbProveedor.setSelectedItem(productoSelected.getProveedor().getNombre());
                 modalProducto.cbCategoria.setSelectedItem(productoSelected.getCategoria().getNombre());
                 modalProducto.taDescripcion1.setText(productoSelected.getDescripcion());
@@ -256,11 +275,26 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
         
         /* FACTURAS */
         if(modal.equals("nuevoFactura")){
-            facturaSelected = null;
             modalFactura = new ModalFactura(new JFrame(), true, vistaFactura);
             modalFactura.setControlador(this);
             modalOn = "modalFactura";
+            llenarComboBox();
+            int index = facturaDao.getNextId();
+            modalFactura.numFactura.setText("N° de Factura: " + String.valueOf(id.format(index)));
+            String fecha = obtenerFechaFormateada(new Date());
+            modalFactura.jtFecha.setText(fecha);
+            modalFactura.jtFecha.setEnabled(false);
+            facturaSelected = new Factura(index);
+            
             modalFactura.iniciar();
+        }else if(modal.equals("addProducto")){
+
+            modalFacturaProducto = new ModalFacturaProducto(new JFrame(), true, modalFactura);
+            modalFacturaProducto.setControlador(this);
+            modalOn = "modalFactura";
+            mostrarProductos(modalFacturaProducto.tbAddProducto);
+            modalFacturaProducto.iniciar();
+
         }
         
         /* CONTROL DE USUARIOS */
@@ -291,14 +325,14 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             modalUsuario.iniciar();
         }else if(modal.equals("eliminarUsuario")){
 
-                confirmDialog = new ConfirmDialog(new JFrame(), true);
-                confirmDialog.setControlador(this);
-                modalOn = "modalDialog";
+            confirmDialog = new ConfirmDialog(new JFrame(), true);
+            confirmDialog.setControlador(this);
+            modalOn = "modalDialog";
 
-                confirmDialog.header.setText("Eliminar usuario");
-                confirmDialog.textDialog.setText("<html>¿Estás seguro que quieres eliminar el usuario <b>" + usuarioSelected.getNickname() + "</b>? </html>");
-                confirmDialog.btnEliminar.setText("Eliminar");
-                confirmDialog.iniciar();
+            confirmDialog.header.setText("Eliminar usuario");
+            confirmDialog.textDialog.setText("<html>¿Estás seguro que quieres eliminar el usuario <b>" + usuarioSelected.getNickname() + "</b>? </html>");
+            confirmDialog.btnEliminar.setText("Eliminar");
+            confirmDialog.iniciar();
 
         }else if(modal.equals("changePassUsuario")){
             modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
@@ -318,6 +352,11 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             modalUsuario.setSize(482, 285); //Width - Height
             modalUsuario.iniciar();
         }
+    }
+    
+    public String obtenerFechaFormateada(Date fecha) {
+        SimpleDateFormat formatFecha = new SimpleDateFormat("dd-MM-yyyy"); //Formato de fecha
+        return formatFecha.format(fecha); //retorna la fecha formateada
     }
     
     public void mostrarDatos(JTable tabla){
@@ -391,6 +430,11 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                         }
                     }
                 }
+                
+                if(modelo.getRowCount() < 1){
+                    modelo.addRow(new Object[]{"", "", "Ningún resultado encontrado"});
+                }
+                
                 tabla.setModel(modelo);
             } else if (itemSeleccionado == 0) {
                 try {
@@ -438,6 +482,11 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                         }
                     }
                 }
+                
+                if(modelo.getRowCount() < 1){
+                    modelo.addRow(new Object[]{"", "", "Ningún resultado encontrado"});
+                }
+                
                 tabla.setModel(modelo);
             } else if (itemSeleccionado == 2) {
                 if (tabla.getColumnCount() == 7) {
@@ -487,6 +536,11 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                         }
                     }
                 }
+                
+                if(modelo.getRowCount() < 1){
+                    modelo.addRow(new Object[]{"", "", "Ningún resultado encontrado"});
+                }
+                
                 tabla.setModel(modelo);
             }
         }
@@ -619,11 +673,10 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
         
         /* FACTURA */
         if(principalOn.equals("Factura")){
-          
             ArrayList<Factura> factura = facturaDao.selectAll();
      
             for(Factura x : factura){
-            modelo.addRow(new Object[]{id.format(x.getNoFactura()), x.getCliente().getNombre() + " " + x.getCliente().getApellido(), x.getFecha(), x.getVendedor().getNombre() + " " + x.getVendedor().getApellido(), x.getIva(), x.getTotal()});
+                modelo.addRow(new Object[]{id.format(x.getNoFactura()), x.getCliente().getNombre() + " " + x.getCliente().getApellido(), x.getFecha(), x.getVendedor().getNombre() + " " + x.getVendedor().getApellido(), x.getTotal()});
             }
             
             if(modelo.getRowCount() < 1){
@@ -632,8 +685,6 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
 
             tabla.setModel(modelo);
         }
-        
-        
     }
 
     public void mostrarBusqueda(ArrayList lista, JTable tabla) {
@@ -697,6 +748,9 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                         }
                     }
                 }
+                if(modelo.getRowCount() < 1){
+                    modelo.addRow(new Object[]{"", "", "Ningún resultado encontrado"});
+                }
                 tabla.setModel(modelo);
             } else if (itemSeleccionado == 0) {
                 for (Object obj : lista) {
@@ -737,6 +791,9 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                         }
                     }
                 }
+                if(modelo.getRowCount() < 1){
+                    modelo.addRow(new Object[]{"", "", "Ningún resultado encontrado"});
+                }
                 tabla.setModel(modelo);
             } else if (itemSeleccionado == 2) {
                 for (Object obj : lista) {
@@ -776,6 +833,9 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                             }
                         }
                     }
+                }
+                if(modelo.getRowCount() < 1){
+                    modelo.addRow(new Object[]{"", "", "Ningún resultado encontrado"});
                 }
                 tabla.setModel(modelo);
             }
@@ -860,10 +920,8 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
 
     }
     
-    public void verificarCredenciales(MouseEvent e){
-        
-        if(principalOn.equals("Login")){
-            
+    public void verificarCredenciales(MouseEvent e){ 
+        if(principalOn.equals("Login")){ 
             if(!login.jtUser.getText().isEmpty() && !login.jtPassword.getText().isEmpty()){
                 
                 ArrayList<Usuario> usuarios = usuarioDao.selectAllTo("usuario_nick", login.jtUser.getText());
@@ -1002,7 +1060,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                             if (productoEstadoDao.insert(productoEstado)) {
                                 //Mensaje Guardado
                                 DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                                DesktopNotify.showDesktopMessage("Producto guardado", "El producto ha sido alamcenado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                DesktopNotify.showDesktopMessage("Producto guardado", "El producto ha sido almacenado exitosamente.", DesktopNotify.SUCCESS, 8000);
                             }
                             modalOn = "";
                             modalProducto.dispose();
@@ -1190,7 +1248,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                                         
                                         //Mensaje de guardado
                                         DesktopNotify.setDefaultTheme(NotifyTheme.Green);
-                                        DesktopNotify.showDesktopMessage("Usuario guardado", "El usuario ha sido alamcenado exitosamente.", DesktopNotify.SUCCESS, 8000);
+                                        DesktopNotify.showDesktopMessage("Usuario guardado", "El usuario ha sido almacenado exitosamente.", DesktopNotify.SUCCESS, 8000);
                                     }
                                     
                                 }
@@ -1291,6 +1349,69 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             }
             
         }
+        
+        /* FACTURA */
+        if(principalOn.equals("Factura") && modalOn.equals("modalFactura")){
+            if(btn.equals("Guardar")){
+                
+                if(!modalFactura.jtFecha.getText().isEmpty() && !modalFactura.jtApeClien.getText().isEmpty()
+                        && !modalFactura.jFDui.getText().isEmpty()  && !modalFactura.jtDirec.getText().isEmpty()
+                        && !modalFactura.jtImail.getText().isEmpty() && !modalFactura.jFTelef.getText().isEmpty()
+                        && !modalFactura.jtFecha.getText().isEmpty() && modalFactura.cbRol.getSelectedIndex() > 0){
+                        System.out.println("Estoy en evento");
+                        double iva = 0;
+                        double subtotal = 0;
+                        double total = 0;
+                        
+                        for (DetalleFactura x: detalles) {
+                            subtotal += x.getSubtotal();
+                        }
+                        
+                        String v[] = modalFactura.cbRol.getSelectedItem().toString().split(" / ");
+
+                        ArrayList<Empleado> empleados = empleadoDao.buscar(v[1]);
+                        empleado = empleados.get(0);
+                        Cliente objCliente = new Cliente(modalFactura.jtImail.getText(),modalFactura.jFDui.getText(),modalFactura.jtNomClien.getText(),modalFactura.jtApeClien.getText(),modalFactura.jtDirec.getText(),modalFactura.jFTelef.getText());
+                        Cliente cliente = null;
+                        if (clienteDao.insert(objCliente)) {
+                            cliente = clienteDao.selectAllTo("id_cliente", String.valueOf(objCliente.getIdPersona())).get(0);
+                        }else {
+                            //Error de guardado
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                            DesktopNotify.showDesktopMessage("Error", "No se ha podido almacenar la factura.", DesktopNotify.WARNING, 8000); //8 seg
+                        }
+                        
+                        iva = subtotal * 0.13;
+                        total = subtotal + iva;
+
+                        Factura factura = new Factura(iva,modalFactura.jtFecha.getText(),total,empleado, cliente);
+                                 
+                        if(facturaDao.insert(factura)){
+                            for (DetalleFactura x: detalles) {
+                                detalleFacturaDao.insert(x);
+                            }
+                            
+                            //Mensaje de guardado
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                            DesktopNotify.showDesktopMessage("Factura guardada", "La factura ha sido almacenada exitosamente.", DesktopNotify.SUCCESS, 8000);
+                        }else {
+                            //Error de guardado
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                            DesktopNotify.showDesktopMessage("Error", "No se ha podido almacenar la factura.", DesktopNotify.WARNING, 8000); //8 seg
+                        }
+                                
+                    modalOn = "";
+                    modalFactura.dispose();
+                    detalles.clear();
+                }else {
+                    //Campos incompletos
+                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                    DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
+                }
+                mostrarDatos(vistaFactura.tablaFactura);
+            }
+        }
+            
 
         //Eliminar
         if(btn.equals("Eliminar")){
@@ -1315,6 +1436,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                             DesktopNotify.setDefaultTheme(NotifyTheme.Red);
                             DesktopNotify.showDesktopMessage("Producto eliminado", "El producto ha sido eliminado exitosamente.", DesktopNotify.INFORMATION, 8000);
                             mostrarDatos(vistaProducto.tbProductos);
+                            confirmDialog.dispose();
                         }
 
                         productoSelected = null;
@@ -1338,7 +1460,6 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
     }
     
     public void llenarComboBox(){
-        
         if(modalOn.equals("modalUsuario")){
             modalUsuario.cbEmpleado.removeAllItems();
             modalUsuario.cbEmpleado.addItem("Seleccione");
@@ -1382,6 +1503,22 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                     modalProducto.cbProveedor.addItem(x.getNombre());
                 }
             }
+        }
+        
+        if (modalOn.equals("modalFactura")) {
+            ArrayList<Empleado> empleados = empleadoDao.selectAll();
+            String dato = "";
+            modalFactura.cbRol.setEnabled(true);
+            modalFactura.cbRol.removeAllItems();
+            modalFactura.cbRol.addItem("Seleccione un vendedor");
+
+            for (Empleado x : empleados) {
+                modalFactura.cbRol.addItem(x.getNombre() + " / " + x.getDui());
+                if(x.getDui().equals(usuario.getReferencia())){
+                        dato = x.getNombre() + " / " + x.getDui();
+                }
+            }
+            modalFactura.cbRol.setSelectedItem(dato);
         }
        
     }
@@ -1456,14 +1593,94 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
         dashboard.enEspera.setText(String.valueOf(a));
     }
     
+    public void mostrarProductos(JTable tabla) {
+        DefaultTableCellRenderer diseño = (DefaultTableCellRenderer) tabla.getCellRenderer(0, 0); //Obtener diseño de la tabla
+        modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0);
+        
+        DecimalFormat id = new DecimalFormat("000000");
+        DecimalFormatSymbols simbolos = new DecimalFormatSymbols();
+        simbolos.setDecimalSeparator('.');
+        DecimalFormat formateador = new DecimalFormat("0.00",simbolos);
+        
+        tabla.setDefaultRenderer(Object.class, new ImgTabla()); //Renderizar para poner las img
+
+        tabla.getColumnModel().getColumn(0).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
+        tabla.getColumnModel().getColumn(1).setCellRenderer(diseño);
+        tabla.getColumnModel().getColumn(2).setCellRenderer(diseño);
+
+        ArrayList<Producto> productos = productoDao.selectAll();
+        
+        for (Producto x : productos) {
+            for (ProductoEstado y : x.getEstadosProducto()) {
+                if (y.getEstado() == 1) {
+                    ImageIcon img = new ImageIcon(getClass().getResource("/img/add_shopping_cart_22px.png"));
+                    ImageIcon img2 = new ImageIcon(img.getImage());
+                    JLabel lbImg = new JLabel(img2);
+
+                    modelo.addRow(new Object[]{id.format(x.getCodProducto()), x.getDescripcion(), "$ " + formateador.format(y.getPrecioVenta()), lbImg});
+                }
+            }
+        }
+
+        if(modelo.getRowCount() < 1){
+            modelo.addRow(new Object[]{"", "", "Ningún resultado encontrado"});
+        }
+
+        tabla.setModel(modelo);  
+    }
+    
+    public void mostrarDetalles(JTable tabla) {
+        DefaultTableCellRenderer diseño = (DefaultTableCellRenderer) tabla.getCellRenderer(0, 0); //Obtener diseño de la tabla
+        modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0);
+        
+        DecimalFormat id = new DecimalFormat("000000");
+        DecimalFormatSymbols simbolos = new DecimalFormatSymbols();
+        simbolos.setDecimalSeparator('.');
+        DecimalFormat formateador = new DecimalFormat("0.00",simbolos);
+        
+        tabla.setDefaultRenderer(Object.class, new ImgTabla()); //Renderizar para poner las img
+
+        tabla.getColumnModel().getColumn(0).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
+        tabla.getColumnModel().getColumn(1).setCellRenderer(diseño);
+        tabla.getColumnModel().getColumn(2).setCellRenderer(diseño);
+        tabla.getColumnModel().getColumn(3).setCellRenderer(diseño);
+        tabla.getColumnModel().getColumn(4).setCellRenderer(diseño);
+        
+        for (DetalleFactura x : detalles) {
+            for (ProductoEstado y: x.getProducto().getEstadosProducto()) {
+                if (y.getEstado() == 1) {
+                    ImageIcon img = new ImageIcon(getClass().getResource("/img/add_shopping_cart_22px.png"));
+                    ImageIcon img2 = new ImageIcon(img.getImage());
+                    JLabel lbImg = new JLabel(img2);
+
+                    modelo.addRow(new Object[]{id.format(x.getProducto().getCodProducto()), x.getCantidadProducto(), x.getProducto().getDescripcion(), "$ " + formateador.format(y.getPrecioVenta()), "$ " + formateador.format(x.getSubtotal()), lbImg});
+                }
+            }
+        }
+
+        if(modelo.getRowCount() < 1){
+            modelo.addRow(new Object[]{"", "", "Ningún producto agregado"});
+        }
+
+        tabla.setModel(modelo);  
+    }
+    
     @Override
     public void mousePressed(MouseEvent e) {
         //try {
             if(!principalOn.equals("Login")){
                 /* - - - BOTONES DEL MENU Y MODULOS - - - -*/
-                if(e.getSource().equals(menu.btnDashboard)){
-                    mostrarModulos("Menu");
-//                }else if (e.getSource().equals(menu.btnProductos)) {
+                try {
+                    if(e.getSource().equals(menu.btnDashboard)){
+                        mostrarModulos("Menu");
+                    }
+                }catch(Exception ex){
+                    
+                }
+                    
+//               }else if (e.getSource().equals(menu.btnProductos)) {
 //                    mostrarModulos("Productos");
 //                } else if (e.getSource().equals(vistaProducto.btnNuevoProducto)) {
 //                    mostrarModals("nuevoProducto");
@@ -1471,10 +1688,57 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
 //                    eventosBotones("AgregarImg");
 //                } else if (e.getSource().equals(modalProducto.btnGuardar)) {
 //                    eventosBotones("Agregar");
-                }else if(e.getSource().equals(menu.btnFacturas)){
-                    mostrarModulos("Factura");
-                }else if(e.getSource().equals(vistaFactura.btnNuevo)){
-                    mostrarModals("nuevoFactura");
+                
+                try {
+                    if(e.getSource().equals(menu.btnFacturas)){
+                        mostrarModulos("Factura");
+                    }
+                }catch(Exception ex){
+                    
+                }
+                try {
+                    if(e.getSource().equals(vistaFactura.btnNuevo)){
+                        mostrarModals("nuevoFactura");
+                    }
+                }catch(Exception ex){
+                    
+                }
+                try {
+                    if(e.getSource().equals(modalFactura.btnAdd)){
+                        mostrarModals("addProducto");
+                    }
+                }catch(Exception ex){
+                    
+                }
+                try {
+                    if(e.getSource().equals(modalFactura.btnGuardar)){
+                        System.out.println("Estoy aqui");
+                        eventosBotones("Guardar");
+                    }
+                }catch(Exception ex){
+                    
+                }
+                try {
+                    if(e.getSource().equals(confirmDialog.btnEliminar)){
+                        eventosBotones("Eliminar");
+                    }
+                }catch(Exception ex){
+                    
+                }
+                try {
+                    if(e.getSource().equals(menu.btnSalir)){
+                        verificarCredenciales(e);
+                    }
+                }catch(Exception ex){
+                    
+                }
+            }else{
+                /* LOGIN */
+                if(e.getSource().equals(login.btnEntrar)){
+                    verificarCredenciales(e); 
+                }
+            }
+                
 //                }else if(e.getSource().equals(menu.btnProveedores)){
 //                    mostrarModulos("Proveedor");
 //                }else if(e.getSource().equals(menu.btnUsuarios)){
@@ -1483,17 +1747,8 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
 //                    mostrarModals("nuevoUsuario");
 //                }else if(e.getSource().equals(modalUsuario.btnGuardar)){
 //                    eventosBotones("Agregar");
-                }else if(e.getSource().equals(confirmDialog.btnEliminar)){
-                    eventosBotones("Eliminar");
-                }else if(e.getSource().equals(menu.btnSalir)){
-                    verificarCredenciales(e);
-                }
-            }else{
-                /* LOGIN */
-                if(e.getSource().equals(login.btnEntrar)){
-                    verificarCredenciales(e); 
-                }
-            }
+                
+            
 //        }catch(Exception ex) {
 //            
 //        }
@@ -1516,7 +1771,6 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                     mostrarBusqueda(lista, vistaProducto.tbProductos);
                 }
             }else if (modalOn.equals("modalProducto")) {
-                
                 try {
                     if (fieldActivo.equals("precioCompra")) {
                         if (!modalProducto.tfPorcentaje.getText().isEmpty()) {
@@ -1606,15 +1860,6 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                 mostrarBusqueda(lista, vistaProveedor.tablaProveedor);
             }
         }
-        
-        if(principalOn.equals("Factura")){
-            ArrayList<Factura> lista = facturaDao.buscar(vistaFactura.tfBusqueda.getText() + e.getKeyChar());
-            if(lista.isEmpty()){
-                mostrarDatos(vistaFactura.tablaFactura);
-            }else{
-                mostrarBusqueda(lista, vistaFactura.tablaFactura);
-            }
-        }
     }
     
     @Override
@@ -1656,8 +1901,6 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
-        
         if(principalOn.equals("Usuarios") && e.getSource() == vistaUsuario.tablaUsuarios){
 
             int columna = vistaUsuario.tablaUsuarios.getSelectedColumn();
@@ -1710,6 +1953,37 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
 
         }
         
+        if (principalOn.equals("Factura") && modalOn.equals("modalFactura") && e.getSource() == modalFacturaProducto.tbAddProducto) {
+            int columna = modalFacturaProducto.tbAddProducto.getSelectedColumn();
+            
+                if (columna == 3){
+                    int fila = modalFacturaProducto.tbAddProducto.getSelectedRow();
+                    String codigo = modalFacturaProducto.tbAddProducto.getValueAt(fila, 0).toString();
+                    ArrayList<Producto> lista = productoDao.selectAllTo("cod_producto", codigo);
+                    Producto productoS = lista.get(0);
+                    ProductoEstado estadoProductoS = null;
+                    
+                    for (ProductoEstado x: productoS.getEstadosProducto()) {
+                        if (x.getEstado() == 1) {
+                            estadoProductoS = x;
+                        }
+                    }
+                    
+                    int cantidad = Integer.valueOf(JOptionPane.showInputDialog("Ingrese la cantidad a registrar de " + String.valueOf(productoS.getDescripcion() + ": ")));
+                    double subtotal = cantidad * estadoProductoS.getPrecioVenta();
+                    
+                    DetalleFactura detalle = new DetalleFactura(cantidad, subtotal, productoS, facturaSelected);
+                    
+                    detalles.add(detalle);
+                    for (DetalleFactura x: detalles) {
+                        System.out.println(x.getCantidadProducto());
+                        System.out.println(x.getProducto().getDescripcion());
+                        System.out.println(x.getSubtotal());
+                        System.out.println(x.getFactura().getNoFactura());
+                    }
+                    mostrarDetalles(modalFactura.tbProducto);
+                }
+        }
        
     }
 
@@ -1763,6 +2037,13 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                 if((ke.getKeyChar() < '0' || ke.getKeyChar() > '9')){
                     ke.consume();
                 }
+            }
+        }
+        
+        if (principalOn.equals("Factura") && modalOn.equals("modalFactura")) {
+            char val = ke.getKeyChar();
+            if((val<'a' || val>'z') && (val<'A' || val>'Z') && (val != ' ') && (val !='ñ')&& (val !='Ñ')&&(val<'á'|| val>'ú')&&(val<'Á'||val>'Ú')){
+                ke.consume();
             }
         }
     }

@@ -7,13 +7,11 @@ import utilidades.TextPrompt;
 public class VistaFactura extends javax.swing.JPanel {
 
     public VistaFactura() {
-        initComponents();
-        new TextPrompt("Buscar factura", tfBusqueda);        
+        initComponents();       
     }
     
     public void setControlador(Controlador control){
         this.btnNuevo.addMouseListener(control);
-        this.tfBusqueda.addKeyListener(control);
         this.tablaFactura.addMouseListener(control);
     }
     
@@ -31,8 +29,6 @@ public class VistaFactura extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        tfBusqueda = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaFactura = new rojerusan.RSTableMetro();
@@ -77,39 +73,6 @@ public class VistaFactura extends javax.swing.JPanel {
         gridBagConstraints.weightx = 20.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
         jPanel3.add(jLabel3, gridBagConstraints);
-
-        tfBusqueda.setBackground(new java.awt.Color(255, 255, 255));
-        tfBusqueda.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 1)));
-        tfBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                tfBusquedaKeyPressed(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tfBusquedaKeyTyped(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 18;
-        gridBagConstraints.weightx = 60.0;
-        jPanel3.add(tfBusqueda, gridBagConstraints);
-
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/find_user_male_25px.png"))); // NOI18N
-        jLabel1.setLabelFor(tfBusqueda);
-        jLabel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        jLabel1.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 18;
-        gridBagConstraints.ipady = 11;
-        jPanel3.add(jLabel1, gridBagConstraints);
 
         add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
@@ -182,23 +145,13 @@ public class VistaFactura extends javax.swing.JPanel {
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfBusquedaKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfBusquedaKeyPressed
-
-    private void tfBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfBusquedaKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfBusquedaKeyTyped
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel btnNuevo;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     public rojerusan.RSTableMetro tablaFactura;
-    public javax.swing.JTextField tfBusqueda;
     // End of variables declaration//GEN-END:variables
 }

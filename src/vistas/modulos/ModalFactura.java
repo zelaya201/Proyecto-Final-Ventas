@@ -19,7 +19,7 @@ public class ModalFactura extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         this.vistaFactura = vistaFactura;
         new TextPrompt("Email", jtImail);
-        new TextPrompt("Nombre", jtNomClien);
+        new TextPrompt("Nombre", jtFecha);
         new TextPrompt("DUI", jFDui);
         new TextPrompt("Dirección", jtDirec);
         new TextPrompt("Telefono", jFTelef);
@@ -27,8 +27,12 @@ public class ModalFactura extends javax.swing.JDialog {
     }
     
     public void setControlador(Controlador control){
+        this.btnAdd.addMouseListener(control);
         this.btnGuardar.addMouseListener(control);
         this.cbRol.addItemListener(control);
+        this.tbProducto.addMouseListener(control);
+        this.jtNomClien.addKeyListener(control);
+        this.jtApeClien.addKeyListener(control);
     }
     
     public void iniciar(){
@@ -53,7 +57,7 @@ public class ModalFactura extends javax.swing.JDialog {
         cbRol = new javax.swing.JComboBox<>();
         iconRol = new javax.swing.JLabel();
         jtApeClien = new javax.swing.JTextField();
-        jtNomClien = new javax.swing.JTextField();
+        jtFecha = new javax.swing.JTextField();
         iconUser1 = new javax.swing.JLabel();
         jtDirec = new javax.swing.JTextField();
         iconPass1 = new javax.swing.JLabel();
@@ -61,16 +65,16 @@ public class ModalFactura extends javax.swing.JDialog {
         jFDui = new javax.swing.JFormattedTextField();
         iconPass3 = new javax.swing.JLabel();
         iconPass2 = new javax.swing.JLabel();
-        jFCalenda = new javax.swing.JFormattedTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablaProducto = new rojerusan.RSTableMetro();
+        numFactura = new javax.swing.JLabel();
         SeparadorW = new javax.swing.JLabel();
         SeparadorW2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        btnNuevo = new javax.swing.JLabel();
+        btnAdd = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbProducto = new rojerusan.RSTableMetro();
+        jtNomClien = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
@@ -239,21 +243,21 @@ public class ModalFactura extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 12, 30);
         form.add(jtApeClien, gridBagConstraints);
 
-        jtNomClien.setBackground(new java.awt.Color(255, 255, 255));
-        jtNomClien.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0)));
-        jtNomClien.addActionListener(new java.awt.event.ActionListener() {
+        jtFecha.setBackground(new java.awt.Color(255, 255, 255));
+        jtFecha.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0)));
+        jtFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtNomClienActionPerformed(evt);
+                jtFechaActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 200;
         gridBagConstraints.ipady = 22;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 12, 0);
-        form.add(jtNomClien, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 12, 0);
+        form.add(jtFecha, gridBagConstraints);
 
         iconUser1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         iconUser1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user_22px.png"))); // NOI18N
@@ -314,10 +318,15 @@ public class ModalFactura extends javax.swing.JDialog {
         jFDui.setBackground(new java.awt.Color(255, 255, 255));
         jFDui.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0)));
         try {
-            jFDui.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("########-#")));
+            jFDui.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#########-#")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jFDui.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFDuiActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
@@ -350,87 +359,13 @@ public class ModalFactura extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 12, 0);
         form.add(iconPass2, gridBagConstraints);
 
-        jFCalenda.setBackground(new java.awt.Color(255, 255, 255));
-        jFCalenda.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0)));
-        try {
-            jFCalenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-##-##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 175;
-        gridBagConstraints.ipady = 22;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 12, 30);
-        form.add(jFCalenda, gridBagConstraints);
-
-        jLabel2.setText("N° de Factura: 0001");
+        numFactura.setText("N° de Factura: 0001");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        form.add(jLabel2, gridBagConstraints);
-
-        tablaProducto.setBackground(new java.awt.Color(255, 255, 255));
-        tablaProducto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(249, 249, 249)));
-        tablaProducto.setForeground(new java.awt.Color(255, 255, 255));
-        tablaProducto.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Código", "Cantidad", "Descripción", "Precio Unitario", "Precio Total", ""
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tablaProducto.setAltoHead(30);
-        tablaProducto.setColorBackgoundHead(new java.awt.Color(249, 249, 249));
-        tablaProducto.setColorBordeFilas(new java.awt.Color(255, 255, 255));
-        tablaProducto.setColorBordeHead(new java.awt.Color(255, 255, 255));
-        tablaProducto.setColorFilasBackgound2(new java.awt.Color(249, 249, 249));
-        tablaProducto.setColorFilasForeground1(new java.awt.Color(51, 51, 51));
-        tablaProducto.setColorFilasForeground2(new java.awt.Color(51, 51, 51));
-        tablaProducto.setColorForegroundHead(new java.awt.Color(0, 0, 0));
-        tablaProducto.setColorSelBackgound(new java.awt.Color(240, 240, 240));
-        tablaProducto.setColorSelForeground(new java.awt.Color(51, 51, 51));
-        tablaProducto.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
-        tablaProducto.setFuenteFilas(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
-        tablaProducto.setFuenteFilasSelect(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
-        tablaProducto.setFuenteHead(new java.awt.Font("Calibri", 1, 14)); // NOI18N
-        tablaProducto.setGridColor(new java.awt.Color(255, 255, 255));
-        tablaProducto.setGrosorBordeFilas(0);
-        tablaProducto.setGrosorBordeHead(0);
-        tablaProducto.setMultipleSeleccion(false);
-        tablaProducto.setRowHeight(40);
-        tablaProducto.getTableHeader().setResizingAllowed(false);
-        tablaProducto.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tablaProducto);
-        if (tablaProducto.getColumnModel().getColumnCount() > 0) {
-            tablaProducto.getColumnModel().getColumn(2).setPreferredWidth(300);
-            tablaProducto.getColumnModel().getColumn(5).setPreferredWidth(10);
-        }
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 9;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 30);
-        form.add(jScrollPane1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 26, 10, 0);
+        form.add(numFactura, gridBagConstraints);
 
         SeparadorW.setForeground(new java.awt.Color(255, 255, 255));
         SeparadorW.setText("jLabel4");
@@ -474,17 +409,17 @@ public class ModalFactura extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
         form.add(jLabel5, gridBagConstraints);
 
-        btnNuevo.setBackground(new java.awt.Color(8, 89, 165));
-        btnNuevo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        btnNuevo.setForeground(new java.awt.Color(255, 255, 255));
-        btnNuevo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/package_searchw_22px.png"))); // NOI18N
-        btnNuevo.setText("Agregar Producto");
-        btnNuevo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(8, 89, 165), 1, true));
-        btnNuevo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnNuevo.setIconTextGap(1);
-        btnNuevo.setOpaque(true);
+        btnAdd.setBackground(new java.awt.Color(8, 89, 165));
+        btnAdd.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/package_searchw_22px.png"))); // NOI18N
+        btnAdd.setText("Agregar Producto");
+        btnAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(8, 89, 165), 1, true));
+        btnAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnAdd.setIconTextGap(1);
+        btnAdd.setOpaque(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 3;
@@ -492,8 +427,83 @@ public class ModalFactura extends javax.swing.JDialog {
         gridBagConstraints.ipady = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.weightx = 25.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 30);
-        form.add(btnNuevo, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(1, 0, 13, 30);
+        form.add(btnAdd, gridBagConstraints);
+
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jScrollPane2.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jScrollPane2.setOpaque(false);
+
+        tbProducto.setBackground(new java.awt.Color(255, 255, 255));
+        tbProducto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(249, 249, 249)));
+        tbProducto.setForeground(new java.awt.Color(255, 255, 255));
+        tbProducto.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Código", "Cantidad", "Descripcion", "Precio Unitario", "Precio Total", ""
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbProducto.setAltoHead(30);
+        tbProducto.setColorBackgoundHead(new java.awt.Color(249, 249, 249));
+        tbProducto.setColorBordeFilas(new java.awt.Color(255, 255, 255));
+        tbProducto.setColorBordeHead(new java.awt.Color(255, 255, 255));
+        tbProducto.setColorFilasBackgound2(new java.awt.Color(249, 249, 249));
+        tbProducto.setColorFilasForeground1(new java.awt.Color(51, 51, 51));
+        tbProducto.setColorFilasForeground2(new java.awt.Color(51, 51, 51));
+        tbProducto.setColorForegroundHead(new java.awt.Color(0, 0, 0));
+        tbProducto.setColorSelBackgound(new java.awt.Color(240, 240, 240));
+        tbProducto.setColorSelForeground(new java.awt.Color(51, 51, 51));
+        tbProducto.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        tbProducto.setFuenteFilas(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        tbProducto.setFuenteFilasSelect(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        tbProducto.setFuenteHead(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        tbProducto.setGridColor(new java.awt.Color(255, 255, 255));
+        tbProducto.setGrosorBordeFilas(0);
+        tbProducto.setGrosorBordeHead(0);
+        tbProducto.setMultipleSeleccion(false);
+        tbProducto.setRowHeight(40);
+        tbProducto.getTableHeader().setResizingAllowed(false);
+        tbProducto.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tbProducto);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        form.add(jScrollPane2, gridBagConstraints);
+
+        jtNomClien.setBackground(new java.awt.Color(255, 255, 255));
+        jtNomClien.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0)));
+        jtNomClien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtNomClienActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 200;
+        gridBagConstraints.ipady = 22;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 12, 0);
+        form.add(jtNomClien, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -516,9 +526,9 @@ public class ModalFactura extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtApeClienActionPerformed
 
-    private void jtNomClienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtNomClienActionPerformed
+    private void jtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtFechaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtNomClienActionPerformed
+    }//GEN-LAST:event_jtFechaActionPerformed
 
     private void jtDirecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtDirecActionPerformed
         // TODO add your handling code here:
@@ -527,6 +537,14 @@ public class ModalFactura extends javax.swing.JDialog {
     private void cbRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRolActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbRolActionPerformed
+
+    private void jFDuiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFDuiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFDuiActionPerformed
+
+    private void jtNomClienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtNomClienActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtNomClienActionPerformed
 
     public void comboBoxInit(){
         this.cbRol.setUI(new MyComboBoxUI());
@@ -541,8 +559,8 @@ public class ModalFactura extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel SeparadorW;
     private javax.swing.JLabel SeparadorW2;
+    public javax.swing.JLabel btnAdd;
     public javax.swing.JLabel btnGuardar;
-    public javax.swing.JLabel btnNuevo;
     public javax.swing.JComboBox<String> cbRol;
     public javax.swing.JPanel form;
     public javax.swing.JLabel header;
@@ -553,21 +571,21 @@ public class ModalFactura extends javax.swing.JDialog {
     public javax.swing.JLabel iconRol;
     private javax.swing.JLabel iconUser;
     private javax.swing.JLabel iconUser1;
-    private javax.swing.JFormattedTextField jFCalenda;
-    private javax.swing.JFormattedTextField jFDui;
-    private javax.swing.JFormattedTextField jFTelef;
+    public javax.swing.JFormattedTextField jFDui;
+    public javax.swing.JFormattedTextField jFTelef;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JTextField jtApeClien;
     public javax.swing.JTextField jtDirec;
+    public javax.swing.JTextField jtFecha;
     public javax.swing.JTextField jtImail;
     public javax.swing.JTextField jtNomClien;
-    public rojerusan.RSTableMetro tablaProducto;
+    public javax.swing.JLabel numFactura;
+    public rojerusan.RSTableMetro tbProducto;
     // End of variables declaration//GEN-END:variables
 }

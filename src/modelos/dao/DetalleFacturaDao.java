@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelos.Conexion;
 import modelos.DetalleFactura;
 import modelos.Factura;
@@ -29,16 +31,6 @@ public class DetalleFacturaDao {
         String sql = "select * from detalle_factura where " + atributo + "='" + condicion + "'";
         return select(sql);
     }
-    
-    /*public ArrayList<DetalleFactura> buscar(String dato) {
-        String sql = "select * from cliente where carnet like '" + dato + "%' or  nombre like '" + dato + "%' or apellido like '" + dato + "%'";
-        return select(sql);
-    }*/
-    
-    /*public ArrayList<DetalleFactura> selectId(int id) {
-        String sql = "select * from detalle_factura where id_detalle=" + id;
-        return select(sql);
-    }*/ 
     
     public boolean insert(DetalleFactura obj){
         String sql = "insert into detalle_factura(cant_producto,subtotal_factura,cod_producto1,no_factura1)VALUES(?,?,?,?)";
@@ -95,8 +87,8 @@ public class DetalleFacturaDao {
             ps.execute();
             
             return true;
-        }catch(Exception e) {
-            
+        }catch(Exception e) {      
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, e);
         }finally{
             try {
                 ps.close();

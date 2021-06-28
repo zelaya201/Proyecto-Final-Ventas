@@ -92,6 +92,10 @@ public class Producto {
     }
 
     public ArrayList<ProductoEstado> getEstadosProducto() {
+        ProductoEstadoDao productoEstadoDao = new ProductoEstadoDao();
+        
+        this.estadosProducto = productoEstadoDao.selectAllTo("cod_producto2", String.valueOf(this.getCodProducto()));
+        
         return estadosProducto;
     }
 
