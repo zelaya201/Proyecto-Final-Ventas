@@ -34,7 +34,7 @@ public class VistaProducto extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel3 = new javax.swing.JPanel();
+        header = new javax.swing.JPanel();
         btnNuevoProducto = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         tfBusqueda = new javax.swing.JTextField();
@@ -48,8 +48,8 @@ public class VistaProducto extends javax.swing.JPanel {
         setOpaque(false);
         setLayout(new java.awt.BorderLayout());
 
-        jPanel3.setOpaque(false);
-        jPanel3.setLayout(new java.awt.GridBagLayout());
+        header.setOpaque(false);
+        header.setLayout(new java.awt.GridBagLayout());
 
         btnNuevoProducto.setBackground(new java.awt.Color(8, 89, 165));
         btnNuevoProducto.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -74,7 +74,7 @@ public class VistaProducto extends javax.swing.JPanel {
         gridBagConstraints.ipady = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.weightx = 25.0;
-        jPanel3.add(btnNuevoProducto, gridBagConstraints);
+        header.add(btnNuevoProducto, gridBagConstraints);
         btnNuevoProducto.getAccessibleContext().setAccessibleName("btnNuevo");
 
         jLabel3.setBackground(new java.awt.Color(51, 51, 51));
@@ -88,7 +88,7 @@ public class VistaProducto extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 20.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
-        jPanel3.add(jLabel3, gridBagConstraints);
+        header.add(jLabel3, gridBagConstraints);
 
         tfBusqueda.setBackground(new java.awt.Color(255, 255, 255));
         tfBusqueda.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 1)));
@@ -104,7 +104,7 @@ public class VistaProducto extends javax.swing.JPanel {
         gridBagConstraints.ipadx = 80;
         gridBagConstraints.ipady = 18;
         gridBagConstraints.weightx = 60.0;
-        jPanel3.add(tfBusqueda, gridBagConstraints);
+        header.add(tfBusqueda, gridBagConstraints);
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -118,7 +118,7 @@ public class VistaProducto extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 18;
         gridBagConstraints.ipady = 11;
-        jPanel3.add(jLabel1, gridBagConstraints);
+        header.add(jLabel1, gridBagConstraints);
 
         cbMostrar.setBackground(new java.awt.Color(255, 255, 255));
         cbMostrar.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
@@ -137,9 +137,9 @@ public class VistaProducto extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipadx = 5;
         gridBagConstraints.ipady = 9;
-        jPanel3.add(cbMostrar, gridBagConstraints);
+        header.add(cbMostrar, gridBagConstraints);
 
-        add(jPanel3, java.awt.BorderLayout.PAGE_START);
+        add(header, java.awt.BorderLayout.PAGE_START);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 0, 0, 0, new java.awt.Color(210, 214, 222)));
@@ -226,10 +226,10 @@ public class VistaProducto extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel btnNuevoProducto;
     public javax.swing.JComboBox<String> cbMostrar;
+    public javax.swing.JPanel header;
     private javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     public rojerusan.RSTableMetro tbProductos;
     public javax.swing.JTextField tfBusqueda;

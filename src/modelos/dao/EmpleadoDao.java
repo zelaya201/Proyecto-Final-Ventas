@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import modelos.Conexion;
 import modelos.Empleado;
 import modelos.Usuario;
+
 public class EmpleadoDao {
     Conexion conectar = new Conexion();
     Connection con;
@@ -38,20 +39,21 @@ public class EmpleadoDao {
     } 
     
     public boolean insert(Empleado obj){
-        String sql = "insert into empleado(dui_empleado,nom_empleado,ape_empleado,genero_empleado,edad_empleado,email_empleado,tel_empleado,dir_empleado,salario_empleado,afp_empleado,isss_empleado,renta_empleado,estado_empleado,id_empleado1,id_sucursal1)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into empleado(dui_empleado,nom_empleado,ape_empleado,genero_empleado,edad_empleado,email_empleado,tel_empleado,dir_empleado,salario_empleado,estado_empleado)VALUES(?,?,?,?,?,?,?,?,?,?)";
         return alterarRegistro(sql, obj);
     }
     
-    public void update(Empleado obj) {
+    public boolean update(Empleado obj) {
         String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, genero_empleado =?, edad_empleado =?, email_empleado =?, tel_empleado =?, dir_empleado =?, salario_empleado =?, estado_empleado =? where id_empleado=" + obj.getIdPersona();
-        alterarRegistro(sql, obj);
+      return  alterarRegistro(sql, obj);
     }
     
     public void updateUsuario(Empleado obj) {
         String sql = "update empleado set dui_empleado =?, nom_empleado =?, ape_empleado =?, genero_empleado = ?, edad_empleado = ?, email_empleado = ?, tel_empleado = ?, dir_empleado = ?, salario_empleado =?, estado_empleado = ?, id_usuario1 = ? where id_empleado=" + obj.getIdPersona();
         alterarRegistroUsuario(sql, obj);
     }
-
+    
+   
     private ArrayList<Empleado> select(String sql){
         ArrayList<Empleado> lista = new ArrayList();
         Empleado obj = null;
@@ -73,15 +75,17 @@ public class EmpleadoDao {
                 obj.setDireccion(rs.getString("dir_empleado"));
                 obj.setSalario(rs.getDouble("salario_empleado"));
                 obj.setEstado(rs.getInt("estado_empleado"));
-                if(rs.getInt("id_usuario1") > 0) {
+            
+                if (rs.getInt("id_usuario1") > 0) {
                     obj.setUsuario(new Usuario(rs.getInt("id_usuario1")));
                 }
+           
 
                 lista.add(obj);
             }
             
         }catch(Exception e) {
-            System.out.println("Error consulta Empleado");
+            System.out.println("Error consulta");
         }finally{
             try {
                 ps.close();
@@ -95,6 +99,8 @@ public class EmpleadoDao {
     }
     
     private boolean alterarRegistro(String sql, Empleado obj){
+        
+        //dui_empleado,nom_empleado,ape_empleado,genero_empleado,edad_empleado,email_empleado,tel_empleado,dir_empleado,estado_empleado
         try {
             con = conectar.getConexion();
             ps = con.prepareStatement(sql);
@@ -108,13 +114,13 @@ public class EmpleadoDao {
             ps.setString(7, obj.getTelefono());
             ps.setString(8, obj.getDireccion());
             ps.setDouble(9, obj.getSalario());
-            ps.setInt(10, obj.getEstado());
-            
+            ps.setInt(10, obj.getEstado());       
+
             ps.execute();
             
             return true;
         }catch(Exception e) {
-            
+            System.out.println(e);
         }finally{
             try {
                 ps.close();
@@ -126,7 +132,7 @@ public class EmpleadoDao {
         return false; 
     }
     
-    private boolean alterarRegistroUsuario(String sql, Empleado obj){
+     private boolean alterarRegistroUsuario(String sql, Empleado obj){
         try {
             con = conectar.getConexion();
             ps = con.prepareStatement(sql);
@@ -158,7 +164,7 @@ public class EmpleadoDao {
         }
         return false; 
     }
-    
+
     public boolean delete(Empleado obj) {
         String sql = "delete from empleado where id_empleado='" + obj.getIdPersona() + "'";
         

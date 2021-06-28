@@ -31,7 +31,6 @@ import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import modelos.Categoria;
 import modelos.Empleado;
 import modelos.Factura;
@@ -53,9 +52,12 @@ import vistas.main.Login;
 import vistas.main.Menu;
 import vistas.modulos.ConfirmDialog;
 import vistas.modulos.Dashboard;
+import vistas.modulos.ModalEmpleado;
 import vistas.modulos.ModalFactura;
 import vistas.modulos.ModalProducto;
 import vistas.modulos.ModalUsuario;
+
+import vistas.modulos.VistaEmpleado;
 import vistas.modulos.VistaFactura;
 import vistas.modulos.VistaProducto;
 import vistas.modulos.VistaUsuario;
@@ -113,7 +115,10 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
      /* EMPLEADOS */
     Empleado empleado = new Empleado();
     Empleado empleadoSelected = null;
-    EmpleadoDao empleadoDao = new EmpleadoDao();
+    EmpleadoDao empleadoDao = new EmpleadoDao(); 
+    VistaEmpleado vistaEmpleado; 
+    ModalEmpleado modalEmpleado;
+    private String nickname;
 
     public Controlador(Menu menu) {
         this.menu = menu;
@@ -152,6 +157,12 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             principalOn = "Usuarios";
             new CambiaPanel(menu.body, vistaUsuario);
             mostrarDatos(vistaUsuario.tablaUsuarios);
+        }else if(vista.equals("Empleados")){
+            vistaEmpleado= new VistaEmpleado();
+            vistaEmpleado.setControlador(this);
+            principalOn = "Empleados";
+            new CambiaPanel(menu.body, vistaEmpleado);
+            mostrarDatos(vistaEmpleado.tablaEmpleados);
         }else if(vista.equals("Proveedor")){
             vistaProveedor = new VistasProveedores();
             vistaProveedor.setControlador(this);
@@ -170,8 +181,9 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
     private void mostrarModals(String modal) {
         /* - - - - MOSTRAR MODALS - - - - */
  
-        modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
+        modalUsuario = new ModalUsuario(new JFrame(), true);
         confirmDialog = new ConfirmDialog(new JFrame(), true);
+
         DecimalFormat id = new DecimalFormat("000000");
        
         /* PRODUCTOS */
@@ -180,6 +192,8 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             modalProducto = new ModalProducto(new JFrame(), true, vistaProducto);
             modalProducto.setControlador(this);
             modalOn = "modalProducto";
+            modalProducto.cbEstado.setSelectedItem("Activo");
+            modalProducto.cbEstado.setEnabled(false);
             rsscalelabel.RSScaleLabel.setScaleLabel(modalProducto.lbFoto, "src/img/stock_product.png");
             llenarComboBox();
             int index = productoDao.getNextId();
@@ -208,13 +222,10 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                 modalProducto.tfCodigo.setText(String.valueOf(id.format(productoSelected.getCodProducto())));
                 modalProducto.tfCodigo.setEnabled(false);
 
-                if (estado.getEstado() == 0) {
-                    modalProducto.cbEstado.setSelectedItem("Inactivo");
-                } else if (estado.getEstado() == 1) {
-                    modalProducto.cbEstado.setSelectedItem("Activo");
-                } else if (estado.getEstado() == 1) {
-                    modalProducto.cbEstado.setSelectedItem("Almacen");
-                }
+            
+                modalProducto.cbEstado.setSelectedItem("Activo");
+                modalProducto.cbEstado.setEnabled(false);
+                
                 llenarComboBox();
 
                 modalProducto.cbProveedor.setSelectedItem(productoSelected.getProveedor().getNombre());
@@ -252,6 +263,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             confirmDialog.textDialog.setText("<html>¿Estás seguro que quieres eliminar el producto <b>" + productoSelected.getDescripcion() + "</b>? </html>");
             confirmDialog.btnEliminar.setText("Eliminar");
             confirmDialog.iniciar();
+            
         }
         
         /* FACTURAS */
@@ -271,7 +283,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             modalOn = "modalUsuario";
             modalUsuario.iniciar();
         }else if(modal.equals("editarUsuario")){
-            modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
+            modalUsuario = new ModalUsuario(new JFrame(), true);
             modalUsuario.setControlador(this);
             modalOn = "modalUsuario";
    
@@ -301,7 +313,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                 confirmDialog.iniciar();
 
         }else if(modal.equals("changePassUsuario")){
-            modalUsuario = new ModalUsuario(new JFrame(), true, vistaUsuario);
+            modalUsuario = new ModalUsuario(new JFrame(), true);
             modalUsuario.setControlador(this);
             modalOn = "modalUsuario";
        
@@ -317,6 +329,50 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             
             modalUsuario.setSize(482, 285); //Width - Height
             modalUsuario.iniciar();
+        }
+        
+           /* CONTROL DE EMPLEADOS */
+        else if(modal.equals("nuevoEmpleado") && principalOn.equals("Empleados")){
+            empleadoSelected = null;
+            modalEmpleado = new ModalEmpleado(new JFrame(), true);
+            modalEmpleado.setControlador(this);
+            modalOn = "modalEmpleado";
+            modalEmpleado.iniciar();
+        }else if(modal.equals("editarEmpleado") && principalOn.equals("Empleados")){
+           modalEmpleado = new ModalEmpleado(new JFrame(), true);
+            modalEmpleado.setControlador(this);
+            modalOn = "modalEmpleado";
+       
+             modalEmpleado.header.setText("Editar Empleado");
+      
+                 
+            modalEmpleado.jtDui.setText(empleadoSelected.getDui()); 
+               modalEmpleado.jtNombre.setText(empleadoSelected.getNombre());
+               modalEmpleado.jtApellido.setText(empleadoSelected.getApellido());
+               modalEmpleado.jcGenero.setSelectedItem(empleadoSelected.getGenero());
+               modalEmpleado.jtEdad.setText(String.valueOf(empleadoSelected.getEdad()));
+               modalEmpleado.jtEmail.setText(empleadoSelected.getGmail());
+                 modalEmpleado.jtTelefono.setText(empleadoSelected.getTelefono());
+                   modalEmpleado.jtDireccion.setText(empleadoSelected.getDireccion());
+                       modalEmpleado.jtSalario.setText(String.valueOf(empleadoSelected.getSalario()));
+          
+            modalEmpleado.iniciar();
+            
+        }else if(modal.equals("eliminarEmpleado") && principalOn.equals("Empleados")){
+            
+            
+            if(empleadoSelected != null){
+                empleadoSelected.setEstado(0);
+                if(empleadoDao.update(empleadoSelected)){
+                    empleadoSelected=null;
+                DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                    DesktopNotify.showDesktopMessage("Empleado eliminado", "El Empleado ha sido eliminado exitosamente.", DesktopNotify.INFORMATION, 8000);
+                    mostrarDatos(vistaEmpleado.tablaEmpleados);
+                }
+                 
+                empleadoSelected = null;
+               modalEmpleado.dispose(); 
+            }
         }
     }
     
@@ -344,14 +400,25 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             ArrayList<ProductoEstado> productoEstados = productoEstadoDao.selectAll();
 
             if (itemSeleccionado == 1) {
-                if (tabla.getColumnCount() == 7) {
-                    TableColumn tc1 = new TableColumn();
-                    TableColumn tc2 = new TableColumn();
-                    tc1.setHeaderValue("Editar");
-                    tc2.setHeaderValue("Eliminar");
-                    tabla.addColumn(tc1);
-                    tabla.addColumn(tc2);
+                
+                if(usuario.getRol().equals("Empleado")){
+                    tabla.getColumnModel().getColumn(7).setMaxWidth(0);
+                    tabla.getColumnModel().getColumn(7).setMinWidth(0);
+                    tabla.getColumnModel().getColumn(7).setPreferredWidth(0);
+                    
+                    tabla.getColumnModel().getColumn(8).setMaxWidth(0);
+                    tabla.getColumnModel().getColumn(8).setMinWidth(0);
+                    tabla.getColumnModel().getColumn(8).setPreferredWidth(0);
+                }else{
+                    tabla.getColumnModel().getColumn(7).setMaxWidth(tabla.getColumnModel().getColumn(6).getMaxWidth());
+                    tabla.getColumnModel().getColumn(7).setMinWidth(tabla.getColumnModel().getColumn(6).getMinWidth());
+                    tabla.getColumnModel().getColumn(7).setPreferredWidth(tabla.getColumnModel().getColumn(6).getPreferredWidth());
+                    
+                    tabla.getColumnModel().getColumn(8).setMaxWidth(tabla.getColumnModel().getColumn(6).getMaxWidth());
+                    tabla.getColumnModel().getColumn(8).setMinWidth(tabla.getColumnModel().getColumn(6).getMinWidth());
+                    tabla.getColumnModel().getColumn(8).setPreferredWidth(tabla.getColumnModel().getColumn(6).getPreferredWidth());
                 }
+
                 /* PRODUCTOS ACTIVOS */
                 for (Producto x : productos) {
                     for (ProductoEstado y : productoEstados) {
@@ -379,7 +446,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                                 ImageIcon imgIco = new ImageIcon(img);
                                 ImageIcon imgIco2 = new ImageIcon(img.getScaledInstance(60, 60, Image.SCALE_DEFAULT));
                                 JLabel lbImg = new JLabel(imgIco2);
-
+                    
                                 if (y.getEstado() == 1) {
                                     modelo.addRow(new Object[]{id.format(x.getCodProducto()), lbImg, x.getDescripcion(), x.getCategoria().getNombre(), "$ " + formateador.format(y.getPrecioVenta()), y.getStock(), lbActivo, lbImg_edit, lbImg_delete});
                                 }
@@ -394,8 +461,15 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                 tabla.setModel(modelo);
             } else if (itemSeleccionado == 0) {
                 try {
-                    tabla.removeColumn(tabla.getColumnModel().getColumn(7));
-                    tabla.removeColumn(tabla.getColumnModel().getColumn(8));
+
+                    tabla.getColumnModel().getColumn(7).setMaxWidth(0);
+                    tabla.getColumnModel().getColumn(7).setMinWidth(0);
+                    tabla.getColumnModel().getColumn(7).setPreferredWidth(0);
+                    
+                    tabla.getColumnModel().getColumn(8).setMaxWidth(0);
+                    tabla.getColumnModel().getColumn(8).setMinWidth(0);
+                    tabla.getColumnModel().getColumn(8).setPreferredWidth(0);
+
                 }catch(Exception e) {
                     
                 }
@@ -440,14 +514,25 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                 }
                 tabla.setModel(modelo);
             } else if (itemSeleccionado == 2) {
-                if (tabla.getColumnCount() == 7) {
-                    TableColumn tc1 = new TableColumn();
-                    TableColumn tc2 = new TableColumn();
-                    tc1.setHeaderValue("Editar");
-                    tc2.setHeaderValue("Eliminar");
-                    tabla.addColumn(tc1);
-                    tabla.addColumn(tc2);
+                
+                if(usuario.getRol().equals("Empleado")){
+                    tabla.getColumnModel().getColumn(7).setMaxWidth(0);
+                    tabla.getColumnModel().getColumn(7).setMinWidth(0);
+                    tabla.getColumnModel().getColumn(7).setPreferredWidth(0);
+                    
+                    tabla.getColumnModel().getColumn(8).setMaxWidth(0);
+                    tabla.getColumnModel().getColumn(8).setMinWidth(0);
+                    tabla.getColumnModel().getColumn(8).setPreferredWidth(0);
+                }else{
+                    tabla.getColumnModel().getColumn(7).setMaxWidth(tabla.getColumnModel().getColumn(6).getMaxWidth());
+                    tabla.getColumnModel().getColumn(7).setMinWidth(tabla.getColumnModel().getColumn(6).getMinWidth());
+                    tabla.getColumnModel().getColumn(7).setPreferredWidth(tabla.getColumnModel().getColumn(6).getPreferredWidth());
+                    
+                    tabla.getColumnModel().getColumn(8).setMaxWidth(tabla.getColumnModel().getColumn(6).getMaxWidth());
+                    tabla.getColumnModel().getColumn(8).setMinWidth(tabla.getColumnModel().getColumn(6).getMinWidth());
+                    tabla.getColumnModel().getColumn(8).setPreferredWidth(tabla.getColumnModel().getColumn(6).getPreferredWidth());
                 }
+                
                 /* PRODUCTOS EN ALMACEN */
                 for (Producto x : productos) {
                     for (ProductoEstado y : productoEstados) {
@@ -633,6 +718,48 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             tabla.setModel(modelo);
         }
         
+         /* CONTROL DE EMPLEADOS */
+        if(principalOn.equals("Empleados")){
+            tabla.setDefaultRenderer(Object.class, new ImgTabla()); //Renderizar para poner las img
+            
+            tabla.getColumnModel().getColumn(0).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
+            tabla.getColumnModel().getColumn(1).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(2).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(3).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(4).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
+            tabla.getColumnModel().getColumn(5).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(6).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(7).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(8).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(9).setCellRenderer(diseño);
+       
+            
+            ArrayList<Empleado> empleados = empleadoDao.selectAll();
+            int i = 1;
+            
+            for(Empleado x : empleados){
+
+                ImageIcon img_edit = new ImageIcon(getClass().getResource("/img/editar.png"));
+                JLabel lbImg_edit = new JLabel(new ImageIcon(img_edit.getImage()));
+
+                ImageIcon img_delete = new ImageIcon(getClass().getResource("/img/delete.png"));
+                JLabel lbImg_delete = new JLabel(new ImageIcon(img_delete.getImage()));
+
+              
+                
+                if(x.getEstado() > 0){
+                    modelo.addRow(new Object[]{i,x.getDui(),x.getNombre(), x.getApellido(), x.getGenero(),x.getEdad(), x.getEmail(), x.getTelefono(), x.getDireccion(), "$ "+x.getSalario() ,lbImg_edit, lbImg_delete});
+                    i++;
+                }
+               
+            }
+            
+            if(modelo.getRowCount() < 1){
+                modelo.addRow(new Object[]{"", "", "Ningún resultado encontrado"});
+            }
+            
+            tabla.setModel(modelo);
+        }
         
     }
 
@@ -857,6 +984,52 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                 tabla.setModel(modelo);
             } 
         }
+        
+          /* CONTROL DE EMPLEADOS */
+        if(principalOn.equals("Empleados")){
+            tabla.setDefaultRenderer(Object.class, new ImgTabla()); //Renderizar para poner las img
+            
+            tabla.getColumnModel().getColumn(0).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
+            tabla.getColumnModel().getColumn(1).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(2).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(3).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(4).setCellRenderer(diseño); //Mantener diseño de la tabla por columns
+            tabla.getColumnModel().getColumn(5).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(6).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(7).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(8).setCellRenderer(diseño);
+            tabla.getColumnModel().getColumn(9).setCellRenderer(diseño);
+          
+            
+            int i = 1;
+            
+            for(Object obj : lista){
+                
+                Empleado x = (Empleado) obj;
+                
+                ImageIcon img_edit = new ImageIcon(getClass().getResource("/img/editar.png"));
+                JLabel lbImg_edit = new JLabel(new ImageIcon(img_edit.getImage()));
+
+                ImageIcon img_delete = new ImageIcon(getClass().getResource("/img/delete.png"));
+                JLabel lbImg_delete = new JLabel(new ImageIcon(img_delete.getImage()));
+
+              
+                
+                if(x.getEstado() > 0){
+                     modelo.addRow(new Object[]{i,x.getDui(),x.getNombre(), x.getApellido(), x.getGenero(),x.getEdad(), x.getEmail(), x.getTelefono(), x.getDireccion(), x.getSalario() ,lbImg_edit, lbImg_delete});
+                    i++;
+                }
+
+            }
+            
+            if(modelo.getRowCount() < 1){
+                mostrarDatos(vistaEmpleado.tablaEmpleados);
+            }else{
+                tabla.setModel(modelo);
+            }
+            
+            
+        }
 
     }
     
@@ -874,6 +1047,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                     if(clave.equals(usuarios.get(0).getClave())){
                         
                         dashboard = new Dashboard();
+                   
                         this.usuario = usuarios.get(0);
                         this.menu = new Menu();
                         this.menu.setControlador(this);
@@ -897,7 +1071,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                             String a[] = empleados.get(0).getApellido().split(" ");
                             
                             menu.lbUserName.setText(n[0] + " " + a[0]); //Nombre de Usuario
-                            
+                                         
                             //Eliminar Modulos
                             menu.modulos.remove(menu.btnDashboard);
                             menu.modulos.remove(menu.btnUsuarios);
@@ -1320,18 +1494,114 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                         productoSelected = null;
                     }
                 }else if (principalOn.equals("Usuarios")){
-                    usuarioSelected.setEstado(0);
-                    if(usuarioDao.update(usuarioSelected)){
-                        DesktopNotify.setDefaultTheme(NotifyTheme.Red);
-                        DesktopNotify.showDesktopMessage("Usuario eliminado", "El usuario ha sido eliminado exitosamente.", DesktopNotify.INFORMATION, 8000);
-                        mostrarDatos(vistaUsuario.tablaUsuarios);
+                    System.out.println(usuarioSelected.getNickname() + " : " + usuario.getNickname());
+                    if(!usuarioSelected.getNickname().equals(usuario.getNickname())){
+                        usuarioSelected.setEstado(0);
+                        usuarioSelected.setReferencia("");
+                        
+                        ArrayList<Empleado> lista = empleadoDao.selectAllTo("dui_empleado", usuarioSelected.getReferencia());
+                        empleado = lista.get(0);
+                        empleado.setUsuario(null);
+
+                        empleadoDao.updateUsuario(empleado);
+                        
+                        if(usuarioDao.update(usuarioSelected)){
+                            DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                            DesktopNotify.showDesktopMessage("Usuario eliminado", "El usuario ha sido eliminado exitosamente.", DesktopNotify.INFORMATION, 8000);
+                            mostrarDatos(vistaUsuario.tablaUsuarios);
+                            confirmDialog.dispose();
+
+                        }
+                    }else{
                         confirmDialog.dispose();
+                        DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                        DesktopNotify.showDesktopMessage("No puede eliminar este usuario", "No es posible eliminar el usuario logueado actualmente.", DesktopNotify.INFORMATION, 8000);
+                        mostrarDatos(vistaProducto.tbProductos);
+                        
                     }
 
                     usuarioSelected = null;
                 }
             }
         }
+        
+         /* CONTROL DE EMPLEADOS */
+         if(principalOn.equals("Empleados") && modalOn.equals("modalEmpleado")){
+             
+                if(btn.equals("Agregar")){
+                    
+                    if(!modalEmpleado.jtDui.getText().isEmpty()&& 
+                            !modalEmpleado.jtNombre.getText().isEmpty()&&
+                            !modalEmpleado.jtApellido.getText().isEmpty() && 
+                             modalEmpleado.jcGenero.getSelectedIndex()> 0 &&
+                            !modalEmpleado.jtEdad.getText().isEmpty()&&
+                            !modalEmpleado.jtEmail.getText().isEmpty()&&
+                            !modalEmpleado.jtTelefono.getText().isEmpty()&&
+                            !modalEmpleado.jtDireccion.getText().isEmpty()&&
+                            !modalEmpleado.jtSalario.getText().isEmpty()){
+                      
+                          
+                        if(empleadoSelected == null ){
+                    //String genero, int edad, String email, double salario, int estado, String dui, String nombre, String apellido, String direccion, String telefono
+                                Empleado empleado = new Empleado(
+                                        modalEmpleado.jcGenero.getSelectedItem().toString(),
+                                        Integer.parseInt(modalEmpleado.jtEdad.getText()),
+                                        modalEmpleado.jtEmail.getText(),
+                                        Double.parseDouble(modalEmpleado.jtSalario.getText()),
+                                        1,
+                                        modalEmpleado.jtDui.getText(),
+                                        modalEmpleado.jtNombre.getText(), 
+                                        modalEmpleado.jtApellido.getText(),
+                                        modalEmpleado.jtDireccion.getText(),
+                                        modalEmpleado.jtTelefono.getText());
+                                 
+                                if(empleadoDao.insert(empleado)){
+                                    DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                                    DesktopNotify.showDesktopMessage("Empleado guardado", "El empleado se ha guardo correctamente.", DesktopNotify.WARNING, 8000);
+                                }
+                                modalEmpleado.dispose();
+
+                        }else
+                         if(empleadoSelected != null ){
+                             
+                              empleadoSelected.setDui(modalEmpleado.jtDui.getText());
+                                empleadoSelected.setNombre(modalEmpleado.jtNombre.getText());
+                               empleadoSelected.setApellido(modalEmpleado.jtApellido.getText());
+                                   empleadoSelected.setGenero(modalEmpleado.jcGenero.getSelectedItem().toString());
+                                    empleadoSelected.setEdad(Integer.parseInt(modalEmpleado.jtEdad.getText()));
+                                     empleadoSelected.setEmail(modalEmpleado.jtEmail.getText());
+                                     empleadoSelected.setTelefono(modalEmpleado.jtTelefono.getText());
+                                       empleadoSelected.setDireccion(modalEmpleado.jtDireccion.getText());
+                                    empleadoSelected.setSalario(Double.parseDouble(modalEmpleado.jtSalario.getText()));
+                                    
+                                   
+                             if(empleadoDao.update(empleadoSelected)){
+                                 empleadoSelected=null;
+                                 DesktopNotify.setDefaultTheme(NotifyTheme.Green);
+                               DesktopNotify.showDesktopMessage("Actualizado correctamente", "Se actualizo el empleado.", DesktopNotify.SUCCESS, 8000); //8 seg
+            
+                             }
+                            
+                                  modalEmpleado.dispose();                             
+
+                                   }
+
+                    }else{
+                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                    DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
+             
+                    }
+                                        
+                }else{
+                    //Campos incompletos
+                    DesktopNotify.setDefaultTheme(NotifyTheme.Red);
+                    DesktopNotify.showDesktopMessage("Campos vacíos", "Por favor rellene todos los campos.", DesktopNotify.WARNING, 8000); //8 seg
+                }
+                
+                mostrarDatos(vistaEmpleado.tablaEmpleados);
+                
+            }
+      
         
         
         
@@ -1389,7 +1659,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
     public void mostrarChart(){
         
         int cant[] = new int[12];
-        int j = 0, u = 0, e = 0, s = 0, p = 0, a = 0;
+        int j = 0, u = 0, e = 0, s = 0, p = 0, a = 0, tp = 0;
         
         ArrayList<Factura> facturas = facturaDao.selectAll();
         ArrayList<Producto> productos = productoDao.selectAll();
@@ -1428,7 +1698,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
         
         /* TOTALES */  
         dashboard.totalVents.setText(String.valueOf(facturas.size()));
-        dashboard.totalProduct.setText(String.valueOf(productos.size()));
+        
         dashboard.totalUsers.setText(String.valueOf(u));
         dashboard.totalEmp.setText(String.valueOf(e));
         
@@ -1437,6 +1707,11 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
         /* ALERTAS */
         for (Producto x : productos) {
             for (ProductoEstado y : productoEstados) {
+                
+                if(x.getCodProducto() == y.getProducto().getCodProducto() && y.getEstado() == 1){
+                    tp++;
+                }
+                
                 if (x.getCodProducto() == y.getProducto().getCodProducto() && y.getEstado() == 1 && y.getStock() < 1) {
                         s++;
                 }
@@ -1451,52 +1726,156 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             }
         }
         
+        dashboard.totalProduct.setText(String.valueOf(tp));
         dashboard.sinStock.setText(String.valueOf(s));
         dashboard.porAcabarse.setText(String.valueOf(p));
         dashboard.enEspera.setText(String.valueOf(a));
     }
     
     @Override
-    public void mousePressed(MouseEvent e) {
-        //try {
-            if(!principalOn.equals("Login")){
-                /* - - - BOTONES DEL MENU Y MODULOS - - - -*/
-                if(e.getSource().equals(menu.btnDashboard)){
+    public void mousePressed(MouseEvent event) {
+      
+        JLabel labelReference = (JLabel) event.getSource();
+
+        if(!principalOn.equals("Login")){
+            /* - - - BOTONES DEL MENU Y MODULOS - - - -*/
+
+            try{
+                if(labelReference.equals(menu.btnDashboard)){
                     mostrarModulos("Menu");
-//                }else if (e.getSource().equals(menu.btnProductos)) {
-//                    mostrarModulos("Productos");
-//                } else if (e.getSource().equals(vistaProducto.btnNuevoProducto)) {
-//                    mostrarModals("nuevoProducto");
-//                } else if (e.getSource().equals(modalProducto.btnImg)) {
-//                    eventosBotones("AgregarImg");
-//                } else if (e.getSource().equals(modalProducto.btnGuardar)) {
-//                    eventosBotones("Agregar");
-                }else if(e.getSource().equals(menu.btnFacturas)){
-                    mostrarModulos("Factura");
-                }else if(e.getSource().equals(vistaFactura.btnNuevo)){
-                    mostrarModals("nuevoFactura");
-//                }else if(e.getSource().equals(menu.btnProveedores)){
-//                    mostrarModulos("Proveedor");
-//                }else if(e.getSource().equals(menu.btnUsuarios)){
-//                    mostrarModulos("Usuarios");
-//                }else if(e.getSource().equals(vistaUsuario.btnNuevo)){
-//                    mostrarModals("nuevoUsuario");
-//                }else if(e.getSource().equals(modalUsuario.btnGuardar)){
-//                    eventosBotones("Agregar");
-                }else if(e.getSource().equals(confirmDialog.btnEliminar)){
-                    eventosBotones("Eliminar");
-                }else if(e.getSource().equals(menu.btnSalir)){
-                    verificarCredenciales(e);
                 }
-            }else{
-                /* LOGIN */
-                if(e.getSource().equals(login.btnEntrar)){
-                    verificarCredenciales(e); 
-                }
+            }catch(Exception e){
+
             }
-//        }catch(Exception ex) {
-//            
-//        }
+
+            try{
+                if(labelReference.equals(menu.btnProductos)) {
+                    mostrarModulos("Productos");
+                }
+            }catch(Exception e){
+
+            }
+
+            try{
+                if (labelReference.equals(vistaProducto.btnNuevoProducto)) {
+                    mostrarModals("nuevoProducto");
+                }
+            }catch(Exception e){
+
+            }
+
+            try{
+                if (labelReference.equals(modalProducto.btnImg)) {
+                    eventosBotones("AgregarImg");
+                }
+            }catch(Exception e){
+
+            }
+
+            try{
+                if (labelReference.equals(modalProducto.btnGuardar)) {
+                    eventosBotones("Agregar");
+                }
+            }catch(Exception e){
+
+            }
+
+            try{
+                if(labelReference.equals(menu.btnFacturas)){
+                    mostrarModulos("Factura");
+                }
+            }catch(Exception e){
+
+            }
+
+            try{
+                if(labelReference.equals(vistaFactura.btnNuevo)){
+                    mostrarModals("nuevoFactura");
+                }
+            }catch(Exception e){
+
+            }
+
+            try{
+                if(labelReference.equals(menu.btnProveedores)){
+                    mostrarModulos("Proveedor");
+                }
+            }catch(Exception e){
+
+            }
+
+            try{
+                if(labelReference.equals(menu.btnUsuarios)){
+                    mostrarModulos("Usuarios");
+                }
+            }catch(Exception e){
+
+            }
+
+            try{
+                if(labelReference.equals(vistaUsuario.btnNuevo)){
+                    mostrarModals("nuevoUsuario");
+                }
+            }catch(Exception e){
+
+            }
+
+            try{
+                if(labelReference.equals(modalUsuario.btnGuardar)){
+                    eventosBotones("Agregar");
+                }
+            }catch(Exception e){
+
+            }
+
+            try{
+                if(labelReference.equals(confirmDialog.btnEliminar)){
+                    eventosBotones("Eliminar");
+                }
+            }catch(Exception e){
+
+            }
+
+            try{
+                if(labelReference.equals(menu.btnSalir)){
+                    verificarCredenciales(event);
+                }
+            }catch(Exception e){
+
+            }
+            
+            try{
+                if(labelReference.equals(menu.btnEmpleados)){
+                    mostrarModulos("Empleados");
+                }
+            }catch(Exception e){
+
+            }
+            
+            try{
+                if(labelReference.equals(vistaEmpleado.btnNuevoEmpleado)){
+                    mostrarModals("nuevoEmpleado");
+                }
+            }catch(Exception e){
+
+            }
+            
+            try{
+                if(labelReference.equals(modalEmpleado.btnGuardarEmpleado)){
+                    eventosBotones("Agregar");
+                }
+            }catch(Exception e){
+
+            }
+          
+
+        }else{
+            /* LOGIN */
+            if(event.getSource().equals(login.btnEntrar)){
+                verificarCredenciales(event); 
+            }
+        }
+
     }
 
     @Override
@@ -1598,6 +1977,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             }
         }
         
+        /* CONTROL DE PROVEEDOR */
         if(principalOn.equals("Proveedor")){
             ArrayList<Proveedor> lista = proveedorDao.buscar(vistaProveedor.tfBusqueda.getText() + e.getKeyChar());
             if(lista.isEmpty()){
@@ -1607,12 +1987,23 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             }
         }
         
+         /* CONTROL DE FACTURA */
         if(principalOn.equals("Factura")){
             ArrayList<Factura> lista = facturaDao.buscar(vistaFactura.tfBusqueda.getText() + e.getKeyChar());
             if(lista.isEmpty()){
                 mostrarDatos(vistaFactura.tablaFactura);
             }else{
                 mostrarBusqueda(lista, vistaFactura.tablaFactura);
+            }
+        }
+        
+         /* CONTROL DE EMPLEADOS */
+        if(principalOn.equals("Empleados")){
+            ArrayList<Empleado> lista = empleadoDao.buscar(vistaEmpleado.tfBusqueda.getText() + e.getKeyChar());
+            if(lista.isEmpty()){
+                mostrarDatos(vistaEmpleado.tablaEmpleados);
+            }else{
+                mostrarBusqueda(lista, vistaEmpleado.tablaEmpleados);
             }
         }
     }
@@ -1630,8 +2021,10 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                 ArrayList<Empleado> empleados = empleadoDao.selectAll();
 
                 for(Empleado x : empleados){
-
-                    modalUsuario.cbEmpleado.addItem(x.getNombre() + " / " + x.getDui());
+                    if(x.getEstado() > 0){
+                        modalUsuario.cbEmpleado.addItem(x.getNombre() + " / " + x.getDui());
+                    }
+                    
 
                 }
                 
@@ -1656,9 +2049,10 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
         
-        if(principalOn.equals("Usuarios") && e.getSource() == vistaUsuario.tablaUsuarios){
+        JTable tablaReference = (JTable) e.getSource();
+        
+        if(principalOn.equals("Usuarios") && tablaReference == vistaUsuario.tablaUsuarios){
 
             int columna = vistaUsuario.tablaUsuarios.getSelectedColumn();
             try{
@@ -1680,6 +2074,29 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                     ArrayList<Usuario> lista = usuarioDao.selectAllTo("usuario_nick", nick);
                     usuarioSelected = lista.get(0);
                     mostrarModals("changePassUsuario");
+                }
+            }catch(Exception ex){
+                
+            }
+       
+        }
+        
+          else if(principalOn.equals("Empleados") && tablaReference == vistaEmpleado.tablaEmpleados){
+
+            int columna = vistaEmpleado.tablaEmpleados.getSelectedColumn();
+            try{
+                if(columna == 10){
+                    int fila = vistaEmpleado.tablaEmpleados.getSelectedRow();
+                    String dui = vistaEmpleado.tablaEmpleados.getValueAt(fila, 1).toString();
+                    ArrayList<Empleado> lista = empleadoDao.selectAllTo("dui_empleado", dui);
+                    empleadoSelected = lista.get(0);
+                    mostrarModals("editarEmpleado");
+                }else if(columna == 11){
+                  int fila = vistaEmpleado.tablaEmpleados.getSelectedRow();
+                    String dui = vistaEmpleado.tablaEmpleados.getValueAt(fila, 1).toString();
+                    ArrayList<Empleado> lista = empleadoDao.selectAllTo("dui_empleado", dui);
+                    empleadoSelected = lista.get(0);
+                    mostrarModals("eliminarEmpleado");
                 }
             }catch(Exception ex){
                 
@@ -1709,6 +2126,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             }
 
         }
+        
         
        
     }
@@ -1774,6 +2192,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
 
     @Override
     public void focusGained(FocusEvent fe) {
+        
         if (modalProducto.tfPrecioCompra.isFocusOwner()) {
             modalProducto.tfPorcentaje.setEnabled(true);
             fieldActivo = "precioCompra";

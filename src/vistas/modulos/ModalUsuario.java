@@ -5,13 +5,12 @@ import java.awt.Dimension;
 import java.awt.event.ComponentListener;
 import utilidades.MyComboBoxUI;
 import utilidades.TextPrompt;
-import vistas.modulos.VistaUsuario;
 
 public class ModalUsuario extends javax.swing.JDialog {
 
     VistaUsuario vistaUsuario;
     
-    public ModalUsuario(java.awt.Frame parent, boolean modal, VistaUsuario vistaUsuario) {
+    public ModalUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         comboBoxInit();
@@ -19,8 +18,7 @@ public class ModalUsuario extends javax.swing.JDialog {
         this.vistaUsuario = vistaUsuario;
         new TextPrompt("Usuario", jtUser);
         new TextPrompt("Contraseña", jtPass);
-        new TextPrompt("Repetir contraseña", jtPassRepet);   
-
+        new TextPrompt("Repetir contraseña", jtPassRepet);
     }
     
     public void setControlador(Controlador control){
@@ -97,11 +95,6 @@ public class ModalUsuario extends javax.swing.JDialog {
         btnGuardar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 204), 1, true));
         btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGuardar.setOpaque(true);
-        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnGuardarMousePressed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -225,6 +218,7 @@ public class ModalUsuario extends javax.swing.JDialog {
         cbEmpleado.setEnabled(false);
         cbEmpleado.setFocusable(false);
         cbEmpleado.setLightWeightPopupEnabled(false);
+        cbEmpleado.setOpaque(true);
         cbEmpleado.setRequestFocusEnabled(false);
         cbEmpleado.setVerifyInputWhenFocusTarget(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -237,7 +231,7 @@ public class ModalUsuario extends javax.swing.JDialog {
 
         cbRol.setBackground(new java.awt.Color(255, 255, 255));
         cbRol.setForeground(new java.awt.Color(102, 102, 102));
-        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione tipo de Rol", "Administrador", "Empleado" }));
+        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione tipo de Rol", "Empleado", "Gerente" }));
         cbRol.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         cbRol.setFocusable(false);
         cbRol.setLightWeightPopupEnabled(false);
@@ -281,13 +275,8 @@ public class ModalUsuario extends javax.swing.JDialog {
 
     private void jtUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtUserKeyTyped
         char val = evt.getKeyChar();
-        
-        if((val<'a' || val>'z') && (val<'A' || val>'Z') && (val < '0' || val > '9')) evt.consume();
+        if((val<'a' || val>'z') && (val < '0' || val > '9')) evt.consume();
     }//GEN-LAST:event_jtUserKeyTyped
-
-    private void btnGuardarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnGuardarMousePressed
 
     public void comboBoxInit(){
         this.cbEmpleado.setUI(new MyComboBoxUI());
