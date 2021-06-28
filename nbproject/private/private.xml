@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group/>
+<<<<<<< HEAD
         <group>
             <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/Proyecto-Final-Ventas/src/modelos/DetalleFactura.java</file>
             <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/Proyecto-Final-Ventas/src/modelos/dao/FacturaDao.java</file>
@@ -15,5 +16,8 @@
             <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/Proyecto-Final-Ventas/src/controlador/Controlador.java</file>
             <file>file:/C:/Users/Mario%20Zelaya/Documents/Universidad/CICLO%20III/Programacion%20II/Proyectos%20JAVA/Proyecto-Final-Ventas/src/vistas/modulos/VistaFactura.java</file>
         </group>
+=======
+        <group/>
+>>>>>>> 6864e59650cecd4bf730a8c200dff1c84506ce23
     </open-files>
 </project-private>

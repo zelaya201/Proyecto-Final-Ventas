@@ -23,6 +23,7 @@ public class Menu extends javax.swing.JFrame {
         this.btnProveedores.addMouseListener(control);
         this.btnFacturas.addMouseListener(control);
         this.btnSalir.addMouseListener(control);
+        this.btnEmpleados.addMouseListener(control);
     }
     
     public void iniciar(){
@@ -116,6 +117,9 @@ public class Menu extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnProductosMouseExited(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnProductosMousePressed(evt);
+            }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -198,6 +202,9 @@ public class Menu extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnEmpleadosMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnEmpleadosMousePressed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -413,6 +420,18 @@ public class Menu extends javax.swing.JFrame {
         clicked = 4;
         efectoPressed(btnFacturas);
     }//GEN-LAST:event_btnFacturasMousePressed
+
+    private void btnProductosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProductosMousePressed
+        efectoReset(clicked);
+        clicked = 2;
+        efectoPressed(btnProductos);
+    }//GEN-LAST:event_btnProductosMousePressed
+
+    private void btnEmpleadosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEmpleadosMousePressed
+        efectoReset(clicked);
+        clicked = 5;
+        efectoPressed(btnEmpleados);
+    }//GEN-LAST:event_btnEmpleadosMousePressed
 
     public void efectoEntered(JLabel label){
          label.setBackground(new java.awt.Color(37, 46, 57));

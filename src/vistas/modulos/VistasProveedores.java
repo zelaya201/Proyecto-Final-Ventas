@@ -78,7 +78,7 @@ public class VistasProveedores extends javax.swing.JPanel {
         jPanel3.add(jLabel3, gridBagConstraints);
 
         tfBusqueda.setBackground(new java.awt.Color(255, 255, 255));
-        tfBusqueda.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        tfBusqueda.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         tfBusqueda.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 1)));
         tfBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
