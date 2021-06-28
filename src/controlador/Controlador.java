@@ -149,6 +149,12 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
             vistaProducto.setControlador(this);
             principalOn = "Productos";
             fieldActivo = "";
+            
+            if(usuario.getRol().equals("Empleado")){
+                vistaProducto.header.remove(vistaProducto.btnNuevoProducto);
+                vistaProducto.header.remove(vistaProducto.cbMostrar);
+            }
+            
             new CambiaPanel(menu.body, vistaProducto);
             mostrarDatos(vistaProducto.tbProductos);
         }else if(vista.equals("Usuarios")){
@@ -1047,6 +1053,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                     if(clave.equals(usuarios.get(0).getClave())){
                         
                         dashboard = new Dashboard();
+                        vistaProducto = new VistaProducto();
                    
                         this.usuario = usuarios.get(0);
                         this.menu = new Menu();
@@ -1078,6 +1085,12 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                             menu.modulos.remove(menu.btnEmpleados);
                             menu.modulos.remove(menu.btnProveedores);
                             principalOn = "Productos";
+                            
+                            vistaProducto.header.remove(vistaProducto.btnNuevoProducto);
+                            vistaProducto.header.remove(vistaProducto.cbMostrar);
+                            new CambiaPanel(menu.body, vistaProducto);
+                            mostrarDatos(vistaProducto.tbProductos);
+                            
                         }
 
                         menu.iniciar();
@@ -1489,6 +1502,7 @@ public class Controlador implements MouseListener, KeyListener, ItemListener, Fo
                             DesktopNotify.setDefaultTheme(NotifyTheme.Red);
                             DesktopNotify.showDesktopMessage("Producto eliminado", "El producto ha sido eliminado exitosamente.", DesktopNotify.INFORMATION, 8000);
                             mostrarDatos(vistaProducto.tbProductos);
+                            confirmDialog.dispose();
                         }
 
                         productoSelected = null;
